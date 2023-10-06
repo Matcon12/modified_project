@@ -61,7 +61,7 @@ else:
     print(f"The record with '{grn}' does not exist in the database.")
 
 
-
+#cursor execution
 mycursor.execute("SELECT last_gcn_no FROM mat_companies where mat_code='MEE'")
 source_value = mycursor.fetchone()[0]
 print("Source Value:", source_value)
