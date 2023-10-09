@@ -8,22 +8,22 @@ from babel.numbers import format_currency
 
 
 def home(request):
-    odc=OtwDc.objects.filter(gcn_no=68)
-    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=68)
+    odc=OtwDc.objects.filter(gcn_no=75)
+    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=75)
     mat =get_object_or_404(MatCompanies,mat_code='MEE')
-    cust=get_object_or_404(CustomerMaster,cust_id='hite')
-    cust1=get_object_or_404(CustomerMaster,cust_id='alst')
+    cust=get_object_or_404(CustomerMaster,cust_id='sidr')
+    cust1=get_object_or_404(CustomerMaster,cust_id='sidr')
     gr=get_object_or_404(GstRates,id=1)
     gsc=get_object_or_404(GstStateCode,state_code=33)
     
     gsc1=cust.cust_st_code
     print(gsc1)
     
-    total_qty = OtwDc.objects.filter(gcn_no=68).aggregate(total_qty=Sum('qty_delivered'))['total_qty']
-    total_taxable_value = OtwDc.objects.filter(gcn_no=68).aggregate(total_taxable_value=Sum('taxable_amt'))['total_taxable_value']
-    total_cgst = OtwDc.objects.filter(gcn_no=68).aggregate(total_cgst=Sum('cgst_price'))['total_cgst']
-    total_sgst = OtwDc.objects.filter(gcn_no=68).aggregate(total_sgst=Sum('sgst_price'))['total_sgst']
-    total_igst = OtwDc.objects.filter(gcn_no=68).aggregate(total_igst=Sum('igst_price'))['total_igst']
+    total_qty = OtwDc.objects.filter(gcn_no=75).aggregate(total_qty=Sum('qty_delivered'))['total_qty']
+    total_taxable_value = OtwDc.objects.filter(gcn_no=75).aggregate(total_taxable_value=Sum('taxable_amt'))['total_taxable_value']
+    total_cgst = OtwDc.objects.filter(gcn_no=75).aggregate(total_cgst=Sum('cgst_price'))['total_cgst']
+    total_sgst = OtwDc.objects.filter(gcn_no=75).aggregate(total_sgst=Sum('sgst_price'))['total_sgst']
+    total_igst = OtwDc.objects.filter(gcn_no=75).aggregate(total_igst=Sum('igst_price'))['total_igst']
     grand_total= float('{:.2f}'.format(total_taxable_value+total_cgst+total_sgst+total_igst))
     gt=format_currency(grand_total, 'INR', locale='en_IN')
     # # Qty = get_object_or_404(OtwDc,part_id='2').qty_delivered
