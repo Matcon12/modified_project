@@ -72,9 +72,8 @@ update_query = "UPDATE mat_companies SET last_gcn_no = %s WHERE mat_code = 'MEE'
 mycursor.execute(update_query, (destination_value,))
 mydb.commit()
 
-
-
-current_date = str(datetime.date.today())
+current_date = (datetime.date.today())
+date = str(current_date.strftime('%d-%m-%Y'))
 
 mycursor.execute("SELECT grn_no, fin_year, grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price, part_name FROM inw_dc WHERE grn_no=%s AND po_sl_no IN ({})".format(','.join(map(str, po_sl_numbers))), (grn,))
 # mycursor.execute("SELECT grn_no, fin_year ,grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price,part_name FROM inw_dc where grn_no=%s AND po_sl_no =IN %s", (grn, tuple(elm)))
@@ -83,7 +82,7 @@ print(type(data_inw))
 print("Data from inw_delivery_challan:", data_inw)
 code='MEE'
 
-mycursor.execute("SELECT qty_delivered, unit_price FROM inw_dc ")
+mycursor.execute("SELECT qty_delivered, unit_price FROM inw_dc where grn_no= %s",(grn,))
 rows = mycursor.fetchall()
 print(rows)
 list_tax_amt=[]
@@ -92,9 +91,11 @@ total_taxable_amount = 0
 for row in rows:
     qty_delivered, unit_price = row
     taxable_amount = qty_delivered * unit_price
-    list_tax_amt.append(taxable_amount)
-    print(taxable_amount)
-    total_taxable_amount += taxable_amount
+    formatted_number = float('{:.2f}'.format(taxable_amount))
+    
+    list_tax_amt.append(formatted_number)
+    # print(taxable_amount)
+    total_taxable_amount += formatted_number
 
 print("Total Taxable Amount:", total_taxable_amount)
 
@@ -113,29 +114,27 @@ for idx, row in enumerate(data_inw):
     state_code = mycursor.fetchone()[0]
     
     print(state_code)
+    
  
     if state_code == 29:
-        cgst_price = 0.09 * list_tax_amt[idx]
-        sgst_price = 0.09 * list_tax_amt[idx]
+        cgst_price = '{:.2f}'.format( 0.09 * list_tax_amt[idx])
+        sgst_price = '{:.2f}'.format( 0.09 * list_tax_amt[idx])
         igst_price = 0  # No IGST in this case
+        
     else:
         cgst_price = 0  # No CGST in this case
         sgst_price = 0  # No SGST in this case
-        igst_price = 0.18 * list_tax_amt[idx]
+        igst_price = '{:.2f}'.format( 0.18 * list_tax_amt[idx])
 
     # Insert the row with CGST, SGST, and IGST prices
-    insert_row = (code, destination_value, current_date) + row + (list_tax_amt[idx], cgst_price, sgst_price, igst_price)
+    insert_row = (code, destination_value,date ) + row + (list_tax_amt[idx], cgst_price, sgst_price, igst_price)
     insert_data.append(insert_row)
-
-
+    
 insert_query = """
     INSERT INTO otw_dc 
     (mat_code, gcn_no, gcn_date, grn_no, fin_year, grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price,part_name, taxable_amt, cgst_price, sgst_price, igst_price) 
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
-    
-    
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s) 
 """
-
 mycursor.executemany(insert_query, insert_data)
 
 mydb.commit()

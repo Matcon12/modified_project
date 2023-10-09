@@ -14,6 +14,9 @@
       table,th,td {
         border: 1px solid black;
       }
+      th[colspan], td[colspan] {
+        border-right: 1px solid black; /* Add a vertical line */
+      }
       body{
         margin-top: 100px;
       }
@@ -22,10 +25,7 @@
           content: "Page " counter(page);
         }
       }
-      
     </style>
-   
-
 </head>
 <body>
 
@@ -36,17 +36,18 @@
             </div>
         </div>
     </div>
-<br><br>
+
+    <br><br>
    
      <div class="row">
         <div class="col-md-6 col-sm-6 text-left ">
             <h4><strong>Invoice details</strong></h4>
             <ul style="list-style-type:none;">
                 <li>
-                    <strong>GST no:</strong> {{mat.mat_gst_code}}
+                    <strong>GST No:</strong> {{mat.mat_gst_code}}
                 </li>
                 <li>
-                    <strong>Reverse charge:</strong>
+                    <strong>Reverse charge:</strong> N.A
                 </li>
                 <li>
                     <strong>Invoice Number:</strong> {{odc1.gcn_no}} / {{odc1.fin_year}}
@@ -57,7 +58,7 @@
             </ul>
         </div>
         <div class="col-md-6 col-sm-6 text-right">
-            <h4><strong>Transportation Mode</strong></h4>
+            <h4><strong>Transportation Mode</strong> : Road</h4>
                 <ul style="list-style-type:none;">
         
                         <li>
@@ -73,15 +74,13 @@
                             <strong>DC Date:</strong> {{odc1.grn_date}}
                         </li>
                         <li>
-                            Date of Supply:{{odc1.gcn_date}}
+                            Date of Supply: {{odc1.gcn_date}}
                         </li>
                         <li>
-                            <strong>Place of Supply:</strong>Ex-works,Banglore
+                            <strong>Place of Supply: </strong>Ex-works,Banglore
                         </li>
                 </ul>
-               
-            </div>
-                
+          </div>    
     </div>
   
     <div class="row">
@@ -101,7 +100,7 @@
                  
                 </li>
                 <li>
-                  <strong>State code: </strong>{{cust.cust_st_code}}
+                  <strong>State Code: </strong>{{cust.cust_st_code}}
                  
                 </li>
                 <li>
@@ -115,28 +114,27 @@
                     <h5><strong>Details of Consignee(Shipped to)</strong></h5>
                     <ul style="list-style-type:none;">
                         <li>
-                          <strong>Name: </strong>{{cust.cust_name}}
+                          <strong>Name: </strong>{{cust1.cust_name}}
                          
                         </li>
                         <li>
-                          <strong>Address: </strong>{{cust.cust_address}}
+                          <strong>Address: </strong>{{cust1.cust_address}}
                           
                         </li>
                         <li>
-                          <strong>State: </strong>{{cust.cust_st_name}}
+                          <strong>State: </strong>{{cust1.cust_st_name}}
                          
                         </li>
                         <li>
-                          <strong>State code: </strong>{{cust.cust_st_code}}
+                          <strong>State Code: </strong>{{cust1.cust_st_code}}
                          
                         </li>
                         <li>
-                          <strong>GST No: </strong>{{cust.cust_gst_id}}
+                          <strong>GST No: </strong>{{cust1.cust_gst_id}}
                           
                         </li>
                       </ul>      
-            </div>
-                  
+           </div>   
      </div>   
 
                     <table class="table table-hover border border-secondary">
@@ -150,29 +148,14 @@
                             <th>UOM</th>
                             <th>Rate</th>
                             <th>Total</th> 
-                            <th colspan="2" style="text-align:center">CGST</th>
-                            <th colspan="2" style="text-align:center">SGST</th>
-                            <th colspan="2" style="text-align:center">IGST</th>
+                            <th>CGST Rate (%)</th>
+                            <th>CGST Amount (Rs)</th>
+                            <th>SGST Rate (%)</th>
+                            <th>SGST Amount (Rs)</th>
+                            <th>IGST Rate (%)</th>
+                            <th>IGST Amount (Rs)</th>
                         </tr>
-                        
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Rate(%)</td>
-                            <td>Amount</td>
-                            <td>Rate(%)</td>
-                            <td>Amount</td>
-                            <td>Rate(%)</td>
-                            <td>Amount</td>
-
-                          </tr>
-
+  
                           <tr>
                             <td></td>
                             <td>Exterior painting of :</td>
@@ -180,18 +163,17 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>Rs.</td>
-                            <td>Rs.</td>
+                            <td ></td>
                             <td></td>
-                            <td>Rs.</td>
                             <td></td>
-                            <td>Rs.</td>
                             <td></td>
-                            <td>Rs.</td>
-
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                           </tr>
-                         <div>
-                        
+
+                       <div>
                           {% for record in odc %}
                             <tr>
                                 <td>{{record.po_sl_no}}</td>
@@ -201,16 +183,52 @@
                                 <td style="text-align: right;">{{record.qty_delivered}}</td>
                                 <td>{{record.uom}}</td>
                                 <td>{{record.unit_price}}</td>
-                                <td style="text-align: right;">{{record.taxable_amt}}</td>
-                                <td>{{gr.cgst_rate}}</td>
-                                <td style="text-align: right;">{{record.cgst_price}}</td>
-                                <td>{{gr.sgst_rate}}</td>
-                                <td style="text-align: right;">{{record.sgst_price}}</td>
-                                <td>{{gr.igst_rate}}</td>
-                                <td style="text-align: right;">{{record.igst_price}}</td>
+                                <td style="text-align: right;">{{record.taxable_amt|floatformat:2}}</td>
+                                <td style="text-align: center;">
+                                  {% if cust.cust_st_code == 29 %}
+                                    {{ gr.cgst_rate }}
+                                    {% else %}
+                                   
+                                  {% endif %}
+                                </td>
+                                <td style="text-align: right;">
+                                  {% if cust.cust_st_code == 29 %}
+                                    {{ record.cgst_price }}
+                                    {% else %}
+                                   
+                                  {% endif %}
+                                </td>
+                                <td style="text-align: center;">
+                                  {% if cust.cust_st_code == 29 %}
+                                    {{ gr.sgst_rate }}
+                                    {% else %}
+                                    
+                                  {% endif %}
+                                </td>
+                                <td style="text-align: right;">
+                                  {% if cust.cust_st_code == 29 %}
+                                    {{ record.sgst_price }}
+                                  {% else %}
+                                    
+                                  {% endif %}
+                                </td>
+                                <td style="text-align: center;">
+                                  {% if cust.cust_st_code == 29 %}
+                                    {{ gr.sgst_rate }}
+                                  {% else %}
+                                    {{ gr.igst_rate }}
+                                  {% endif %}
+                                </td>
+                                <td style="text-align: right;">
+                                  {% if cust.cust_st_code == 29 %}
+                                    {{ record.sgst_price }}
+                                  {% else %}
+                                    {{ record.igst_price }}
+                                  {% endif %}
+                                </td>
                             </tr>
                             {% endfor %}
-                         </div>
+                      </div>
                          <tr>
                             <td>  </td>
                             <td>  </td>
@@ -220,48 +238,43 @@
                             <td>  </td>
                             <td style="text-align: right;">{{total_taxable_value}}</td>
                             <td>  </td>
-                            <td style="text-align: right;">{{total_cgst}} </td>
+                            <!-- <td style="text-align: right;">{{total_cgst}} </td> -->
+                            <td style="text-align: right;">
+                              {% if cust.cust_st_code == 29 %}
+                                {{ total_cgst }}
+                                {% else %}
+                               
+                              {% endif %}
+                            </td>
                             <td>  </td>
-                            <td style="text-align: right;"> {{total_sgst}} </td>
+                            <!-- <td style="text-align: right;"> {{total_sgst}} </td> -->
+                            <td style="text-align: right;">
+                              {% if cust.cust_st_code == 29 %}
+                                {{ total_sgst }}
+                                {% else %}
+                                
+                              {% endif %}
+                            </td>
                             <td> </td>
-                            <td style="text-align: right;">{{total_igst}} </td>
-                           
+                            <!-- <td style="text-align: right;">{{total_igst}} </td> -->
+                            <td style="text-align: right;">
+                              {% if cust.cust_st_code == 29 %}
+                               
+                              {% else %}
+                                {{total_igst}}
+                              {% endif %}
+                            </td>
                         </tr>
                     </table>          
 
                      <table class="table table-striped ">
-<!--                      
-                        <tr>
-                            <td>  </td>
-                            <td>  </td>
-                            <td colspan="2"> Total:</td>
-                            <td>{{total_qty}}</td>
-                            <td>Nos</td>
-                            <td>  </td>
-                            <td>{{total_taxable_value}}</td>
-                            <td>  </td>
-                            <td>{{total_cgst}} </td>
-                            <td>  </td>
-                            <td> {{total_sgst}} </td>
-                            <td> </td>
-                            <td>{{total_igst}} </td>
-                           
-                        </tr>
-                        -->
                             <tr>
                                 <td style="text-align: center;"colspan="10">INVOICE VALUE(in Words) <br>
-                                    
-                                      <strong>{{amount}}</strong> 
-                                   
-                                  </td>
-                                
-                              <td style="text-align:center;"colspan="5">Total : {{grand_total}}</td>
-                              
-                            </tr> 
-                       
-            </table>
-
-
+                                    <strong>{{amount}}</strong> 
+                                </td>
+                              <td style="text-align:center;"colspan="5">Total : {{gt}}</td>
+                            </tr>                        
+                       </table>
                 <div class="col-12">
                     <h6 style="text-align: center;">Certified that the Particulars given above are correct</h6>
                 </div>
@@ -270,13 +283,13 @@
               <table class="table">
                 <tbody>
                   <tr>
-                    <td colspan="2" class="text-center"><h4>TERMS AND CONDITIONS OF SALE</h4>
-                      <hr>
+                    <td colspan="2" class="text-center"><h4>TERMS AND CONDITIONS OF SALE <br> AS PER PO TERMS</h4>
+                  <hr>
                       <strong>Our Bankers (NEFT/RTGS details):</strong>
                       <ul class="list-unstyled">
-                        <li>STATE BANK OF INDIA, NRI Hebbal Branch</li>
-                        <li>A/c N. 41482639882</li>
-                        <li>IFSC Code: SBIN0016858</li>
+                        <li>{{mat.bank_name}}, {{mat.bank_address}}</li>
+                        <li>A/c N. {{mat.bank_acc_no}}</li>
+                        <li>IFSC Code: {{mat.ifsc_code}}</li>
                       </ul>
                     </td>
                    
@@ -298,12 +311,11 @@
               </table>
             </div>
             
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <br><br>
 <footer><strong>MATCON/FORMS/021/00</strong></footer>
 
-  </body>
+</body>
 </html>
