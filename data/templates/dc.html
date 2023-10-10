@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Document</title>
+    <style>
+        table,tr,td,th{
+            border:1px solid black;
+        }
+        body{
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">
+        DELIVARY CHALLAN 
+    </h1>
+      <br>
+      <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-left to">
+                  <h4><strong>To</strong></h4>
+                 
+                  <ul style="list-style-type:none;">
+                      <li>{{cust1.cust_name}}</li>
+                      <li>{{cust1.cust_address}}</li>
+                      <li>{{cust1.cust_city}}</li>
+                      <li>{{cust1.cust_st_name}}</li>
+                      <li>{{cust1.cust_pin}}</li>
+                  </ul>
+        
+             </div>
+
+         <div class="col-md-6 col-sm-6 text-right details">
+            <h4><strong>DC details</strong></h4>
+            <table class="table">
+             
+            <tr>
+                <td><strong>DC No: </strong> {{odc1.gcn_no}}/{{odc1.fin_year}}</td>
+                
+            </tr>
+            <tr>
+                <td><strong>DC Date:</strong> {{odc1.gcn_date}}</td>
+              
+            </tr>
+            <tr>
+                <td><strong>PO No:</strong> {{odc1.po_no}}</td>
+                
+            </tr>
+            <tr>
+                <td><strong>PO Date:</strong> {{odc1.po_date}}</td>
+                
+            </tr>
+            <tr>
+                <td><strong>DC No:</strong> {{odc1.grn_no}}</td>
+               
+            </tr>
+            <tr>
+                <td><strong>DC Date:</strong> {{odc1.grn_date}}</td>
+                
+            </tr>
+
+        </table> 
+        </div>
+    </div>
+</div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <table id="mytable" class="table">
+                 
+                    <tr>
+                        <th><label>Sl.no</label></th>
+                        <th>Description </th>
+                        <th>QTY</th>
+                        <th>UOM</th>
+                    </tr>
+                    {% for record in odc %}
+                    <tr>
+                        <td>{{record.po_sl_no}}</td>
+                        <td>{{record.part_name}}</td>
+                        <td>{{record.qty_delivered}}</td>
+                        <td>{{record.uom}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>       
+            </div>
+        </div>
+    </div>
+
+    <p>Dear Sir, <br> <br> Please receive the goods in good condition and acknowledge the same.</p> 
+
+
+    <div>
+        <p><strong> GST NO: {{mat.mat_gst_code}}</strong></p>
+    <br>
+    <p><strong> For MATCON ENGINEERING ENTERPRISES</strong></p>
+    </div>
+    
+    <div  style="float: left; width: 50%">
+        <textarea name="Authorized signatory" id="" cols="30" rows="5"></textarea>
+        <p><strong>Authorized signatory</strong></p> 
+    </div>
+    <div  style="float: right; width: 50%">
+        <textarea name="" id="" cols="30" rows="5"></textarea>
+        <p><strong>Customer Signature</strong></p> 
+    </div>
+    <br><br><br> <br> <br><br><br><br>
+    <footer><strong>MATCON/FORMS/016/00</strong></footer>
+    </table>
+</body>
+</html>

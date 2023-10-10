@@ -5,6 +5,8 @@ print(sys.path)
 
 
 urlpatterns = [
-    path('', views.home,name='home'),
-    #  path('', views.dc,name='dc')
+    path('', views.report, name="report"),
+    path('invoice/', views.invoice, name='invoice'),  # Updated URL pattern
+    path('dc/', views.dc, name='dc'), 
+    
 ]
