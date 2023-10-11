@@ -6,66 +6,27 @@ from django.shortcuts import get_object_or_404
 
 from babel.numbers import format_currency
 
-
-# def home(request):
-#     odc=OtwDc.objects.filter(gcn_no=75)
-#     odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=75)
-#     mat =get_object_or_404(MatCompanies,mat_code='MEE')
-#     cust=get_object_or_404(CustomerMaster,cust_id='sidr')
-#     cust1=get_object_or_404(CustomerMaster,cust_id='sidr')
-#     gr=get_object_or_404(GstRates,id=1)
-#     gsc=get_object_or_404(GstStateCode,state_code=33)
-#     total_qty = OtwDc.objects.filter(gcn_no=75).aggregate(total_qty=Sum('qty_delivered'))['total_qty']
-#     total_taxable_value = OtwDc.objects.filter(gcn_no=75).aggregate(total_taxable_value=Sum('taxable_amt'))['total_taxable_value']
-#     total_cgst = OtwDc.objects.filter(gcn_no=75).aggregate(total_cgst=Sum('cgst_price'))['total_cgst']
-#     total_sgst = OtwDc.objects.filter(gcn_no=75).aggregate(total_sgst=Sum('sgst_price'))['total_sgst']
-#     total_igst = OtwDc.objects.filter(gcn_no=75).aggregate(total_igst=Sum('igst_price'))['total_igst']
-#     grand_total= float('{:.2f}'.format(total_taxable_value+total_cgst+total_sgst+total_igst))
-#     gt=format_currency(grand_total, 'INR', locale='en_IN')
-#     # # Qty = get_object_or_404(OtwDc,part_id='2').qty_delivered
-#     # # print(odc1.qty_delivered)    
-#     aw = convert_rupees_to_words(grand_total)
-    
-    
-#     print_type = request.GET.get('print_type')
-
-#     if print_type == 'dc':
-#         return redirect('dc_view')  # Redirect to DC view
-#     elif print_type == 'invoice':
-#         return redirect('invoice_view')  # Redirect to invoice view
-#     else:
-#         # Handle invalid or missing 'print_type' here (optional)
-#         return render(request, 'error.html', {'message': 'Invalid print type'})
-
-# # Your other view functions for DC and invoice
-# def dc_view(request):
-#     # Your code for generating DC
-#     return render(request, 'dc.html',context)
-
-# def invoice_view(request):
-#     # Your code for generating invoice
-   
-#     return render(request, 'tax_invoice.html', context)\
 def report(request):
     return render(request,'reports.html')
     
 def invoice(request):
-    odc=OtwDc.objects.filter(gcn_no=75)
-    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=75)
+    odc=OtwDc.objects.filter(gcn_no=73)
+    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=73)
     mat =get_object_or_404(MatCompanies,mat_code='MEE')
-    cust=get_object_or_404(CustomerMaster,cust_id='sidr')
-    cust1=get_object_or_404(CustomerMaster,cust_id='sidr')
+    cust=get_object_or_404(CustomerMaster,cust_id='macr')
+    cust1=get_object_or_404(CustomerMaster,cust_id='macr')
     gr=get_object_or_404(GstRates,id=1)
     gsc=get_object_or_404(GstStateCode,state_code=33)
-    total_qty = OtwDc.objects.filter(gcn_no=75).aggregate(total_qty=Sum('qty_delivered'))['total_qty']
-    total_taxable_value = OtwDc.objects.filter(gcn_no=75).aggregate(total_taxable_value=Sum('taxable_amt'))['total_taxable_value']
-    total_cgst = OtwDc.objects.filter(gcn_no=75).aggregate(total_cgst=Sum('cgst_price'))['total_cgst']
-    total_sgst = OtwDc.objects.filter(gcn_no=75).aggregate(total_sgst=Sum('sgst_price'))['total_sgst']
-    total_igst = OtwDc.objects.filter(gcn_no=75).aggregate(total_igst=Sum('igst_price'))['total_igst']
+    total_qty = OtwDc.objects.filter(gcn_no=73).aggregate(total_qty=Sum('qty_delivered'))['total_qty']
+    total_taxable_value =OtwDc.objects.filter(gcn_no=73).aggregate(total_taxable_value=Sum('taxable_amt'))['total_taxable_value']
+    total_cgst = OtwDc.objects.filter(gcn_no=73).aggregate(total_cgst=Sum('cgst_price'))['total_cgst']
+    total_sgst = OtwDc.objects.filter(gcn_no=73).aggregate(total_sgst=Sum('sgst_price'))['total_sgst']
+    total_igst = OtwDc.objects.filter(gcn_no=73).aggregate(total_igst=Sum('igst_price'))['total_igst']
     grand_total= float('{:.2f}'.format(total_taxable_value+total_cgst+total_sgst+total_igst))
     gt=format_currency(grand_total, 'INR', locale='en_IN')
     # # Qty = get_object_or_404(OtwDc,part_id='2').qty_delivered
-    # # print(odc1.qty_delivered)   
+    print(type(odc1.cgst_price),"cgst_price")  
+    print(type(total_cgst),"Type of Total cgst") 
     aw = convert_rupees_to_words(grand_total) 
     context = {
         'odc':odc,
@@ -87,10 +48,10 @@ def invoice(request):
     return render(request, 'tax_invoice.html', context)
 
 def dc(request):
-    odc=OtwDc.objects.filter(gcn_no=75)
+    odc=OtwDc.objects.filter(gcn_no=73)
     mat =get_object_or_404(MatCompanies,mat_code='MEE')
-    cust1=get_object_or_404(CustomerMaster,cust_id='sidr')
-    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=75)
+    cust1=get_object_or_404(CustomerMaster,cust_id='macr')
+    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=73)
     context = {
         'mat':mat,
         'cust1':cust1,

@@ -3,7 +3,8 @@ from django.db import models
 class CustomerMaster(models.Model):
     cust_id = models.CharField(primary_key=True, max_length=4)
     cust_name = models.CharField(max_length=50, blank=True, null=True)
-    cust_address = models.CharField(max_length=50, blank=True, null=True)
+    cust_addr1 = models.CharField(max_length=50, blank=True, null=True)
+    cust_addr2 = models.CharField(max_length=50, blank=True, null=True)
     cust_city = models.CharField(max_length=15, blank=True, null=True)
     cust_st_code = models.IntegerField(blank=True, null=True)
     cust_st_name = models.CharField(max_length=20, blank=True, null=True)
@@ -95,11 +96,11 @@ class OtwDc(models.Model):
     qty_delivered = models.IntegerField(blank=True, null=True)
     uom = models.CharField(max_length=5, blank=True, null=True)
     unit_price = models.IntegerField(blank=True, null=True)
-    taxable_amt = models.IntegerField(blank=True, null=True)
-    cgst_price = models.IntegerField(blank=True, null=True)
-    sgst_price = models.IntegerField(blank=True, null=True)
-    igst_price = models.IntegerField(blank=True, null=True)
-    total_price = models.IntegerField(blank=True, null=True)
+    taxable_amt = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
+    cgst_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
+    sgst_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
+    igst_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
 
     class Meta:
         managed = False

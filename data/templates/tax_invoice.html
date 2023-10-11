@@ -10,10 +10,13 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-      table,th,td {
+      .table,th,td {
         border: 1px solid black;
         padding: 10px;
+        table-layout: fixed;
+        width: 100%;
       }
+     *{overflow: hidden;}
       th[colspan], td[colspan] {
         border-right: 1px solid black; 
       }
@@ -21,10 +24,11 @@
         margin: 0;
         padding:0;
         font-size: 12px;
+        margin-top: 100px;
     }
-    body{
-      margin-top: 100px;
-    }
+      .tab{
+        tab-size: 8;
+      }
     
       @page {
         @bottom-center {
@@ -76,10 +80,10 @@
                             <strong>PO Date:</strong> {{odc1.po_date}}
                         </li>
                         <li>
-                            <strong>DC No:</strong> {{odc1.grn_no}}
+                            <strong>GRN No:</strong> {{odc1.grn_no}}
                         </li>
                         <li>
-                            <strong>DC Date:</strong> {{odc1.grn_date}}
+                            <strong>GRN Date:</strong> {{odc1.grn_date}}
                         </li>
                         <li>
                           <strong>Date of Supply:</strong> {{odc1.gcn_date}}
@@ -100,9 +104,17 @@
                  
                 </li>
                 <li>
-                  <strong>Address: </strong>{{cust.cust_address}}
+                  <strong>Address: </strong>{{cust1.cust_addr1}} <br>{{cust1.cust_addr2}} 
                   
                 </li>
+                <li>
+                  
+                
+              </li>
+              <li>
+                 {{cust1.cust_city}}-{{cust.cust_pin}} 
+                
+              </li>
                 <li>
                   <strong>State: </strong>{{cust.cust_st_name}}
                  
@@ -126,7 +138,15 @@
                          
                         </li>
                         <li>
-                          <strong>Address: </strong>{{cust1.cust_address}}
+                          <strong>Address: </strong>{{cust1.cust_addr1}} 
+                          
+                        </li>
+                        <li>
+                        {{cust1.cust_addr2}} 
+                        <!-- &emsp; &emsp; &emsp; &emsp; -->
+                        </li>
+                        <li>
+                           {{cust1.cust_city}}-{{cust.cust_pin}} 
                           
                         </li>
                         <li>
@@ -144,7 +164,7 @@
                       </ul>      
            </div>   
      </div>   
-
+                  <div class="container-fluid">
                     <table class="table table-hover border border-secondary container-fluid">
                      
                         <tr>
@@ -201,7 +221,7 @@
                                 </td>
                                 <td style="text-align: right;">
                                   {% if cust.cust_st_code == 29 %}
-                                    {{ record.cgst_price }}
+                                    {{ record.cgst_price|floatformat:2 }}
                                     {% else %}
                                    
                                   {% endif %}
@@ -215,7 +235,7 @@
                                 </td>
                                 <td style="text-align: right;">
                                   {% if cust.cust_st_code == 29 %}
-                                    {{ record.sgst_price }}
+                                    {{ record.sgst_price|floatformat:2}}
                                   {% else %}
                                     
                                   {% endif %}
@@ -231,7 +251,7 @@
                                   {% if cust.cust_st_code == 29 %}
                                    
                                   {% else %}
-                                    {{ record.igst_price }}
+                                    {{ record.igst_price|floatformat:2 }}
                                   {% endif %}
                                 </td>
                             </tr>
@@ -249,7 +269,7 @@
                            
                             <td style="text-align: right;">
                               {% if cust.cust_st_code == 29 %}
-                                {{ total_cgst }}
+                                {{ total_cgst|floatformat:2 }}
                                 {% else %}
                                
                               {% endif %}
@@ -258,7 +278,7 @@
                             
                             <td style="text-align: right;">
                               {% if cust.cust_st_code == 29 %}
-                                {{ total_sgst }}
+                                {{ total_sgst|floatformat:2 }}
                                 {% else %}
                                 
                               {% endif %}
@@ -269,12 +289,13 @@
                               {% if cust.cust_st_code == 29 %}
                                
                               {% else %}
-                                {{total_igst}}
+                                {{total_igst|floatformat:2}}
                               {% endif %}
                             </td>
                         </tr>
-                    </table>          
-
+                    </table> 
+                  </div>           
+                    <div class="container-fluid">
                      <table class="table table-striped ">
                             <tr>
                                 <td style="text-align: center;"colspan="10">INVOICE VALUE(in Words) <br>
@@ -282,7 +303,8 @@
                                 </td>
                               <td style="text-align:center;"colspan="5">Total : {{gt}}</td>
                             </tr>                        
-                       </table>
+                      </table>
+                    </div>
                 <div class="col-12">
                     <h6 style="text-align: center;">Certified that the Particulars given above are correct</h6>
                 </div>
