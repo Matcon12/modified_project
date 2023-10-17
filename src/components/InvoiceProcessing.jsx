@@ -27,9 +27,10 @@ function InvoiceProcessing() {
     return formFields;
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
     const newFormData = [];
 
+    event.preventDefault();
     newFormData.push({
         mcc : document.getElementsByName('mcc')[0].value
     })
@@ -39,31 +40,36 @@ function InvoiceProcessing() {
     })
 
     newFormData.push({
-        qty : document.getElementsByName('qty')[0].value
+        items : document.getElementsByName('no_of_items')[0].value
     })
 
-    const po_slnos = []
-    const items_all = []
 
     for (let i = 0; i < qty; i++) {
-        po_slnos.push(document.getElementsByName(`Po_slno_${i}`)[0].value);
-        items_all.push(document.getElementsByName(`items_${i}`)[0].value);
-    }
+      
+      const key = `item${i}`
 
-    newFormData.push({po_slnos});
-    newFormData.push({items_all});
+      const obj = {
+        [key]:  {
+              Po_slno: document.getElementsByName(`Po_slno_${i}`)[0].value,
+                qty: document.getElementsByName(`items_${i}`)[0].value,
+      }
+    };
+
+      newFormData.push(obj);
 
     setFormData(newFormData);
     console.log(formData)
   }
+}
 
   return (
   <div className='app'>
     <form>
+    <h1>Invoice Processing</h1>
     <div className='formInput'>
       <label>Matcon Company Code</label><input type ="text" name ="mcc"/>
       <label>Inward Delivery Challan Number</label><input type ="text" name ="inw"/>
-      <label>Enter the quantity</label><input type="number" name="qty" onChange={handleQtyChange} />
+      <label>Enter the number of items</label><input type="number" name="no_of_items" onChange={handleQtyChange} />
       {/* <button onClick={generateFormFields}>Generate Form</button> */}
       
 
@@ -71,15 +77,14 @@ function InvoiceProcessing() {
 
       <button onClick={handleSubmit}>Submit</button>
 
-      {/* Display form data */}
-      <div>
+    </div>
+    </form>
+    <div>
         <h2>Form Data:</h2>
         <pre>{JSON.stringify(formData, null, 2)}</pre>
       </div>
-    </div>
-    </form>
   </div>
   );
-}
 
+}
 export default InvoiceProcessing;
