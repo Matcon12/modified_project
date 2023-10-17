@@ -4,9 +4,15 @@ import FormInput from "./components/FormInput";
 import CMForm from "./components/CMForm";
 import POForm from "./components/POForm";
 import InvoiceProcessing from "./components/InvoiceProcessing";
+import Inw_Del_Challan from "./components/Inw_Del_Challan";
+
 
 const App = () => {
-  return (<InvoiceProcessing/>)
+  return(
+    <InvoiceProcessing/>
+  )
+
 };
 
 export default App;
+
