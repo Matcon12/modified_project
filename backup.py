@@ -4,7 +4,7 @@ mydb = mysql.connector.connect(
     host='localhost',
     user='root',
     password='Matcon545@@',
-    database='mydatabase'
+    database='db1'
 )
 mycursor = mydb.cursor(buffered=True)
 def po_sl(mydb, mycursor, elm):
@@ -50,11 +50,14 @@ if inw(mydb, mycursor, grn):
             mycursor.execute("select po_no from inw_dc where grn_no=%s",(grn,))
             po_no=mycursor.fetchone()[0]
           
+            
             mycursor.execute("select qty from po where po_no =%s AND po_sl_no=%s",(po_no,elm))
             qty=mycursor.fetchone()[0]
+           
             
             mycursor.execute("Select qty_sent from po where po_no =%s AND po_sl_no =%s",(po_no,elm,))
             qty_sent= mycursor.fetchone()[0]
+            
             
             if qty_deli <= bal_qty and qty_deli<=qty_reci:
                 mycursor.execute("UPDATE inw_dc SET qty_delivered = qty_delivered + %s WHERE grn_no = %s AND po_sl_no = %s", (qty_deli, grn, elm))
@@ -85,12 +88,14 @@ if inw(mydb, mycursor, grn):
             print(f"The part item with '{elm}' does not exist in the database.")   
             sys.exit()
     
-    current_yyyy = datetime.date.today().year 
-    current_mm =datetime.date.today().month
+    
+    current_yyyy = 2024
+    # datetime.date.today().year   datetime.date.today().month
+    current_mm =12
     mycursor.execute("SELECT fin_yr FROM mat_companies where mat_code='MEE'")
     fin_year= mycursor.fetchone()[0] 
   
-    if fin_year < current_yyyy and current_mm >3:
+    if  fin_year < current_yyyy and current_mm >3:
         fin_year=current_yyyy
         mycursor.execute("UPDATE mat_companies SET fin_yr = %s WHERE mat_code = 'MEE'",(fin_year,))
     f_year=fin_year+1
@@ -105,12 +110,13 @@ if inw(mydb, mycursor, grn):
     update_query = "UPDATE mat_companies SET last_gcn_no = %s WHERE mat_code = 'MEE'"
     mycursor.execute(update_query, (destination_value,))
     mydb.commit() 
-    gcn_num=str(destination_value) + "/" + str(fin_year)+"-"+str(fyear) 
-    gcn_number=gcn_num.zfill(11)
-    
+    gcn_num=(str(destination_value) + "/" + str(fin_year)+"-"+str(fyear)).zfill(11) 
+   
+ 
     current_date = (datetime.date.today())
     date = str(current_date.strftime('%d-%m-%Y'))    
     mycursor.execute("SELECT grn_no, grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price, part_name FROM inw_dc WHERE grn_no=%s AND po_sl_no IN ({})".format(','.join(map(str, po_sl_numbers))), (grn,))
+   # mycursor.execute("SELECT grn_no, fin_year ,grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price,part_name FROM inw_dc where grn_no=%s AND po_sl_no =IN %s", (grn, tuple(elm)))
     data_inw = mycursor.fetchall()
     print(type(data_inw))
     print("Data from inw_delivery_challan:", data_inw)
@@ -126,7 +132,9 @@ if inw(mydb, mycursor, grn):
             qty_delivered, unit_price = row
             taxable_amount = qty_delivered * unit_price
             formatted_number = float('{:.2f}'.format(taxable_amount))
+
             list_tax_amt.append(formatted_number)
+            # print(taxable_amount)
             total_taxable_amount += formatted_number
     print("Total Taxable Amount:", total_taxable_amount)  
            
@@ -147,7 +155,7 @@ if inw(mydb, mycursor, grn):
             sgst_price = 0  
             igst_price = '{:.2f}'.format( 0.18 * list_tax_amt[idx])
   
-        insert_row = (code, gcn_number,date ) + row + (list_tax_amt[idx], cgst_price, sgst_price, igst_price)
+        insert_row = (code, gcn_num,date ) + row + (list_tax_amt[idx], cgst_price, sgst_price, igst_price)
         insert_data.append(insert_row)
     insert_query = """
                 INSERT INTO otw_dc 

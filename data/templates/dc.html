@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Document</title>
+    <title>DC</title>
     <style>
-        table,tr,td,th{
-            border:1px solid black;
-        }
+       .table,th,td{
+        border:1px solid black;
+       }
         body{
             padding: 20px;
             margin-top: 100px;
@@ -18,57 +18,53 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">
-        DELIVARY CHALLAN 
-    </h1>
+    <h3 style="text-align: center;"> DELIVERY CHALLAN </h3>
       <br>
-      <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 text-left to">
-                  <h4><strong>To</strong></h4>
-                 
-                  <ul style="list-style-type:none;">
-                      <li>{{cust1.cust_name}}</li>
-                      <li>{{cust1.cust_addr1}}</li>
-                      <li>{{cust1.cust_addr2}}</li>
-                      <li>{{cust1.cust_city}}</li>
-                      <li>{{cust1.cust_st_name}}</li>
-                      <li>{{cust1.cust_pin}}</li>
+<div class="panel-body">
+    <div class="row">
+            <div class="col-md-6 col-sm-6 text-left ">
+                  <ul style="list-style-type:none; border: 1px solid #000;">
+                      <li><strong>Delivered to</strong></li>
+                      <li>{{c.cust_name}}</li>
+                      <li>{{c.cust_addr1}}</li>
+                      <li>{{c.cust_addr2}}</li>
+                      <li>{{c.cust_city}}-{{c.cust_pin}}</li>
+                      <li>{{c.cust_st_name}}</li>
                   </ul>
-        
              </div>
-
-         <div class="col-md-6 col-sm-6 text-right details">
-            <h4><strong>DC details</strong></h4>
-            <table class="table">
-             
-            <tr>
-                <td><strong>GCN No: </strong> {{odc1.gcn_no}}/{{odc1.fin_year}}</td>
-                
-            </tr>
-            <tr>
-                <td><strong>GCN Date:</strong> {{odc1.gcn_date}}</td>
-              
-            </tr>
-            <tr>
-                <td><strong>PO No:</strong> {{odc1.po_no}}</td>
-                
-            </tr>
-            <tr>
-                <td><strong>PO Date:</strong> {{odc1.po_date}}</td>
-                
-            </tr>
-            <tr>
-                <td><strong>GRN No:</strong> {{odc1.grn_no}}</td>
-               
-            </tr>
-            <tr>
-                <td><strong>GRN Date:</strong> {{odc1.grn_date}}</td>
-                
-            </tr>
-
-        </table> 
+             <!-- <div class="col-md-4 col-sm-4 text-center ">
+                <ul style="list-style-type:none; text-align: left; border: 1px solid #000;">
+                    <li><strong>Billed to</strong></li>
+                    <li>{{r.cust_name}}</li>
+                    <li>{{r.cust_addr1}}</li>
+                    <li>{{r.cust_addr2}}</li>
+                    <li>{{r.cust_city}}-{{r.cust_pin}}</li>
+                    <li>{{r.cust_st_name}}</li>
+                </ul>
+           </div> -->
+           <div class="col-md-6 col-sm-6 text-right">
+            <ul style="list-style-type:none; border: 1px solid #000;">
+                <li><strong>DC details</strong></li>
+                <li><strong>Outward DC No &emsp; : </strong> {{odc1.gcn_no}}</li>
+                <li><strong>Outward DC Date &nbsp; : </strong> {{odc1.gcn_date}}</li>
+                <li><strong>PO No &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; :</strong> {{odc1.po_no}}</li>
+                <li><strong>PO Date &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; :</strong> {{odc1.po_date}}</li>
+                <li><strong>Inward DC No &emsp;&emsp;:</strong> {{odc1.grn_no}}</li>
+                <li><strong>Inward DC Date &emsp; :</strong> {{odc1.grn_date}}</li>
+            </ul>
         </div>
+              <div class="col-md-6 col-sm-6 text-center ">
+                <ul style="list-style-type:none; text-align: left; border: 1px solid #000;">
+                    <li><strong>Billed to</strong></li>
+                    <li>{{r.cust_name}}</li>
+                    <li>{{r.cust_addr1}}</li>
+                    <li>{{r.cust_addr2}}</li>
+                    <li>{{r.cust_city}}-{{r.cust_pin}}</li>
+                    <li>{{r.cust_st_name}}</li>
+                </ul>
+           </div> 
+
+          
     </div>
 </div>
 
@@ -102,21 +98,21 @@
 
     <br><br>
     <div>
-        <p><strong> GST NO: {{mat.mat_gst_code}}</strong></p>
+        <p><strong> GST NO: {{m.mat_gst_code}}</strong></p>
     <br>
     <p><strong> For MATCON ENGINEERING ENTERPRISES</strong></p>
     </div>
     
     <div  style="float: left; width: 50%">
         <textarea name="Authorized signatory" id="" cols="30" rows="5"></textarea>
-        <p><strong>Authorized signatory</strong></p> 
+        <p><strong>Authorized Signatory</strong></p> 
     </div>
     <div  style="float: right; width: 50%">
         <textarea name="" id="" cols="30" rows="5"></textarea>
         <p><strong>Customer Signature</strong></p> 
     </div>
     <br><br><br> <br> <br><br><br><br>
-    <footer><strong>MATCON/FORMS/016/00</strong></footer>
+    <footer>MATCON/FORMS/016/00</footer>
     </table>
 </body>
 </html>
