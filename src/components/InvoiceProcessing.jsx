@@ -15,7 +15,7 @@ function InvoiceProcessing() {
 
     for (let i = 0; i < qty; i++) {
       formFields.push(
-        <div key={i}>
+        <div key={i} className='formInput'>
           <label>Po_slno of item {i}</label>
           <input type="text" name={`Po_slno_${i}`} />
           <label>Quantity needed for item {i}</label>
@@ -58,6 +58,8 @@ function InvoiceProcessing() {
   }
 
   return (
+  <div className='app'>
+    <form>
     <div className='formInput'>
       <label>Matcon Company Code</label><input type ="text" name ="mcc"/>
       <label>Inward Delivery Challan Number</label><input type ="text" name ="inw"/>
@@ -75,6 +77,8 @@ function InvoiceProcessing() {
         <pre>{JSON.stringify(formData, null, 2)}</pre>
       </div>
     </div>
+    </form>
+  </div>
   );
 }
 
