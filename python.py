@@ -63,7 +63,7 @@ if inw(mydb, mycursor, grn):
                 mycursor.execute("UPDATE inw_dc SET qty_balance = qty_balance - %s WHERE grn_no= %s AND po_sl_no = %s", (qty_deli, grn, elm))
                 mydb.commit()
                 
-                if qty_sent != qty:
+                if qty_sent <= qty:
                    mycursor.execute("UPDATE po SET qty_sent = qty_sent + %s WHERE po_no= %s AND po_sl_no = %s", (qty_deli,po_no, elm))
                    mydb.commit()
                 else:
@@ -86,6 +86,7 @@ if inw(mydb, mycursor, grn):
             sys.exit()
     
     current_yyyy = datetime.date.today().year 
+    print(type(current_yyyy))
     current_mm =datetime.date.today().month
     mycursor.execute("SELECT fin_yr FROM mat_companies where mat_code='MEE'")
     fin_year= mycursor.fetchone()[0] 
@@ -170,3 +171,4 @@ else:
     
 mycursor.close()
 mydb.close()
+

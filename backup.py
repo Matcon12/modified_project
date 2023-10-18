@@ -14,7 +14,7 @@ def po_sl(mydb, mycursor, elm):
         return False
     else:                        
         return result
-         
+            
 def inw(mydb, mycursor, grn):
     query = "SELECT grn_no FROM inw_dc WHERE grn_no= %s"
     mycursor.execute(query, (grn,))
@@ -50,14 +50,17 @@ if inw(mydb, mycursor, grn):
             mycursor.execute("select po_no from inw_dc where grn_no=%s",(grn,))
             po_no=mycursor.fetchone()[0]
           
-            
             mycursor.execute("select qty from po where po_no =%s AND po_sl_no=%s",(po_no,elm))
             qty=mycursor.fetchone()[0]
            
-            
             mycursor.execute("Select qty_sent from po where po_no =%s AND po_sl_no =%s",(po_no,elm,))
             qty_sent= mycursor.fetchone()[0]
             
+            mycursor.execute("SELECT rework_dc from inw_dc where grn_no=%s AND po_sl_no =%s",(grn,elm,))
+            rework_dc=mycursor.fetchone()[0]
+            
+            mycursor.execute("SELECT open_po from po where po_no=%s AND po_sl_no =%s",(po_no,elm,))
+            open_po=mycursor.fetchone()[0]
             
             if qty_deli <= bal_qty and qty_deli<=qty_reci:
                 mycursor.execute("UPDATE inw_dc SET qty_delivered = qty_delivered + %s WHERE grn_no = %s AND po_sl_no = %s", (qty_deli, grn, elm))
@@ -66,10 +69,13 @@ if inw(mydb, mycursor, grn):
                 mycursor.execute("UPDATE inw_dc SET qty_balance = qty_balance - %s WHERE grn_no= %s AND po_sl_no = %s", (qty_deli, grn, elm))
                 mydb.commit()
                 
-                if qty_sent != qty:
+                if rework_dc==True or open_po==True:
+                  pass
+                else:
+                  if qty_sent <= qty:
                    mycursor.execute("UPDATE po SET qty_sent = qty_sent + %s WHERE po_no= %s AND po_sl_no = %s", (qty_deli,po_no, elm))
                    mydb.commit()
-                else:
+                  else:
                    print("Sorry , there is nothing to be delivered ")
                    sys.exit()
                 
@@ -89,9 +95,8 @@ if inw(mydb, mycursor, grn):
             sys.exit()
     
     
-    current_yyyy = 2024
-    # datetime.date.today().year   datetime.date.today().month
-    current_mm =12
+    current_yyyy = datetime.date.today().year
+    current_mm =datetime.date.today().month
     mycursor.execute("SELECT fin_yr FROM mat_companies where mat_code='MEE'")
     fin_year= mycursor.fetchone()[0] 
   
@@ -112,11 +117,9 @@ if inw(mydb, mycursor, grn):
     mydb.commit() 
     gcn_num=(str(destination_value) + "/" + str(fin_year)+"-"+str(fyear)).zfill(11) 
    
- 
     current_date = (datetime.date.today())
     date = str(current_date.strftime('%d-%m-%Y'))    
     mycursor.execute("SELECT grn_no, grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price, part_name FROM inw_dc WHERE grn_no=%s AND po_sl_no IN ({})".format(','.join(map(str, po_sl_numbers))), (grn,))
-   # mycursor.execute("SELECT grn_no, fin_year ,grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price,part_name FROM inw_dc where grn_no=%s AND po_sl_no =IN %s", (grn, tuple(elm)))
     data_inw = mycursor.fetchall()
     print(type(data_inw))
     print("Data from inw_delivery_challan:", data_inw)
