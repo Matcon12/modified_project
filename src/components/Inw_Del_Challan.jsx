@@ -1,24 +1,36 @@
 import React, { useState } from 'react'
 import FormInput from './FormInput';
 
-// GRN_No
-// GRN_Date
-// Rework_DC
-// PO_No
-// PO_Date
-// Receiver_ID
-// Consignee_ID
-// PO_Sl_No
-// Cust_ID
-// Part_ID
-// Part_Name
-// Qty_Received
-// Purpose
-// UOM
-// Unit_Price
-// Total_Price
-// Qty_Delivered
-// Qty_Balance
+// GRN_No	String
+// GRN_Date	
+// Rework_DC	Boolean
+// PO_No	
+// PO_Sl_No	
+// Cust_ID	
+// Part_Name	
+// Qty_Received	
+// Purpose	
+// UOM	
+// Unit_Price	
+// Total_Price	
+// Qty_Delivered	
+// Qty_Balance	
+
+
+
+// PO_No	String
+// Open_PO	Boolean
+// Open_PO_Validity	Date
+// Cust_ID	String
+// Quote_Ref_No	String
+// PO_Sl_No	
+// Quantity	
+// UOM	
+// Unit_Price	
+// Total_Price	
+// Qty_Sent	
+
+
 function Inw_Del_Challan() {
 
     const [values,setValues] = useState({});

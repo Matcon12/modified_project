@@ -12,22 +12,13 @@ import FormInput from './FormInput';
 // Cust_GST-ID
 
 function CMForm() {
-    const [values, setValues] = useState({
-        // username: "",
-        // email: "",
-        // birthday: "",
-        // password: "",
-        // confirmPassword: "",
-      });
+    const [values, setValues] = useState({});
     
       const inputs = [
         {
           id: 1,
           name: "cust_id",
           type: "text",
-          //placeholder: "Customer Id",
-        //   errorMessage:
-        //     "Username should be 3-16 characters and shouldn't include any special character!",
           label: "Customer ID",
           pattern: "^[A-Za-z0-9]{3,16}$",
           required: true,
@@ -105,7 +96,7 @@ function CMForm() {
       const handleSubmit = (event) => {
         event.preventDefault();
 
-        if(values.cust_id.length != 4)
+        if(values.cust_id.length != 4 )
         {
             //console.log(event.target.cust_pin)
           alert('Enter customer id length equal to 4 digits')

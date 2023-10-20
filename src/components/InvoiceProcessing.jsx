@@ -36,40 +36,54 @@ function InvoiceProcessing() {
     })
 
     newFormData.push({
-        inw : document.getElementsByName('inw')[0].value
+        grn_no : document.getElementsByName('inw')[0].value
     })
 
     newFormData.push({
-        items : document.getElementsByName('no_of_items')[0].value
+        items : document.getElementsByName('qty')[0].value
     })
 
+    const po_slnos = []
+    const items_all = []
 
     for (let i = 0; i < qty; i++) {
-      
-      const key = `item${i}`
+        po_slnos.push(document.getElementsByName(`Po_slno_${i}`)[0].value);
+        items_all.push(document.getElementsByName(`items_${i}`)[0].value);
+    }
 
-      const obj = {
-        [key]:  {
-              Po_slno: document.getElementsByName(`Po_slno_${i}`)[0].value,
-                qty: document.getElementsByName(`items_${i}`)[0].value,
-      }
-    };
-
-      newFormData.push(obj);
+    newFormData.push({po_slnos});
+    newFormData.push({items_all});
 
     setFormData(newFormData);
-    console.log(formData)
+
+    const mergedObject = {};
+    
+    formData.forEach((obj) => {
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (mergedObject[key] === undefined) {
+            mergedObject[key] = obj[key];
+          } else {
+            if (!Array.isArray(mergedObject[key])) {
+              mergedObject[key] = [mergedObject[key]];
+            }
+            mergedObject[key].push(obj[key]);
+          }
+        }
+      }
+    });
+    
+    console.log(mergedObject);
+    
   }
-}
 
   return (
   <div className='app'>
     <form>
-    <h1>Invoice Processing</h1>
     <div className='formInput'>
       <label>Matcon Company Code</label><input type ="text" name ="mcc"/>
-      <label>Inward Delivery Challan Number</label><input type ="text" name ="inw"/>
-      <label>Enter the number of items</label><input type="number" name="no_of_items" onChange={handleQtyChange} />
+      <label>Inward Delivery Challan Number(GRN Number)</label><input type ="text" name ="inw"/>
+      <label>Enter the total no of items</label><input type="number" name="qty" onChange={handleQtyChange} />
       {/* <button onClick={generateFormFields}>Generate Form</button> */}
       
 
@@ -85,6 +99,6 @@ function InvoiceProcessing() {
       </div>
   </div>
   );
-
 }
+
 export default InvoiceProcessing;

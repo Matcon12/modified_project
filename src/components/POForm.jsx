@@ -3,29 +3,10 @@ import { useState } from 'react';
 import FormInput from './FormInput';
 
 
-// PO_No	String
-// PO_Date	Date
-// Open_PO	Boolean
-// Open_PO_Validity	Date
-// Cust_ID	String
-// Quote_Ref_No	String
-// Receiver_ID	String
-// Consignee_ID	String
-// PO_Sl_No	
-// Part_ID	
-// Quantity	
-// UOM	
-// Unit_Price	
-// Total_Price	
-// Qty_Sent	
+
+
 function POForm() {
-    const [values, setValues] = useState({
-        // username: "",
-        // email: "",
-        // birthday: "",
-        // password: "",
-        // confirmPassword: "",
-      });
+    const [values, setValues] = useState({});
     
       const inputs = [
         {
