@@ -18,7 +18,7 @@ from babel.numbers import format_currency
 def report(request):
     return render(request,'reports.html')
     
-def invoice(request):
+def invoice_print(request):
     odc=OtwDc.objects.filter(gcn_no=73)
     odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=73)
     mat =get_object_or_404(MatCompanies,mat_code='MEE')
@@ -55,7 +55,7 @@ def invoice(request):
     }  
     return render(request, 'tax_invoice.html', context)
 
-def dc(request):
+def dc_print(request):
     odc=OtwDc.objects.filter(gcn_no=73)
     mat =get_object_or_404(MatCompanies,mat_code='MEE')
     cust1=get_object_or_404(CustomerMaster,cust_id='macr')
@@ -123,10 +123,10 @@ class InvoiceProcessing(APIView):
         s = 'item'+'0'
         print(request.data)
         # print(serializer, 'this is serializer')
-        # if serializer.is_valid():
-            # invoice(request)
-        return Response(status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            invoice(request)
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class InwardDcInput(APIView): 
@@ -139,8 +139,37 @@ class InwardDcInput(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CustomerMasterInput(APIView):
+    def post(self, request):
+        serializer = CustomerMasterForm(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def invoice_processing(request):
+    grn_no = request.data['grn_no']
+    query_set = InwDc.objects.filter(grn_no=grn_no)
+
+    if query_set.exists():
+        po_sl_numbers = []
+        for i in range(request.data['items']):
+            item = 'item'+str(i)
+            po_sl_no = request.data['item']['po_sl_no']
+            qty_delivered = request.data['item']['qty_delivered']
+            po_sl_numbers = append(po_sl_no)
+
+            # try:
+            #      = InwDc.objects.get(grn_no=grn_no, po_sl_no=po_sl_no)
+            # except:
+            #     print("Specified PO Serial Number Doesnt exist")
+
+            po_sl_no = get_object_or_404(InwDC, grn_no=grn, po_sl_no=po_sl_no).po_sl_no
+
+            if po_sl_no:
+                
 
 
 
 
-   
+

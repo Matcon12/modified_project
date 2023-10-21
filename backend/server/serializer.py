@@ -10,3 +10,8 @@ class InwardDCForm(serializers.ModelSerializer):
     class Meta:
         model = InwDc
         fields = '__all__'
+
+class CustomerMasterForm(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerMaster
+        fields = '__all__'

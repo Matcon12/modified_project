@@ -9,5 +9,6 @@ urlpatterns = [
     path('dc/', views.dc, name='dc'),
     path('invoice-processing/', InvoiceProcessing.as_view(), name='invoice-processing'),
     path('inward-dc-input/', InwardDcInput.as_view(), name='inward-dc-input'),
+    path('customer-master-input/', CustomerMasterInput.as_view(), name='customer-master-input'),
     
 ]

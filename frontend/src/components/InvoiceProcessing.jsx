@@ -41,7 +41,7 @@ function InvoiceProcessing() {
     // newFormData.push({
     //     inw : document.getElementsByName('inw')[0].value
     // })
-    newFormData['inw'] = document.getElementsByName('inw')[0].value;
+    newFormData['grn_no'] = document.getElementsByName('inw')[0].value;
 
 
     // newFormData.push({

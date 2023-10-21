@@ -8,15 +8,18 @@
       rgba(255, 255, 255, 0.3)
     ),
     url("https://images.pexels.com/photos/6105553/pexels-photo-6105553.jpeg?auto=compress&cs=tinysrgb&w=600");
+    /* background-image: url("https://images.pexels.com/photos/6105553/pexels-photo-6105553.jpeg?auto=compress&cs=tinysrgb&w=600"); */
   background-size: cover;
   background-position: center;
+  overflow: scroll;
 }
 
-form{
-    background-color: white;
+.app form{
+    overflow: scroll;
+    background-color : white;
     padding: 0px 60px;
     border-radius: 10px;
-    margin-top: 3rem;
+    margin-top: 10rem;
 }
 
 h1{
