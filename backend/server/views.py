@@ -166,7 +166,17 @@ def invoice_processing(request):
 
             po_sl_no = get_object_or_404(InwDC, grn_no=grn, po_sl_no=po_sl_no).po_sl_no
 
-            if po_sl_no:
+            if po_sl_no :
+                balance_qty = query_set.qty_balance
+                po_no = query_set.po_no
+                qty = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no).qty
+                qty_sent = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no).qty_sent
+                rework_dc = query_set.reword_dc
+                grn_date = query_set.grn_date
+                open_po = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no)
+                open_po_validty = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no)
+
+
                 
 
 
