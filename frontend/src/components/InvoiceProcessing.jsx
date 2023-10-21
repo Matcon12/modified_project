@@ -1,92 +1,108 @@
-import React from 'react'
-import {useState} from 'react';
-import FormInput from './FormInput';
+import React, { useState,useEffect } from 'react';
+import '../app.css';
+import './formInput.css'
 import axios from 'axios';
 
 function InvoiceProcessing() {
-    const [values, setValues] = useState({});
-    
-      const inputs = [
-        {
-          id: 1,
-          name: "grn_no",
-          type: "number",
-          placeholder: "Enter GRN NO",
-          label: "Inward delivery number",
-          pattern: "^[A-Za-z0-9]{3,16}$",
-          required: true,
-        },
-        {
-          id: 2,
-          name: "po_no",
-          type: "number",
-          placeholder: "Enter Purchase Order NO",
-          label: "Purchase Order Number",
-        },
-        {
-            id: 3,
-            name: "po_sl_no",
-            type: "number",
-            placeholder: "Enter PO Serial Number",
-            label: "PO Serial Number",
-          },
-          {
-            id: 4,
-            name: "qty_received",
-            type: "number",
-            placeholder: "Enter Quantity Delivered",
-            label: "Quantity",
-          },
-        
-      ];
-    
-      const handleSubmit = (event) => {
-        event.preventDefault();
+  const [qty, setQty] = useState(0);
+  const [formData, setFormData] = useState({});
+  const [submitted,setSubmitted] = useState(false);
 
-        console.log(values)
+  const handleQtyChange = (e) => {
+    setQty(parseInt(e.target.value, 10));
+  }
 
-        axios.post('http://localhost:5000/input/', values)
-            .then((response) => {
-                console.log('Data saved:', response.data);
+  const generateFormFields = () => {
+    const formFields = [];
 
-                if(response.status == 200)
-                console.log('server responded');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-
-        
-      }
-    
-      const onChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-      };
-      var items = [];
-      const [toggle,setToggle] = useState(false);
-
-      return (
-        <div className="app">
-          <form onSubmit={handleSubmit}>
-            <h1>Invoice Processing</h1>
-            {inputs.map((input) => (
-              <FormInput
-                key={input.id}
-                {...input}
-                value={values[input.name]}
-                onChange={onChange}
-              />
-            ))}
-            <button onClick={handleSubmit}>Submit</button>
-           
-          </form>
+    for (let i = 0; i < qty; i++) {
+      formFields.push(
+        <div key={i} className='formInput'>
+          <label>Po_slno of item {i}</label>
+          <input type="text" name={`Po_slno_${i}`} />
+          <label>Quantity needed for item {i}</label>
+          <input type="text" name={`items_${i}`} />
         </div>
       );
+    }
+
+    return formFields;
+  }
+
+  const handleSubmit = (event) => {
+    const newFormData = {};
+
+    event.preventDefault();
+    // newFormData.push({
+    //     mcc : document.getElementsByName('mcc')[0].value
+    // })
+    newFormData['mcc'] = document.getElementsByName('mcc')[0].value;
+
+    // newFormData.push({
+    //     inw : document.getElementsByName('inw')[0].value
+    // })
+    newFormData['inw'] = document.getElementsByName('inw')[0].value;
+
+
+    // newFormData.push({
+    //     items : document.getElementsByName('no_of_items')[0].value
+    // })
+    newFormData['items'] = document.getElementsByName('no_of_items')[0].value;
+
+
+    var obj;
+
+    for (let i = 0; i < qty; i++) {
+      
+      const key = `item${i}`
+
+      obj = {
+ 
+              po_sl_no: document.getElementsByName(`Po_slno_${i}`)[0].value,
+                qty_delivered: document.getElementsByName(`items_${i}`)[0].value,
+    };
+    // newFormData.push(obj);
+    newFormData[key] = obj;
+  }
+    setFormData(newFormData);
+    console.log(formData);
+    setSubmitted(true);
 }
+  useEffect(() => {
+    if (submitted) {
+      axios.post('http://localhost:5000/invoice-processing/', formData)
+        .then((response) => {
+          console.log('POST request successful', response);
+        })
+        .catch((error) => {
+          console.error('Error making POST request', error);
+        });
+    }
+  }, [formData, submitted]);
 
-export default InvoiceProcessing
+  return (
+  <div className='app'>
+    <form>
+    <h1>Invoice Processing</h1>
+    <div className='formInput'>
+      <label>Matcon Company Code</label><input type ="text" name ="mcc"/>
+      <label>Inward Delivery Challan Number</label><input type ="text" name ="inw"/>
+      <label>Enter the number of items</label><input type="number" name="no_of_items" onChange={handleQtyChange} />
+      {/* <button onClick={generateFormFields}>Generate Form</button> */}
+      
 
+      <div>{generateFormFields()}</div>
 
+      <button onClick={handleSubmit}>Submit</button>
 
+    </div>
+    </form>
+    <div>
+        <h2>Form Data:</h2>
+        <pre>{JSON.stringify(formData, null, 2)}</pre>
+      </div>
+  </div>
+  );
 
-
+}
+export default InvoiceProcessing;

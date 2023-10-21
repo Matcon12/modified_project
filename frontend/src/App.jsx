@@ -7,7 +7,7 @@ import InvoiceProcessing from "./components/InvoiceProcessing";
 import Inw_Del_Challan from "./components/Inw_Del_Challan";
 
 const App = () => {
-  return (<Inw_Del_Challan/>)
+  return (<InvoiceProcessing/>)
 };
 
 export default App;

@@ -112,32 +112,29 @@ def convert_rupees_to_words(amount):
     print("conversion success")
     return result.upper()
 
-class ReactView(APIView):    
-    serializer_class = InvoiceForm  
+class InvoiceProcessing(APIView):    
+    # serializer_class = InvoiceForm  
     def get(self, request): 
         data = {'message': 'Hello, world!'}
         return JsonResponse(data)  
     def post(self, request):
         # print('post request received')  
-        serializer = InvoiceForm(data=request.data)
+        # serializer = InvoiceForm(data=request.data)
+        s = 'item'+'0'
         print(request.data)
-        print(serializer, 'this is serializer')
-        if serializer.is_valid():
+        # print(serializer, 'this is serializer')
+        # if serializer.is_valid():
             # invoice(request)
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class InwardDcInput(APIView): 
     def post(self, request):
-        # print('post request received') 
-        data = request.data
-        serializer = InwardDCForm(data=data)
-        print(data)
-        print(serializer)
+        serializer = InwardDCForm(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            print('saved to database')
+            # print('saved to database')
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

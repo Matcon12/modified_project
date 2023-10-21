@@ -139,11 +139,12 @@ class Po(models.Model):
         unique_together = (('po_no', 'po_sl_no'),)
 
 
-class Invoice(models.Model):
-    grn_no = forms.CharField(label='GRN NO', max_length=20)
-    po_no = forms.CharField(label='PO NO', max_length=20)
-    po_sl_no = forms.IntegerField(label='PO SERIAL NO')
-    qty_received = forms.IntegerField(label='QUANTITY RECEIVED')
+# class Invoice(models.Model):
+#     mcc = forms.CharField(label='MCC', max_length=20)
+#     grn_no = forms.CharField(label='GRN NO', max_length=20)
+#     # po_no = forms.CharField(label='PO NO', max_length=20)
+#     po_sl_no = forms.IntegerField(label='PO SERIAL NO')
+#     qty_received = forms.IntegerField(label='QUANTITY RECEIVED')
 
 # [('35', 'Andaman and Nicobar Islands'),
 # ('28', 'Andhra Pradesh'),

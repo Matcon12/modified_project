@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.report, name="report"),
     path('invoice/', views.invoice, name='invoice'),
     path('dc/', views.dc, name='dc'),
-    path('input/', ReactView.as_view(), name='input'),
+    path('invoice-processing/', InvoiceProcessing.as_view(), name='invoice-processing'),
     path('inward-dc-input/', InwardDcInput.as_view(), name='inward-dc-input'),
     
 ]
