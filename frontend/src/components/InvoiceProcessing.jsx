@@ -57,11 +57,10 @@ function InvoiceProcessing() {
       const key = `item${i}`
 
       obj = {
- 
               po_sl_no: document.getElementsByName(`Po_slno_${i}`)[0].value,
-                qty_delivered: document.getElementsByName(`items_${i}`)[0].value,
+              qty_delivered: document.getElementsByName(`items_${i}`)[0].value,
     };
-    // newFormData.push(obj);
+
     newFormData[key] = obj;
   }
     setFormData(newFormData);

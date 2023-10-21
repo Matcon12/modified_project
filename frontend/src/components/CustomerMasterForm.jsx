@@ -15,7 +15,6 @@ function CustomerMasterForm() {
           type: "text",
           placeholder: "Enter Customer Id",
           label: "Customer ID",
-          pattern: "^[A-Za-z0-9]{3,16}$",
           required: true,
         },
         {
@@ -23,7 +22,6 @@ function CustomerMasterForm() {
           name: "cust_name",
           type: "text",
          placeholder: "Enter Customer Name",
-         // errorMessage: "It should be a valid email address!",
           label: "Customer Name",
           required: true,
         },
