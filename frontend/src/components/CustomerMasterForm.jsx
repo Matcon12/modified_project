@@ -73,8 +73,8 @@ function CustomerMasterForm() {
           },
           {
             id: 9,
-            name: "cust_gst",
-            type: "number",
+            name: "cust_gst_id",
+            type: "text",
             placeholder: "Enter Customer GST ID",
             label: "Customer GST ID",
             required: true,
