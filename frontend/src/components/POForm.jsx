@@ -1,31 +1,12 @@
 import React from 'react'
 import { useState } from 'react';
 import FormInput from './FormInput';
+import axios from 'axios';
+import { useEffect } from 'react';
 
-
-// PO_No	String
-// PO_Date	Date
-// Open_PO	Boolean
-// Open_PO_Validity	Date
-// Cust_ID	String
-// Quote_Ref_No	String
-// Receiver_ID	String
-// Consignee_ID	String
-// PO_Sl_No	
-// Part_ID	
-// Quantity	
-// UOM	
-// Unit_Price	
-// Total_Price	
-// Qty_Sent	
 function POForm() {
-    const [values, setValues] = useState({
-        // username: "",
-        // email: "",
-        // birthday: "",
-        // password: "",
-        // confirmPassword: "",
-      });
+    const [values, setValues] = useState({});
+    const [submitted,setSubmitted] = useState(false);
     
       const inputs = [
         {
@@ -54,14 +35,14 @@ function POForm() {
           label: "Open PO",
         },
         {
-          id: 3,
+          id: 4,
           name: "open_po_validity",
           type: "date",
          // placeholder: "Birthday",
           label: "Open PO Validity",
         },
         {
-          id: 4,
+          id: 5,
           name: "cust_id",
           type: "text",
           //placeholder: "Customer City",
@@ -72,8 +53,8 @@ function POForm() {
           required: true,
         },
         {
-          id: 5,
-          name: "quote_refno",
+          id: 6,
+          name: "quote_ref_no",
           type: "number",
           //placeholder: "Confirm Password",
           //errorMessage: "Passwords don't match!",
@@ -82,8 +63,8 @@ function POForm() {
           required: true,
         },
         {
-          id: 6,
-          name: "reciever_id",
+          id: 7,
+          name: "receiver_id",
           type: "number",
           //placeholder: "Confirm Password",
           //errorMessage: "Passwords don't match!",
@@ -93,7 +74,7 @@ function POForm() {
         },
         
         {
-          id: 7,
+          id: 8,
           name: "consignee_id",
           type: "number",
           //placeholder: "Confirm Password",
@@ -103,8 +84,8 @@ function POForm() {
           required: true,
         },
           {
-            id: 8,
-            name: "po_slno",
+            id: 9,
+            name: "po_sl_no",
             type: "number",
             //placeholder: "Confirm Password",
             //errorMessage: "Passwords don't match!",
@@ -113,7 +94,7 @@ function POForm() {
             required: true,
           },
           {
-            id: 3,
+            id: 10,
             name: "part_id",
             type: "text",
            // placeholder: "Customer Name",
@@ -123,7 +104,7 @@ function POForm() {
   
           },
           {
-            id: 3,
+            id: 11,
             name: "qty",
             type: "number",
            // placeholder: "Customer Name",
@@ -133,7 +114,7 @@ function POForm() {
   
           },
           {
-            id: 3,
+            id: 12,
             name: "uom",
             type: "text",
            // placeholder: "Customer Name",
@@ -143,7 +124,7 @@ function POForm() {
   
           },
           {
-            id: 3,
+            id: 13,
             name: "unit_price",
             type: "number",
            // placeholder: "Customer Name",
@@ -152,7 +133,7 @@ function POForm() {
             required: true,
           },
           {
-            id: 3,
+            id: 14,
             name: "total_price",
             type: "number",
            // placeholder: "Customer Name",
@@ -161,7 +142,7 @@ function POForm() {
             required: true,
           },
           {
-            id: 3,
+            id: 15,
             name: "qty_sent",
             type: "number",
            // placeholder: "Customer Name",
@@ -186,11 +167,25 @@ function POForm() {
           alert('Enter pin length equal to 6 digits')
         }
         console.log(values)
+        setSubmitted(true);
       }
     
       const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
       };
+
+      useEffect(() => {
+        if (submitted) {
+          axios.post('http://localhost:5000/purchase-order-input/', values)
+            .then((response) => {
+              console.log('POST request successful', response);
+            })
+            .catch((error) => {
+              console.error('Error making POST request', error);
+            });
+        }
+      }, [values, submitted]);
+
     
       return (
         <div className="app">

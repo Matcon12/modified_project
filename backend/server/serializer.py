@@ -15,3 +15,13 @@ class CustomerMasterForm(serializers.ModelSerializer):
     class Meta:
         model = CustomerMaster
         fields = '__all__'
+
+class PurchaseOrderForm(serializers.ModelSerializer):
+    class Meta:
+        model = Po
+        fields = '__all__'
+
+class PartMasterForm(serializers.ModelSerializer):
+    class Meta:
+        model = PartMaster
+        fields = '__all__'

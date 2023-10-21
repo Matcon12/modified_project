@@ -1,31 +1,50 @@
 import React, { useState } from 'react'
 import './formInput.css';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 function PartMaster() {
 
 
     const [formData, setFormData] = useState({});
+    const [submitted,setSubmitted] = useState(false);
+
     const handleSubmit =(event) => {
 
         event.preventDefault();
-        const newFormData = [];
+        const newFormData = {};
 
-        newFormData.push({
-            part_id : document.getElementsByName('part_id')[0].value
-        });
+        // newFormData.push({
+        //     part_id : document.getElementsByName('part_id')[0].value
+        // });
+        newFormData['part_id'] = document.getElementsByName('part_id')[0].value
 
-        newFormData.push({
-            part_name : document.getElementsByName('part_name')[0].value
-        });
+        // newFormData.push({
+        //     part_name : document.getElementsByName('part_name')[0].value
+        // });
+        newFormData['part_name'] = document.getElementsByName('part_name')[0].value
 
-        newFormData.push({
-            cust_id : document.getElementsByName('cust_id')[0].value
-        });
+        // newFormData.push({
+        //     cust_id : document.getElementsByName('cust_id')[0].value
+        // });
+        newFormData['cust_id'] = document.getElementsByName('cust_id')[0].value
 
         console.log(newFormData);
         setFormData(newFormData);
-
+        setSubmitted(true);
     }
+    useEffect(() => {
+        if (submitted) {
+          axios.post('http://localhost:5000/part-master-input/', formData)
+            .then((response) => {
+              console.log('POST request successful', response);
+            })
+            .catch((error) => {
+              console.error('Error making POST request', error);
+            });
+        }
+      }, [formData, submitted]);
+
     return (
         <div className='app'>
           <form>
@@ -37,10 +56,6 @@ function PartMaster() {
             <button onClick={handleSubmit}>Submit</button>
           </div>
           </form>
-            <div>
-                <h2>Form Data:</h2>
-                <pre>{JSON.stringify(formData, null, 2)}</pre>
-            </div>
         </div>
         );
 }
