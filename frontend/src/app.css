@@ -11,16 +11,23 @@
     /* background-image: url("https://images.pexels.com/photos/6105553/pexels-photo-6105553.jpeg?auto=compress&cs=tinysrgb&w=600"); */
   background-size: cover;
   background-position: center;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
-.app form{
-    overflow: scroll;
-    background-color : white;
-    padding: 0px 60px;
-    border-radius: 10px;
-    margin-top: 10rem;
+.app form {
+  overflow: hidden;
+  background-color: white;
+  padding: 0px 60px;
+  border-radius: 10px;
 }
+
+@media (max-height: 100vh) {
+  .app form {
+      overflow: scroll;
+      max-height: 100vh; 
+  }
+}
+
 
 h1{
     color: black;

@@ -1,13 +1,13 @@
-// Homepage.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './formInput.css'
 import '../app.css'
 import './homepage.css'
 
-const Homepage = () => {
+const DataEntry = () => {
   return (
     <div className='homepage'>
+    <form>
       <h1>Choose the form to perform the data entry</h1>
       <Link to="/cm-form">
         <button className='button'>Customer Master Form</button>
@@ -21,13 +21,11 @@ const Homepage = () => {
       <Link to="/inw-form">
         <button className='button'>Inward Delivery Form</button>
       </Link>
-      <Link to="/invoice-processing">
-        <button className='button'>Invoice Processing</button>
-      </Link>
+      </form>
     </div>
   );
 };
 
-export default Homepage;
+export default DataEntry;
 
 
