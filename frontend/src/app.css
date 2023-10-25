@@ -11,7 +11,6 @@
     /* background-image: url("https://images.pexels.com/photos/6105553/pexels-photo-6105553.jpeg?auto=compress&cs=tinysrgb&w=600"); */
   background-size: cover;
   background-position: center;
-  overflow-y: scroll;
 }
 
 .app form {
@@ -23,7 +22,7 @@
 
 @media (max-height: 100vh) {
   .app form {
-      overflow: scroll;
+      overflow-y: scroll;
       max-height: 100vh; 
   }
 }

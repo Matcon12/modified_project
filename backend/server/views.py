@@ -12,6 +12,7 @@ from . models import *
 from rest_framework.response import Response 
 from . serializer import *
 #pip3 install Babel
+from django.db.utils import IntegrityError
 
 from babel.numbers import format_currency
 
@@ -147,13 +148,26 @@ class CustomerMasterInput(APIView):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
 class PartMasterInput(APIView):
     def post(self, request):
         serializer = PartMasterForm(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+        try:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+        except IntegrityError as e:
+            error_message = str(e)
+            print(error_message + 'msg')
+            if "PRIMARY KEY constraint" in error_message:
+                return Response("Primary key constraint violation: " + error_message, status=status.HTTP_400_BAD_REQUEST)
+            elif "FOREIGN KEY constraint" in error_message:
+                return Response("Foreign key constraint violation: " + error_message, status=status.HTTP_400_BAD_REQUEST)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class PurchaseOrderInput(APIView):
     def post(self, request):

@@ -9,19 +9,20 @@ import PartMaster from "./components/PartMaster";
 import DataEntry from "./components/DataEntry";
 import Home from "./components/Home";
 import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
+import Login from "./components/Login";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/"  element={<Home/>} />
+        <Route exact path="/"  element={<Login/>} />
         <Route exact path="/data-entry"  element={<DataEntry/>} />
         <Route exact path="/invoice-processing" element={<InvoiceProcessing/>} />
         <Route exact path="/po-form" element={<POForm/>} />
         <Route exact path="/cm-form" element={<CustomerMasterForm/>} />
         <Route exact path="/pm-form" element={<PartMaster/>} />
         <Route exact path="/inw-form" element={<Inw_Del_Challan/>} />
-      
+        <Route exact path ="/home" element={<Home/>}/>
       </Routes>
     </BrowserRouter>
   );

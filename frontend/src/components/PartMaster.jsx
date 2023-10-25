@@ -41,6 +41,7 @@ function PartMaster() {
             })
             .catch((error) => {
               console.error('Error making POST request', error);
+              alert('Please enter a valid customer id')
             });
         }
       }, [formData, submitted]);
