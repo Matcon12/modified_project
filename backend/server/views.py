@@ -12,7 +12,12 @@ from . models import *
 from rest_framework.response import Response 
 from . serializer import *
 #pip3 install Babel
-from django.db.utils import IntegrityError
+from django.db import IntegrityError
+# from rest_framework import status
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+# from django.db import IntegrityError
+
 
 from babel.numbers import format_currency
 
@@ -150,28 +155,31 @@ class CustomerMasterInput(APIView):
 
 
 
+
+
 class PartMasterInput(APIView):
     def post(self, request):
         serializer = PartMasterForm(data=request.data)
-        try:
-            if serializer.is_valid():
+        if serializer.is_valid():
+            try:
                 serializer.save()
                 return Response(status=status.HTTP_201_CREATED)
-        except IntegrityError as e:
-            error_message = str(e)
-            print(error_message + 'msg')
-            if "PRIMARY KEY constraint" in error_message:
-                return Response("Primary key constraint violation: " + error_message, status=status.HTTP_400_BAD_REQUEST)
-            elif "FOREIGN KEY constraint" in error_message:
-                return Response("Foreign key constraint violation: " + error_message, status=status.HTTP_400_BAD_REQUEST)
-        
+            except IntegrityError as e:
+                error_message = str(e)
+                if 'PRIMARY KEY' in error_message:
+                    error_message = 'Primary key constraint violated.'
+                elif 'FOREIGN KEY' in error_message:
+                    error_message = 'Foreign key constraint violated.'
+                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
 class PurchaseOrderInput(APIView):
     def post(self, request):
         serializer = PurchaseOrderForm(data=request.data)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)

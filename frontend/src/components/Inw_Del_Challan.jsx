@@ -17,14 +17,8 @@ function Inw_Del_Challan() {
           {
             id: 2,
             name: "grn_date",
-            type: "text",
+            type: "date",
             label: "GRN Date",
-          },
-          {
-            id: 3,
-            name: "rework_dc",
-            type: "boolean",
-            label: "Rework DC",
           },
           {
             id: 4,
@@ -35,7 +29,7 @@ function Inw_Del_Challan() {
           {
             id: 5,
             name: "po_date",
-            type: "text",
+            type: "date",
             label: "PO Date",
             required: true,
           },
@@ -135,6 +129,8 @@ function Inw_Del_Challan() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        values['rework_dc'] = document.getElementsByName[0]?.value;
+
         console.log(typeof values.qty_balance)
         axios.post('http://localhost:5000/inward-dc-input/', values).then((response) => {
                 console.log('Data saved:', response.data);
@@ -151,6 +147,9 @@ function Inw_Del_Challan() {
       const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
       };
+
+
+
     
       return (
         <div className="app">
@@ -164,6 +163,12 @@ function Inw_Del_Challan() {
                 onChange={onChange}
               />
             ))}
+            <label>Rework DC</label>
+            <br></br>
+            <select type='boolean' defaultValue="false" name='rework_dc'>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
             <button>Submit</button>
           </form>
         </div>

@@ -5,10 +5,6 @@ import { Link } from 'react-router-dom';
 
 function Login() {
 
-    const handleSubmit =(e)=> {
-        e.preventDefault();
-    }
-
     return (
         <div className='app'>
           <form>
@@ -18,6 +14,10 @@ function Login() {
             <label>Password</label><input type ="text" name ="pw"/> 
             <Link to ='/home'>
                 <button>Submit</button>
+            </Link>
+            <h3>New User?</h3>
+            <Link to ='/register'>
+              <button>Sign Up</button>
             </Link>
           </div>
           </form>

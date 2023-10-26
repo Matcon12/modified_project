@@ -40,8 +40,13 @@ function PartMaster() {
               console.log('POST request successful', response);
             })
             .catch((error) => {
-              console.error('Error making POST request', error);
-              alert('Please enter a valid customer id')
+              console.error('Error making POST request', error.response.data['cust_id']);
+
+              if(error.response.data['cust_id']){
+                alert('Please enter a valid customer id')
+              } else if(error.response.data['part_id']){
+                alert('This part id already exists')
+              }
             });
         }
       }, [formData, submitted]);

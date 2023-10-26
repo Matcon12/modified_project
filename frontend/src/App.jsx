@@ -10,6 +10,7 @@ import DataEntry from "./components/DataEntry";
 import Home from "./components/Home";
 import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
 import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/pm-form" element={<PartMaster/>} />
         <Route exact path="/inw-form" element={<Inw_Del_Challan/>} />
         <Route exact path ="/home" element={<Home/>}/>
+        <Route exact path ="/register" element={<Register/>} />
       </Routes>
     </BrowserRouter>
   );

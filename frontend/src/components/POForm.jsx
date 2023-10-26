@@ -3,6 +3,7 @@ import { useState } from 'react';
 import FormInput from './FormInput';
 import axios from 'axios';
 import { useEffect } from 'react';
+import './formInput.css'
 
 function POForm() {
     const [values, setValues] = useState({});
@@ -26,20 +27,6 @@ function POForm() {
           type: "date",
          // placeholder: "Birthday",
           label: "PO Date",
-        },
-        {
-          id: 3,
-          name: "open_po",
-          type: "boolean",
-         // placeholder: "Birthday",
-          label: "Open PO",
-        },
-        {
-          id: 4,
-          name: "open_po_validity",
-          type: "date",
-         // placeholder: "Birthday",
-          label: "Open PO Validity",
         },
         {
           id: 5,
@@ -161,11 +148,10 @@ function POForm() {
             //console.log(event.target.cust_pin)
           alert('Enter customer id length equal to 4 digits')
         }
-        if(values.cust_pin.length != 6)
-        {
-            //console.log(event.target.cust_pin)
-          alert('Enter pin length equal to 6 digits')
-        }
+
+        values['open_po'] = document.getElementsByName('open_po')[0]?.value;
+        values['open_po_validity'] =document.getElementsByName('open_po_validity')[0]?.value;
+
         console.log(values)
         setSubmitted(true);
       }
@@ -174,6 +160,7 @@ function POForm() {
         setValues({ ...values, [e.target.name]: e.target.value });
       };
 
+
       useEffect(() => {
         if (submitted) {
           axios.post('http://localhost:5000/purchase-order-input/', values)
@@ -181,12 +168,27 @@ function POForm() {
               console.log('POST request successful', response);
             })
             .catch((error) => {
-              console.error('Error making POST request', error);
+              console.error('Error making POST request', error.response.data);
+
+              if(error.response.data['po_no'])
+              {
+                  alert('An item with the same po no and po sl no exists')
+              }
             });
         }
+        setSubmitted(false)
       }, [values, submitted]);
 
-    
+      var [val,setVal] = useState(false);
+
+      const handleSelect =()=>{ 
+
+        var c = document.getElementsByName('open_po')[0].value;
+        console.log(c)
+        setVal(c);
+      }
+
+
       return (
         <div className="app">
           <form onSubmit={handleSubmit}>
@@ -199,6 +201,13 @@ function POForm() {
                 onChange={onChange}
               />
             ))}
+            <label>Open PO</label>
+            <select type='boolean' defaultValue="false" name='open_po' onChange={handleSelect}>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+            <br></br>
+           { val && <FormInput key='12' label='Open PO Validity' type='date' name ='open_po_validity'/>}
             <button>Submit</button>
           </form>
         </div>
