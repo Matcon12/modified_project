@@ -12,12 +12,6 @@ from . models import *
 from rest_framework.response import Response 
 from . serializer import *
 #pip3 install Babel
-from django.db import IntegrityError
-# from rest_framework import status
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-# from django.db import IntegrityError
-
 
 from babel.numbers import format_currency
 
@@ -153,33 +147,17 @@ class CustomerMasterInput(APIView):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-
-
 class PartMasterInput(APIView):
     def post(self, request):
         serializer = PartMasterForm(data=request.data)
         if serializer.is_valid():
-            try:
-                serializer.save()
-                return Response(status=status.HTTP_201_CREATED)
-            except IntegrityError as e:
-                error_message = str(e)
-                if 'PRIMARY KEY' in error_message:
-                    error_message = 'Primary key constraint violated.'
-                elif 'FOREIGN KEY' in error_message:
-                    error_message = 'Foreign key constraint violated.'
-                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 class PurchaseOrderInput(APIView):
     def post(self, request):
         serializer = PurchaseOrderForm(data=request.data)
-        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -207,12 +185,13 @@ def invoice_processing(request):
             if po_sl_no :
                 balance_qty = query_set.qty_balance
                 po_no = query_set.po_no
-                qty = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no).qty
-                qty_sent = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no).qty_sent
+                qty = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no).qty
+                qty_sent = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no).qty_sent
                 rework_dc = query_set.reword_dc
                 grn_date = query_set.grn_date
-                open_po = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no)
-                open_po_validty = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no)
+                open_po = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no)
+                open_po_validty = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no)
+                
 
 
 
