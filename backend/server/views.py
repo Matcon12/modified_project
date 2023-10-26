@@ -120,13 +120,12 @@ class InvoiceProcessing(APIView):
     def post(self, request):
         # print('post request received')  
         # serializer = InvoiceForm(data=request.data)
-        s = 'item'+'0'
         print(request.data)
-        # print(serializer, 'this is serializer')
-        if serializer.is_valid():
-            invoice(request)
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        invoice_processing(request)
+        # if serializer.is_valid():
+        #     invoice_processing(request)
+        #     return Response(status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class InwardDcInput(APIView): 
@@ -150,6 +149,7 @@ class CustomerMasterInput(APIView):
 class PartMasterInput(APIView):
     def post(self, request):
         serializer = PartMasterForm(data=request.data)
+        request.data['po_date'] = datetime.datetime.strptime(request.data['open_po'], "%d/%m/%Y").strftime("%Y-%m-%d")
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -165,32 +165,76 @@ class PurchaseOrderInput(APIView):
 
 def invoice_processing(request):
     grn_no = request.data['grn_no']
-    query_set = InwDc.objects.filter(grn_no=grn_no)
+    query = InwDc.objects.filter(grn_no=grn_no)
+    query_set = query[0]
 
-    if query_set.exists():
+    if query.exists():
         po_sl_numbers = []
-        for i in range(request.data['items']):
+        for i in range(int(request.data['items'])):
             item = 'item'+str(i)
-            po_sl_no = request.data['item']['po_sl_no']
-            qty_delivered = request.data['item']['qty_delivered']
-            po_sl_numbers = append(po_sl_no)
+            po_sl_no = int(request.data[item]['po_sl_no'])
+            qty_to_be_delivered = int(request.data[item]['qty_delivered'])
+            po_sl_numbers.append(po_sl_no)
 
             # try:
             #      = InwDc.objects.get(grn_no=grn_no, po_sl_no=po_sl_no)
             # except:
             #     print("Specified PO Serial Number Doesnt exist")
 
-            po_sl_no = get_object_or_404(InwDC, grn_no=grn, po_sl_no=po_sl_no).po_sl_no
+            po_sl_no = get_object_or_404(InwDc, grn_no=grn_no, po_sl_no=po_sl_no).po_sl_no
 
             if po_sl_no :
                 balance_qty = query_set.qty_balance
+                qty_received = query_set.qty_received
                 po_no = query_set.po_no
                 qty = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no).qty
                 qty_sent = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no).qty_sent
-                rework_dc = query_set.reword_dc
+                rework_dc = query_set.rework_dc
                 grn_date = query_set.grn_date
                 open_po = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no)
                 open_po_validty = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no)
+                grn_date = query_set.grn_date
+
+                if qty_to_be_delivered <= balance_qty and qty_to_be_delivered<=qty_received:
+                    InwDc.objects.filter(grn_no=grn_no, po_sl_no=po_sl_no).update(qty_delivered=models.F('qty_delivered') + qty_to_be_delivered)
+
+                    InwDc.objects.filter(grn_no=grn_no, po_sl_no=po_sl_no).update(qty_balance=models.F('qty_balance') - qty_to_be_delivered)
+
+                    if rework_dc==True or open_po==True:
+                        pass
+                    else:
+                        if qty_sent <= qty:
+                            Po.objects.filter(po_no=po_no, po_sl_no=po_sl_no).update(qty_sent=models.F('qty_sent') + qty_to_be_delivered)
+                        else:
+                            print("Sorry , there is nothing to be delivered ")
+                            sys.exit()
+                    
+                    if open_po==True:
+                        open_po_date_str = open_po_date.strftime("%Y-%m-%d")
+                        grn_date_str = grn_date.strftime("%Y-%m-%d")                        
+                        opn_po_dte = datetime.strptime(open_po_date_str, "%Y-%m-%d")
+                        grn_dte = datetime.strptime(grn_date_str, "%Y-%m-%d")
+
+                        if grn_dte > opn_po_dte:
+                            print("Your open po validity is over")
+                            sys.exit()
+
+                    balance_qty = get_object_or_404(InwDc, grn_no=grn_no, po_sl_no=po_sl_no).qty_balance
+                    updated_qty_delivered = get_object_or_404(InwDc, grn_no=grn_no, po_sl_no=po_sl_no).qty_delivered
+                    print("Remaining qty : \n", balance_qty)
+                    print("Updated delivered qtuantities : \n", updated_qty_delivered)
+
+                else:
+                    print("Nothing to be delivered")
+                    sys.exit()
+            else:
+                print(f"The part item with '{po_sl_no}' does not exist in the database.")   
+                sys.exit()
+
+                
+
+
+
                 
 
 

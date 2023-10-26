@@ -48,7 +48,7 @@ class InwDc(models.Model):
     po_sl_no = models.IntegerField(blank=False, null=False)
     cust_id = models.CharField(max_length=4, blank=True, null=True)
     part_id = models.CharField(max_length=20, blank=True, null=True)
-    part_name = models.CharField(max_length=70, blank=True, null=True)
+    part_name = models.CharField(max_length=100, blank=True, null=True)
     qty_received = models.IntegerField(blank=True, null=True)
     purpose = models.CharField(max_length=50, blank=True, null=True)
     uom = models.CharField(max_length=10, blank=True, null=True)
@@ -108,7 +108,8 @@ class OtwDc(models.Model):
 
 
 class PartMaster(models.Model):
-    part_id = models.CharField(primary_key=True, max_length=20)
+    id = models.AutoField(primary_key=True)
+    part_id = models.CharField(max_length=20)
     part_name = models.CharField(max_length=50, blank=True, null=True)
     cust_id = models.ForeignKey(CustomerMaster, on_delete=models.CASCADE, db_column='cust_id', blank=True, null=True)
 
@@ -119,10 +120,11 @@ class PartMaster(models.Model):
 
 
 class Po(models.Model):
+    id = models.AutoField(primary_key=True)
     po_no = models.CharField(max_length=20, blank=False, null=False)
     po_date = models.DateField(default=timezone.now)
     open_po = models.BooleanField(default=False)
-    open_po_validity = models.DateField(default=timezone.now)
+    open_po_validity = models.DateField(null=True, blank=True,)
     cust = models.ForeignKey(CustomerMaster, on_delete=models.CASCADE, blank=True, null=True)
     quote_ref_no = models.CharField(max_length=5, blank=True, null=True)
     receiver_id = models.CharField(max_length=4, blank=True, null=True)
@@ -184,7 +186,3 @@ class Po(models.Model):
 # ('9', 'Uttar Pradesh'),
 # ('5', 'Uttarakhand'),
 # ('19', 'West Bengal')]
-
-
-
-
