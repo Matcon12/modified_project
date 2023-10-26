@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from . models import *
 from rest_framework.response import Response 
 from . serializer import *
+import datetime
 #pip3 install Babel
 
 from babel.numbers import format_currency
@@ -165,6 +166,7 @@ class PurchaseOrderInput(APIView):
 
 def invoice_processing(request):
     grn_no = request.data['grn_no']
+    mat_code = request.data['mcc']
     query = InwDc.objects.filter(grn_no=grn_no)
     query_set = query[0]
 
@@ -230,6 +232,29 @@ def invoice_processing(request):
             else:
                 print(f"The part item with '{po_sl_no}' does not exist in the database.")   
                 sys.exit()
+        
+        current=datetime.now()
+        print(current,"current value ")
+        current_yyyy = current.year
+        current_mm = current.month
+        qty = get_object_or_404(mat_companies, mat_code=mat_code).fin_yr
+
+        if  fin_year < current_yyyy and current_mm >3:
+            fin_year=current_yyyy
+            MatCompanies.objects.filter(mat_code=mat_code).update(fin_yr=fin_year)
+        f_year=fin_year+1
+        fy=str(f_year)
+        fyear=fy[2:]
+
+        source_value = get_object_or_404(mat_companies, mat_code=mat_code).last_gcn_no
+        destination_value = source_value + 1
+
+        MatCompanies.objects.filter(mat_code=mat_code).update(last_gcn_no=destination_value)
+
+        gcn_num=(str(destination_value) + "/" + str(fin_year)+"-"+str(fyear)).zfill(11)
+
+        current_date = current
+        date = str(current_date.strftime('%Y-%m-%d')) 
 
                 
 
