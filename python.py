@@ -68,13 +68,7 @@ if inw(mydb, mycursor, grn):
            
             mycursor.execute("select grn_date from inw_dc where grn_no=%s and po_sl_no=%s",(grn,elm,))
             grn_date=mycursor.fetchone()[0]
-            
-            open_po_date_str = open_po_date.strftime("%Y-%m-%d")
-            grn_date_str = grn_date.strftime("%Y-%m-%d")
-            
-            opn_po_dte = datetime.strptime(open_po_date_str, "%Y-%m-%d")
-            grn_dte = datetime.strptime(grn_date_str, "%Y-%m-%d")
-            
+        
             if qty_deli <= bal_qty and qty_deli<=qty_reci:
                 mycursor.execute("UPDATE inw_dc SET qty_delivered = qty_delivered + %s WHERE grn_no = %s AND po_sl_no = %s", (qty_deli, grn, elm))
                 mydb.commit()
@@ -93,6 +87,14 @@ if inw(mydb, mycursor, grn):
                    sys.exit()
                    
                 if open_po==True:
+                    mycursor.execute("UPDATE po SET qty_sent = qty_sent + %s WHERE po_no= %s AND po_sl_no = %s", (qty_deli,po_no, elm))
+                    mydb.commit()
+                    
+                    opn_po_dte = datetime.strptime(open_po_date, "%d-%m-%Y")
+                    grn_dte = datetime.strptime(grn_date, "%d-%m-%Y")
+                    
+                    open_po_date_str = opn_po_dte.strftime("%Y-%m-%d")
+                    grn_date_str = grn_dte.strftime("%Y-%m-%d")
                     if grn_dte > opn_po_dte:
                         print("Your open po validity is over")
                         sys.exit()

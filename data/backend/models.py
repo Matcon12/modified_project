@@ -12,7 +12,7 @@ class CustomerMaster(models.Model):
     cust_gst_id = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'customer_master'
 class PartMaster(models.Model):
     part_id = models.IntegerField(primary_key=True)
@@ -20,15 +20,15 @@ class PartMaster(models.Model):
     cust_id = models.ForeignKey(CustomerMaster, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'part_master'
 
 
 class Po(models.Model):
     po_no = models.IntegerField(primary_key=True)  
-    po_date = models.CharField(max_length=15, blank=True, null=True)
+    po_date = models.DateField(max_length=15, blank=True, null=True)
     open_no=models.BooleanField()
-    open_po_validity=models.CharField(max_length=15, blank=True, null=True)
+    open_po_validity=models.DateField(max_length=15, blank=True, null=True)
     cust_id = models.ForeignKey(CustomerMaster, models.DO_NOTHING, blank=True, null=True)
     quote_ref_no = models.CharField(max_length=5, blank=True, null=True)
     receiver_id = models.CharField(max_length=4, blank=True, null=True)
@@ -42,16 +42,16 @@ class Po(models.Model):
     total_price = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'po'
         unique_together = (('po_no',  'po_sl_no'),)
 
 class InwDc(models.Model):
     grn_no = models.IntegerField(primary_key=True) 
-    grn_date = models.CharField(max_length=15, blank=True, null=True)
+    grn_date = models.DateField(max_length=15, blank=True, null=True)
     rework_dc=models.BooleanField()
     po_no = models.IntegerField()
-    po_date = models.CharField(max_length=15, blank=True, null=True)
+    po_date = models.DateField(max_length=15, blank=True, null=True)
     receiver_id = models.CharField(max_length=4, blank=True, null=True)
     consignee_id = models.CharField(max_length=4, blank=True, null=True)
     po_sl_no = models.IntegerField()
@@ -67,7 +67,7 @@ class InwDc(models.Model):
     qty_balance = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'inw_dc'
         unique_together = (('grn_no',  'po_no', 'po_sl_no'),)
 
@@ -85,18 +85,18 @@ class MatCompanies(models.Model):
     last_gcn_no = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'mat_companies'
 
 
 class OtwDc(models.Model):
     mat_code = models.CharField(primary_key=True, max_length=3) 
     gcn_no = models.CharField(max_length=15, blank=True, null=True)
-    gcn_date = models.CharField(max_length=15, blank=True, null=True)
+    gcn_date = models.DateField(max_length=15, blank=True, null=True)
     grn_no = models.IntegerField(blank=True, null=True)
     grn_date = models.CharField(max_length=15, blank=True, null=True)
     po_no = models.IntegerField()
-    po_date = models.CharField(max_length=15, blank=True, null=True)
+    po_date = models.DateField(max_length=15, blank=True, null=True)
     receiver_id = models.CharField(max_length=4, blank=True, null=True)
     consignee_id = models.CharField(max_length=4, blank=True, null=True)
     po_sl_no = models.IntegerField()
@@ -112,7 +112,7 @@ class OtwDc(models.Model):
     
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'otw_dc'
         unique_together = (('mat_code', 'gcn_no', 'po_no', 'po_sl_no'),)
 
@@ -124,7 +124,7 @@ class GstRates(models.Model):
     id = models.IntegerField(null=False,primary_key=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'gst_rates'
 
 
@@ -133,5 +133,5 @@ class GstStateCode(models.Model):
     state_name = models.CharField(max_length=70, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'gst_state_code'
