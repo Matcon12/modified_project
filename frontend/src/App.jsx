@@ -11,6 +11,7 @@ import Home from "./components/Home";
 import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ReportsPrinting from "./components/ReportsPrinting";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/inw-form" element={<Inw_Del_Challan/>} />
         <Route exact path ="/home" element={<Home/>}/>
         <Route exact path ="/login" element={<Login/>} />
+        <Route exact path ="/reports-printing" element={<ReportsPrinting/>} />
       </Routes>
     </BrowserRouter>
   );

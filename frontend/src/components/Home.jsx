@@ -42,7 +42,7 @@ const Home = () => {
       <Link to="/invoice-processing">
         <button className='button'>Delivery of rejected Goods</button>
       </Link>
-      <Link to="/">
+      <Link to="/reports-printing">
         <button className='button'>Reports Printing</button>
       </Link>
       <button onClick={handleClick}>Logout</button>
