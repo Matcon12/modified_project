@@ -16,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/"  element={<Login/>} />
+        <Route exact path="/"  element={<Register/>} />
         <Route exact path="/data-entry"  element={<DataEntry/>} />
         <Route exact path="/invoice-processing" element={<InvoiceProcessing/>} />
         <Route exact path="/po-form" element={<POForm/>} />
@@ -24,7 +24,7 @@ function App() {
         <Route exact path="/pm-form" element={<PartMaster/>} />
         <Route exact path="/inw-form" element={<Inw_Del_Challan/>} />
         <Route exact path ="/home" element={<Home/>}/>
-        <Route exact path ="/register" element={<Register/>} />
+        <Route exact path ="/login" element={<Login/>} />
       </Routes>
     </BrowserRouter>
   );

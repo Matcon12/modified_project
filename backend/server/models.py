@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from datetime import date
+from django.utils import timezone
 
 class CustomerMaster(models.Model):
     cust_id = models.CharField(primary_key=True, max_length=4)
@@ -37,11 +38,11 @@ class GstStateCode(models.Model):
         db_table = 'gst_state_code'
 
 class InwDc(models.Model):
-    grn_no = models.CharField(primary_key=True, max_length=20)
-    grn_date = models.DateField(default=date.today())
+    grn_no = models.CharField(max_length=20)
+    grn_date = models.DateField(default=timezone.now)
     rework_dc = models.BooleanField(default=False)
     po_no = models.CharField(max_length=20, blank=False, null=False)
-    po_date = models.DateField(default=date.today())
+    po_date = models.DateField(default=timezone.now)
     receiver_id = models.CharField(max_length=10, blank=True, null=True)
     consignee_id = models.CharField(max_length=10, blank=True, null=True)
     po_sl_no = models.IntegerField(blank=False, null=False)
@@ -80,11 +81,11 @@ class MatCompanies(models.Model):
 
 
 class OtwDc(models.Model):
-    mat_code = models.CharField(primary_key=True, max_length=3)  # The composite primary key (mat_code, gcn_no, fin_year, po_no, po_sl_no) found, that is not supported. The first column is selected.
+    mat_code = models.CharField(max_length=3)  # The composite primary key (mat_code, gcn_no, fin_year, po_no, po_sl_no) found, that is not supported. The first column is selected.
     gcn_no = models.IntegerField()
-    gcn_date = models.DateField(default=date.today())
+    gcn_date = models.DateField(default=timezone.now)
     grn_no = models.IntegerField(blank=True, null=True)
-    grn_date = models.DateField(default=date.today())
+    grn_date = models.DateField(default=timezone.now)
     po_no = models.IntegerField()
     po_date = models.CharField(max_length=15, blank=True, null=True)
     receiver_id = models.CharField(max_length=4, blank=True, null=True)
@@ -118,10 +119,10 @@ class PartMaster(models.Model):
 
 
 class Po(models.Model):
-    po_no = models.CharField(primary_key=True, max_length=20, blank=False, null=False)
-    po_date = models.DateField(default=date.today())
+    po_no = models.CharField(max_length=20, blank=False, null=False)
+    po_date = models.DateField(default=timezone.now)
     open_po = models.BooleanField(default=False)
-    open_po_validity = models.DateField(default=date.today())
+    open_po_validity = models.DateField(default=timezone.now)
     cust = models.ForeignKey(CustomerMaster, on_delete=models.CASCADE, blank=True, null=True)
     quote_ref_no = models.CharField(max_length=5, blank=True, null=True)
     receiver_id = models.CharField(max_length=4, blank=True, null=True)

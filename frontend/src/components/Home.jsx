@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './formInput.css'
 import '../app.css'
 import './homepage.css'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Home = () => {
+
+  const [out,setOut] = useState(false);
+  const navigate = useNavigate();
+
+  const handleClick =(e)=> {
+      e.preventDefault();
+      setOut(true);
+  }
+
+  useEffect(()=>{
+    if (out) {
+      axios.post('http://localhost:5000/logout/')
+        .then((response) => {
+          console.log('POST request successful', response);
+          navigate('/')
+
+        })
+        .catch((error) => {
+          console.error('Error making POST request', error);
+        });
+    }
+  })
   return (
     <div className='homepage'>
     <form>
@@ -21,6 +45,7 @@ const Home = () => {
       <Link to="/">
         <button className='button'>Reports Printing</button>
       </Link>
+      <button onClick={handleClick}>Logout</button>
       </form>
     </div>
   );

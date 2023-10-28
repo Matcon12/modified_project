@@ -170,7 +170,7 @@ function POForm() {
             .catch((error) => {
               console.error('Error making POST request', error.response.data);
 
-              if(error.response.data['po_no'])
+              if(error.response.data['non_field_errors'])
               {
                   alert('An item with the same po no and po sl no exists')
               }
