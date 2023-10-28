@@ -11,12 +11,15 @@ from rest_framework.views import APIView
 from . models import *
 from rest_framework.response import Response 
 from . serializer import *
+import datetime
 #pip3 install Babel
-from django.shortcuts import render, HttpResponse,redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required 
-# Create your views here.
+from django.db import IntegrityError
+# from rest_framework import status
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+# from django.db import IntegrityError
+
+
 from babel.numbers import format_currency
 
 def report(request):
@@ -174,13 +177,12 @@ class InvoiceProcessing(APIView):
     def post(self, request):
         # print('post request received')  
         # serializer = InvoiceForm(data=request.data)
-        s = 'item'+'0'
         print(request.data)
-        # print(serializer, 'this is serializer')
-        if serializer.is_valid():
-            invoice(request)
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        response = invoice_processing(request)
+        if response == 'grn no does not exists':
+            return Response('done')
+        return render(request,'reports.html')
+        return Response('invalid')
 
 
 class InwardDcInput(APIView): 
@@ -204,6 +206,7 @@ class CustomerMasterInput(APIView):
 class PartMasterInput(APIView):
     def post(self, request):
         serializer = PartMasterForm(data=request.data)
+        request.data['po_date'] = datetime.datetime.strptime(request.data['open_po'], "%d/%m/%Y").strftime("%Y-%m-%d")
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -251,124 +254,15 @@ def invoice_processing(request):
                 open_po = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no)
                 open_po_validty = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no)
                 grn_date = query_set.grn_date
+                open_po = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no)
+                open_po_validty = get_object_or_404(PO, po_no=po_no, po_sl_no=po_sl_no)
 
-                if qty_to_be_delivered <= balance_qty and qty_to_be_delivered<=qty_received:
-                    InwDc.objects.filter(grn_no=grn_no, po_sl_no=po_sl_no).update(qty_delivered=models.F('qty_delivered') + qty_to_be_delivered)
 
-                    InwDc.objects.filter(grn_no=grn_no, po_sl_no=po_sl_no).update(qty_balance=models.F('qty_balance') - qty_to_be_delivered)
 
-                    if rework_dc==True or open_po==True:
-                        pass
-                    else:
-                        if qty_sent <= qty:
-                            Po.objects.filter(po_no=po_no, po_sl_no=po_sl_no).update(qty_sent=models.F('qty_sent') + qty_to_be_delivered)
-                        else:
-                            print("Sorry , there is nothing to be delivered ")
-                            sys.exit()
-                    
-                    if open_po==True:
-                        open_po_date_str = open_po_validty.strftime("%Y-%m-%d")
-                        grn_date_str = grn_date.strftime("%Y-%m-%d")                        
-                        opn_po_dte = datetime.strptime(open_po_date_str, "%Y-%m-%d")
-                        grn_dte = datetime.strptime(grn_date_str, "%Y-%m-%d")
 
-                        if grn_dte > opn_po_dte:
-                            print("Your open po validity is over")
-                            sys.exit()
+                
 
-                    balance_qty = get_object_or_404(InwDc, grn_no=grn_no, po_sl_no=po_sl_no).qty_balance
-                    updated_qty_delivered = get_object_or_404(InwDc, grn_no=grn_no, po_sl_no=po_sl_no).qty_delivered
-                    print("Remaining qty : \n", balance_qty)
-                    print("Updated delivered qtuantities : \n", updated_qty_delivered)
 
-                else:
-                    print("Nothing to be delivered")
-                    sys.exit()
-            else:
-                print(f"The part item with '{po_sl_no}' does not exist in the database.")   
-                sys.exit()
-        
-        current=datetime.now()
-        print(current,"current value ")
-        current_yyyy = current.year
-        current_mm = current.month
-        qty = get_object_or_404(MatCompanies, mat_code=mat_code).fin_yr
 
-        if  fin_year < current_yyyy and current_mm >3:
-            fin_year=current_yyyy
-            MatCompanies.objects.filter(mat_code=mat_code).update(fin_yr=fin_year)
-        f_year=fin_year+1
-        fy=str(f_year)
-        fyear=fy[2:]
 
-        source_value = get_object_or_404(MatCompanies, mat_code=mat_code).last_gcn_no
-        destination_value = source_value + 1
 
-        MatCompanies.objects.filter(mat_code=mat_code).update(last_gcn_no=destination_value)
-
-        gcn_num=(str(destination_value) + "/" + str(fin_year)+"-"+str(fyear)).zfill(11)
-
-        current_date = current
-        date = str(current_date.strftime('%Y-%m-%d'))
-        
-        data_inw = InwDc.objects.filter(grn_no=grn_no, po_sl_no__in=po_sl_numbers).values('grn_no', 'grn_date', 'po_no', 'po_date', 'receiver_id', 'consignee_id', 'po_sl_no', 'part_id', 'qty_delivered', 'uom', 'unit_price', 'part_name') 
-        code='MEE'
-        
-        rows = InwDc.objects.filter(grn_no=grn_no).values('qty_delivered', 'unit_price')
-        list_tax_amt=[]
-        total_taxable_amount = 0
-        
-        for row in rows:
-            qty_delivered, unit_price = row
-            taxable_amount = qty_delivered * unit_price
-            formatted_number = float('{:.2f}'.format(taxable_amount))
-
-            list_tax_amt.append(formatted_number)
-            # print(taxable_amount)
-            total_taxable_amount += formatted_number
-        print("Total Taxable Amount:", total_taxable_amount)  
-        
-        
-        insert_data = []
-        for idx, row in enumerate(data_inw):
-            x=po_no
-            receiver_id = Po.objects.filter(po_no=x[0]).values_list('receiver_id', flat=True).first()
-            state_code = CustomerMaster.objects.filter(cust_id=receiver_id).values_list('cust_st_code', flat=True).first()
-            if state_code == 29:
-              cgst_price = '{:.2f}'.format( 0.09 * list_tax_amt[idx])
-              sgst_price = '{:.2f}'.format( 0.09 * list_tax_amt[idx])
-              igst_price = 0   
-            else:
-              cgst_price = 0  
-              sgst_price = 0  
-              igst_price = '{:.2f}'.format( 0.18 * list_tax_amt[idx])
-            
-            insert_instance = OtwDc(
-              mat_code=code,
-              gcn_no=gcn_num,
-              gcn_date=date,
-              grn_no=row['grn_no'],
-              grn_date=row['grn_date'],
-              po_no=row['po_no'],
-              po_date=row['po_date'],
-              receiver_id=receiver_id,
-              consignee_id=row['consignee_id'],
-              po_sl_no=row['po_sl_no'],
-              part_id=row['part_id'],
-              qty_delivered=row['qty_delivered'],
-              uom=row['uom'],
-              unit_price=row['unit_price'],
-              part_name=row['part_name'],
-              taxable_amt=list_tax_amt[idx],
-              cgst_price=cgst_price,
-              sgst_price=sgst_price,
-              igst_price=igst_price,
-              rejected_item=ritem
-             )
-
-            insert_data.append(insert_instance)    
-            
-        OtwDc.objects.bulk_create(insert_data)    
-    else:
-      print(f"The record with '{grn_no}' does not exist in the database.")
-      sys.exit()    
