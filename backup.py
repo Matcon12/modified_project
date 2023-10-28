@@ -117,7 +117,7 @@ if inw(mydb, mycursor, grn):
     
     
     current=datetime.now()
-    print(current,"current value ")
+    
     current_yyyy = current.year
     current_mm =current.month
     mycursor.execute("SELECT fin_yr FROM mat_companies where mat_code='MEE'")
@@ -144,7 +144,7 @@ if inw(mydb, mycursor, grn):
     date = str(current_date.strftime('%Y-%m-%d'))    
     mycursor.execute("SELECT grn_no, grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price, part_name FROM inw_dc WHERE grn_no=%s AND po_sl_no IN ({})".format(','.join(map(str, po_sl_numbers))), (grn,))
     data_inw = mycursor.fetchall()
-    print(type(data_inw))
+    
     print("Data from inw_delivery_challan:", data_inw)
     code='MEE'
 

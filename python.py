@@ -27,10 +27,11 @@ def inw(mydb, mycursor, grn):
 
 print("Enter the Inward delivery number")
 grn = input()
+ritem=0 
 po_sl_numbers = []
 if inw(mydb, mycursor, grn):
     print(f"'{grn}' exists in the database.")
-    ritem=0   
+      
     n = int(input("Enter total number of part items: "))  
     for i in range(n):
         # print("Enter part item sl no: ")
@@ -143,7 +144,7 @@ if inw(mydb, mycursor, grn):
     date = str(current_date.strftime('%Y-%m-%d'))    
     mycursor.execute("SELECT grn_no, grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price, part_name FROM inw_dc WHERE grn_no=%s AND po_sl_no IN ({})".format(','.join(map(str, po_sl_numbers))), (grn,))
     data_inw = mycursor.fetchall()
-    print(type(data_inw))
+  
     print("Data from inw_delivery_challan:", data_inw)
     code='MEE'
 

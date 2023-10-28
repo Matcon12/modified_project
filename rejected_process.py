@@ -88,6 +88,9 @@ if inw(mydb, mycursor, grn):
                    sys.exit()
                    
                 if open_po==True:
+                    mycursor.execute("UPDATE po SET qty_sent = qty_sent + %s WHERE po_no= %s AND po_sl_no = %s", (qty_deli,po_no, elm))
+                    mydb.commit()
+                    
                     open_po_date_str = open_po_date.strftime("%Y-%m-%d")
                     grn_date_str = grn_date.strftime("%Y-%m-%d")
             
