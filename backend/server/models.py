@@ -82,16 +82,16 @@ class MatCompanies(models.Model):
 
 class OtwDc(models.Model):
     mat_code = models.CharField(max_length=3)  # The composite primary key (mat_code, gcn_no, fin_year, po_no, po_sl_no) found, that is not supported. The first column is selected.
-    gcn_no = models.IntegerField()
+    gcn_no = models.CharField(max_length=15)
     gcn_date = models.DateField(default=timezone.now)
-    grn_no = models.IntegerField(blank=True, null=True)
+    grn_no = models.CharField(max_length=20,blank=True, null=True)
     grn_date = models.DateField(default=timezone.now)
-    po_no = models.IntegerField()
+    po_no = models.CharField(max_length=15)
     po_date = models.CharField(max_length=15, blank=True, null=True)
     receiver_id = models.CharField(max_length=4, blank=True, null=True)
     consignee_id = models.CharField(max_length=4, blank=True, null=True)
     po_sl_no = models.IntegerField()
-    part_id = models.IntegerField(blank=True, null=True)
+    part_id = models.CharField(max_length=15,blank=True, null=True)
     part_name = models.CharField(max_length=50, blank=True, null=True)
     qty_delivered = models.IntegerField(blank=True, null=True)
     uom = models.CharField(max_length=5, blank=True, null=True)
@@ -100,6 +100,7 @@ class OtwDc(models.Model):
     cgst_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
     sgst_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
     igst_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
+    rejected_item = models.BooleanField(default=False)
 
     class Meta:
         managed = True
