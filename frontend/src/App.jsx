@@ -13,6 +13,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import ReportsPrinting from "./components/ReportsPrinting";
 import InvoicePrinting from "./components/InvoicePrinting";
+import DCPrinting from "./components/DCPrinting";
 
 function App() {
   return (
