@@ -12,6 +12,7 @@ import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ReportsPrinting from "./components/ReportsPrinting";
+import InvoicePrinting from "./components/InvoicePrinting";
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
         <Route exact path ="/home" element={<Home/>}/>
         <Route exact path ="/login" element={<Login/>} />
         <Route exact path ="/reports-printing" element={<ReportsPrinting/>} />
+        <Route exact path ="/invoice-printing" element={<InvoicePrinting/>} />
+
       </Routes>
     </BrowserRouter>
   );

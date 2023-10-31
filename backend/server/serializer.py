@@ -25,3 +25,8 @@ class PartMasterForm(serializers.ModelSerializer):
     class Meta:
         model = PartMaster
         fields = '__all__'
+
+class MatCompaniesSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = MatCompanies
+        fields = '__all__'

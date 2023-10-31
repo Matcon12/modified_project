@@ -16,31 +16,38 @@ function ReportsPrinting(){
         setSubmitted(true);
     }
 
-    useEffect(() => {
-        if (submitted) {
-          axios.post('http://localhost:5000/reports-printing/', dc)
-            .then((response) => {
-              console.log('POST request successful', response);
-            })
-            .catch((error) => {
-              console.error('Error making POST request', error.response.data);
+    // useEffect(() => {
+    //     if (submitted) {
+    //       axios.post('http://localhost:5000/reports-printing/', dc)
+    //         .then((response) => {
+    //           console.log('POST request successful', response);
+    //         })
+    //         .catch((error) => {
+    //           console.error('Error making POST request', error.response.data);
 
-              if(error.response.data['non_field_errors'])
-              {
-                  alert('An item with the same po no and po sl no exists')
-              }
-            });
-        }
-        setSubmitted(false)
-      }, [dc, submitted]);
+    //           if(error.response.data['non_field_errors'])
+    //           {
+    //               alert('An item with the same po no and po sl no exists')
+    //           }
+    //         });
+    //     }
+    //     setSubmitted(false)
+    //   }, [dc, submitted]);
+
+      
 
     return (
         <div className='app'>
           <form>
           <h1>Reports Printing</h1>
           <div className='formInput'>
-            <label>OUTWARD DC NUMBER</label><input type ="text" name ="gcn_no"/>
-              <button onClick={handleSubmit}>Submit</button>
+          <label>Enter the GCN Number</label><input type="text" name="gcn_no"/>
+          <Link to ="/invoice-printing">
+              <button>Invoice</button>
+          </Link>
+          <Link to ="/dc-printing">
+              <button>DC</button>
+          </Link>
           </div>
           </form>
         </div>

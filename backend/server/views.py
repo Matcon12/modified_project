@@ -1,5 +1,6 @@
 from django.shortcuts import render,HttpResponse
 from rest_framework import status
+from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.db.models import Sum
 from .models import *
@@ -12,12 +13,13 @@ from . models import *
 from rest_framework.response import Response 
 from . serializer import *
 import datetime
+from datetime import date
 #pip3 install Babel
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-
+import json
 
 from babel.numbers import format_currency
 
@@ -74,42 +76,6 @@ class LogoutPage(APIView):
         logout(req)
         return Response(status = status.HTTP_200_OK,data = 'out')
 
-def invoice_print(request):
-    gcn_no=request.data['gcn_no']
-    odc=OtwDc.objects.filter(gcn_no=gcn_no)
-    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=gcn_no)    
-    mat= odc1.mat_code
-    m=MatCompanies.objects.get(mat_code=mat)
-    r_id = odc1.receiver_id
-    r = CustomerMaster.objects.get(cust_id=r_id)
-    c_id=odc1.consignee_id
-    c=CustomerMaster.objects.get(cust_id=c_id)
-    gr=get_object_or_404(GstRates,id=1)
-    total_qty = OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_qty=Sum('qty_delivered'))['total_qty']
-    total_taxable_value =OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_taxable_value=Sum('taxable_amt'))['total_taxable_value']
-    total_cgst = OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_cgst=Sum('cgst_price'))['total_cgst']
-    total_sgst = OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_sgst=Sum('sgst_price'))['total_sgst']
-    total_igst = OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_igst=Sum('igst_price'))['total_igst']
-    grand_total= round(float('{:.2f}'.format(total_taxable_value+total_cgst+total_sgst+total_igst)))
-    gt=format_currency(grand_total, 'INR', locale='en_IN')
-    aw = convert_rupees_to_words(grand_total) 
-    context = {
-        'odc':odc,
-        'm':m,
-        'r':r,
-        'c':c,
-        'gr':gr,
-        'odc1':odc1,
-        'amount' : aw,
-        'total_taxable_value':"{:.2f}".format(total_taxable_value),
-        'total_cgst':"{:.2f}".format(total_cgst),
-        'total_sgst':"{:.2f}".format(total_sgst),
-        'total_igst':"{:.2f}".format(total_igst),
-        'gt':gt,
-        'total_qty':total_qty,  
-    }  
-    # return render(request, 'tax_invoice.html', context)
-    return context
 
 def dc_print(request):
     gcn_no=request.data['gcn_no']
@@ -126,16 +92,18 @@ def dc_print(request):
     }  
     return render(request,'dc.html',context)
 
-class ReportsPrint(APIView):
-    def post(self, request):
-        print(request.data)
+class InvoicePrint(APIView):
+    def get(self, request):
+        print("get request recevied")
+        # print(request.query_params.get('data[gcn_no]'), 'this is the data inside get request')
         try:
-            response = invoice_print(request)
-            # return Response(status=status.HTTP_200_OK)
-            return render(request, 'tax_invoice.html', response)
+            data = invoice_print(request)
+            print(data, 'data before sending to frontend')
+            return Response(data=data, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({'message': "Data recived at backend"})
 
     
 def convert_rupees_to_words(amount):
@@ -183,8 +151,6 @@ class InvoiceProcessing(APIView):
         data = {'message': 'Hello, world!'}
         return JsonResponse(data)  
     def post(self, request):
-        # print('post request received')  
-        # serializer = InvoiceForm(data=request.data)
         print(request.data)
         try:
             response = invoice_processing(request)
@@ -383,7 +349,58 @@ def invoice_processing(request):
     else:
       print(f"The record with '{grn_no}' does not exist in the database.")
       return('grn_no does not exists')
-      sys.exit()    
+      sys.exit()
+
+def invoice_print(request):
+    # gcn_no = request.data['gcn_no']
+    gcn_no = request.query_params.get('data[gcn_no]')
+    odc = OtwDc.objects.filter(gcn_no=gcn_no)
+
+    data = list(odc.values())
+    # for item in data:
+    #     for key, value in item.items():
+    #         if isinstance(value, date)
+    #         item[key] = value.strftime('%d-%m-%Y')
+    #         item[key] = str(value)
+    #             continue
+    #         item[key] = str(value)
+
+    odc1 = get_object_or_404(OtwDc,po_sl_no='1',gcn_no=gcn_no)    
+    mat = odc1.mat_code
+    m = MatCompanies.objects.get(mat_code=mat)
+    # m = model_to_dict(m)
+    r_id = odc1.receiver_id
+    r = CustomerMaster.objects.get(cust_id=r_id)
+    c_id = odc1.consignee_id
+    c = CustomerMaster.objects.get(cust_id=c_id)
+    gr = get_object_or_404(GstRates,id=1)
+    total_qty = OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_qty=Sum('qty_delivered'))['total_qty']
+    total_taxable_value =OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_taxable_value=Sum('taxable_amt'))['total_taxable_value']
+    total_cgst = OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_cgst=Sum('cgst_price'))['total_cgst']
+    total_sgst = OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_sgst=Sum('sgst_price'))['total_sgst']
+    total_igst = OtwDc.objects.filter(gcn_no=gcn_no).aggregate(total_igst=Sum('igst_price'))['total_igst']
+    grand_total= round(float('{:.2f}'.format(total_taxable_value+total_cgst+total_sgst+total_igst)))
+    gt=format_currency(grand_total, 'INR', locale='en_IN')
+    aw = convert_rupees_to_words(grand_total) 
+    context = {
+        'odc': odc,
+        'm':model_to_dict(m),
+        'r':model_to_dict(r),
+        'c':model_to_dict(c),
+        'gr':model_to_dict(gr),
+        'odc1':model_to_dict(odc1),
+        'amount' : aw,
+        'total_taxable_value':"{:.2f}".format(total_taxable_value),
+        'total_cgst':"{:.2f}".format(total_cgst),
+        'total_sgst':"{:.2f}".format(total_sgst),
+        'total_igst':"{:.2f}".format(total_igst),
+        'gt':gt,
+        'total_qty':total_qty,  
+    }  
+    # return render(request, 'tax_invoice.html', context)
+    # print(context)
+    context = json.dumps(context)
+    return context    
 
 
 
