@@ -95,11 +95,11 @@ def dc_print(request):
 class InvoicePrint(APIView):
     def get(self, request):
         print("get request recevied")
-        # print(request.query_params.get('data[gcn_no]'), 'this is the data inside get request')
         try:
             data = invoice_print(request)
-            print(data, 'data before sending to frontend')
-            return Response(data=data, status=status.HTTP_200_OK)
+            # print(data, 'data before sending to frontend')
+            return render(request, 'tax_invoice.html', data)
+            # return Response(data=data, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -181,7 +181,6 @@ class CustomerMasterInput(APIView):
 class PartMasterInput(APIView):
     def post(self, request):
         serializer = PartMasterForm(data=request.data)
-        request.data['po_date'] = datetime.datetime.strptime(request.data['open_po'], "%d/%m/%Y").strftime("%Y-%m-%d")
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -383,7 +382,7 @@ def invoice_print(request):
     gt=format_currency(grand_total, 'INR', locale='en_IN')
     aw = convert_rupees_to_words(grand_total) 
     context = {
-        'odc': odc,
+        'odc': odc.values(),
         'm':model_to_dict(m),
         'r':model_to_dict(r),
         'c':model_to_dict(c),
@@ -396,16 +395,10 @@ def invoice_print(request):
         'total_igst':"{:.2f}".format(total_igst),
         'gt':gt,
         'total_qty':total_qty,  
-    }  
-    # return render(request, 'tax_invoice.html', context)
-    # print(context)
-    context = json.dumps(context)
-    return context    
-
-
-
-
-                
+    }
+    # response =  render(request, 'tax_invoice.html', context)
+    # print(response)
+    return context
 
 
 

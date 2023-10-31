@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './formInput.css'
 import '../app.css'
-import './homepage.css'
+import './homepage.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import matlogo from '../images/matlogo.png';
 
 const Home = () => {
 
@@ -31,6 +32,9 @@ const Home = () => {
   })
   return (
     <div className='homepage'>
+      <div class="container">
+      <img src={matlogo} alt="MatconLogo"  className="top-left-image"/>
+      </div>
     <form>
       <h1>Choose one of the actions below</h1>
       <Link to="/data-entry">

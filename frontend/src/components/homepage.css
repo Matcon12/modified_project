@@ -45,3 +45,15 @@ h1{
     align-items: center;
     justify-content: center;
 }
+
+.top-left-image{
+    position: 'absolute'; 
+    top: 0; 
+    left: 0;
+  }
+  
+.container{
+    position: 'relative';
+    width: 15px;
+    height: 10px;
+  }

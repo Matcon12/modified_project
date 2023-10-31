@@ -7,7 +7,7 @@
     <style>
         .report-container {
             width: 50%;
-            margin: 0 auto;
+            margin: 25% auto;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
@@ -50,8 +50,8 @@
     <div class="report-container">
         <h3 class="report-heading">Reports Printing</h3>
         <p class="gcno-text">GCN NO: </p>
-        <button class="report-button"><a href="{% url 'invoice' %}" class="report-link">Generate Invoice</a></button>
-        <button class="report-button"><a href="{% url 'dc' %}" class="report-link">Generate DC</a></button>
+        <button class="report-button"><a href="{% url 'dc' %}" class="report-link">Print DC</a></button>
+        <button class="report-button"><a href="{% url 'invoice' %}" class="report-link">Print Invoice</a></button>
     </div>
     
 </body>

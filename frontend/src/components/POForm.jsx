@@ -150,7 +150,7 @@ function POForm() {
         }
 
         values['open_po'] = document.getElementsByName('open_po')[0]?.value;
-        values['open_po_validity'] =document.getElementsByName('open_po_validity')[0]?.value;
+        values['open_po_validity'] = document.getElementsByName('open_po_validity')[0]?.value;
 
         console.log(values)
         setSubmitted(true);
@@ -182,10 +182,7 @@ function POForm() {
       var [val,setVal] = useState(false);
 
       const handleSelect =()=>{ 
-
-        var c = document.getElementsByName('open_po')[0].value;
-        console.log(c)
-        setVal(c);
+        setVal(!val);
       }
 
 
