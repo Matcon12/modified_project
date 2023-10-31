@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function InvoicePrinting() {
+function DCPrinting() {
   const [invoiceData, setInvoiceData] = useState(null);
 
   useEffect(() => {
-    const backendURL = 'http://localhost:5000/invoice-printing/';
+    const backendURL = 'http://localhost:5000/dc-printing/';
 
     const data = {
         'gcn_no' : '083/2023-24'
@@ -21,9 +21,10 @@ function InvoicePrinting() {
   });
 }, []);
 
-  if (!invoiceData) {
+if (!invoiceData) {
   return <div>Loading...</div>;
   }
+
   return (
     <div>
 
@@ -36,4 +37,4 @@ function InvoicePrinting() {
 
   );
 }
-export default InvoicePrinting
+export default DCPrinting

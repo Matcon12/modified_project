@@ -77,21 +77,6 @@ class LogoutPage(APIView):
         return Response(status = status.HTTP_200_OK,data = 'out')
 
 
-def dc_print(request):
-    gcn_no=request.data['gcn_no']
-    odc=OtwDc.objects.filter(gcn_no=gcn_no)
-    mat =get_object_or_404(MatCompanies,mat_code='MEE')
-    cust1=get_object_or_404(CustomerMaster,cust_id='macr')
-    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=gcn_no)
-    context = {
-        'mat':mat,
-        'cust1':cust1,
-        'odc1':odc1,
-        'odc':odc,
-       
-    }  
-    return render(request,'dc.html',context)
-
 class InvoicePrint(APIView):
     def get(self, request):
         print("get request recevied")
@@ -103,7 +88,16 @@ class InvoicePrint(APIView):
         except Exception as e:
             print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        return JsonResponse({'message': "Data recived at backend"})
+
+class DCPrint(APIView):
+    def get(self, request):
+        try:
+            data = dc_print(request)
+            return render(request, 'dc.html', data)
+            # return Response(data=data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     
 def convert_rupees_to_words(amount):
@@ -353,17 +347,8 @@ def invoice_processing(request):
 def invoice_print(request):
     # gcn_no = request.data['gcn_no']
     gcn_no = request.query_params.get('data[gcn_no]')
+    print(gcn_no)
     odc = OtwDc.objects.filter(gcn_no=gcn_no)
-
-    data = list(odc.values())
-    # for item in data:
-    #     for key, value in item.items():
-    #         if isinstance(value, date)
-    #         item[key] = value.strftime('%d-%m-%Y')
-    #         item[key] = str(value)
-    #             continue
-    #         item[key] = str(value)
-
     odc1 = get_object_or_404(OtwDc,po_sl_no='1',gcn_no=gcn_no)    
     mat = odc1.mat_code
     m = MatCompanies.objects.get(mat_code=mat)
@@ -382,12 +367,12 @@ def invoice_print(request):
     gt=format_currency(grand_total, 'INR', locale='en_IN')
     aw = convert_rupees_to_words(grand_total) 
     context = {
-        'odc': odc.values(),
-        'm':model_to_dict(m),
-        'r':model_to_dict(r),
-        'c':model_to_dict(c),
-        'gr':model_to_dict(gr),
-        'odc1':model_to_dict(odc1),
+        'odc': odc,
+        'm': m,
+        'r': r,
+        'c': c,
+        'gr': gr,
+        'odc1': odc1,
         'amount' : aw,
         'total_taxable_value':"{:.2f}".format(total_taxable_value),
         'total_cgst':"{:.2f}".format(total_cgst),
@@ -398,6 +383,23 @@ def invoice_print(request):
     }
     # response =  render(request, 'tax_invoice.html', context)
     # print(response)
+    return context
+
+
+def dc_print(request):
+    gcn_no=request.query_params.get('data[gcn_no]')
+    odc=OtwDc.objects.filter(gcn_no=gcn_no)
+    mat =get_object_or_404(MatCompanies,mat_code='MEE')
+    cust1=get_object_or_404(CustomerMaster,cust_id='macr')
+    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=gcn_no)
+    context = {
+        'mat':mat,
+        'cust1':cust1,
+        'odc1':odc1,
+        'odc':odc,
+       
+    }  
+    # return render(request,'dc.html',context)
     return context
 
 

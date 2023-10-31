@@ -6,35 +6,17 @@ import axios from 'axios';
 
 function ReportsPrinting(){
     
-    const [dc,setDc] = useState({});
+    const [gcn_no,setGcn_no] = useState('');
     const [submitted, setSubmitted] =useState(false);
     const handleSubmit =(e)=>{
         e.preventDefault();
-        var no = document.getElementsByName('gcn_no')[0]?.value;
-        console.log(no)
-        dc['gcn_no'] = no
+        // var no = document.getElementsByName('gcn_no')[0]?.value;
+        // console.log(no)
+        // dc['gcn_no'] = no
+        setGcn_no(document.getElementsByName('gcn_no')[0]?.value);
+        console.log(gcn_no);
         setSubmitted(true);
     }
-
-    // useEffect(() => {
-    //     if (submitted) {
-    //       axios.post('http://localhost:5000/reports-printing/', dc)
-    //         .then((response) => {
-    //           console.log('POST request successful', response);
-    //         })
-    //         .catch((error) => {
-    //           console.error('Error making POST request', error.response.data);
-
-    //           if(error.response.data['non_field_errors'])
-    //           {
-    //               alert('An item with the same po no and po sl no exists')
-    //           }
-    //         });
-    //     }
-    //     setSubmitted(false)
-    //   }, [dc, submitted]);
-
-      
 
     return (
         <div className='app'>

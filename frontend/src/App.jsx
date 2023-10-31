@@ -29,6 +29,7 @@ function App() {
         <Route exact path ="/login" element={<Login/>} />
         <Route exact path ="/reports-printing" element={<ReportsPrinting/>} />
         <Route exact path ="/invoice-printing" element={<InvoicePrinting/>} />
+        <Route exact path ="/dc-printing" element={<DCPrinting/>} />
 
       </Routes>
     </BrowserRouter>

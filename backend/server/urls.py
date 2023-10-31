@@ -4,7 +4,7 @@ from .views import *
 import sys
 
 urlpatterns = [
-    path('dc-print/', views.dc_print, name='dc'),
+    path('dc-printing/', DCPrint.as_view(), name='dc-printing'),
     path('invoice-printing/', InvoicePrint.as_view(), name='invoice-printing'),
     path('invoice-processing/', InvoiceProcessing.as_view(), name='invoice-processing'),
     path('inward-dc-input/', InwardDcInput.as_view(), name='inward-dc-input'),
