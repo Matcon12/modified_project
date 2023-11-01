@@ -3,12 +3,14 @@ import './formInput.css';
 import axios from 'axios';
 import { useEffect } from 'react';
 import matlogo from '../images/matlogo.png';
+import { useNavigate } from 'react-router-dom';
 
 function PartMaster() {
 
 
     const [formData, setFormData] = useState({});
     const [submitted,setSubmitted] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit =(event) => {
 
@@ -39,6 +41,8 @@ function PartMaster() {
           axios.post('http://localhost:5000/part-master-input/', formData)
             .then((response) => {
               console.log('POST request successful', response);
+              alert('Data Saved Successfully')
+              navigate('/home')
             })
             .catch((error) => {
               console.error('Error making POST request', error.response.data['cust_id']);

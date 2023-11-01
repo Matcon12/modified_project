@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import FormInput from './FormInput';
 import axios from 'axios';
 import matlogo from '../images/matlogo.png';
+import { useNavigate } from 'react-router-dom';
 
 function Inw_Del_Challan() {
 
     const [values,setValues] = useState({});
+    const navigate = useNavigate();
 
     const inputs = [
         {
@@ -135,7 +137,8 @@ function Inw_Del_Challan() {
         console.log(typeof values.qty_balance)
         axios.post('http://localhost:5000/inward-dc-input/', values).then((response) => {
                 console.log('Data saved:', response.data);
-
+                alert('Data Saved Successfully')
+                navigate('/home')
                 if(response.status == 200)
                 console.log('server responded');
             })

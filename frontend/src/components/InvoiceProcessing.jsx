@@ -3,8 +3,10 @@ import '../app.css';
 import './formInput.css'
 import axios from 'axios';
 import matlogo from '../images/matlogo.png';
+import { useNavigate } from 'react-router-dom';
 
 function InvoiceProcessing() {
+  const navigate = useNavigate();
   const [qty, setQty] = useState(0);
   const [formData, setFormData] = useState({});
   const [submitted,setSubmitted] = useState(false);
@@ -73,6 +75,8 @@ function InvoiceProcessing() {
       axios.post('http://localhost:5000/invoice-processing/', formData)
         .then((response) => {
           console.log('POST request successful', response);
+          alert('Data saved successfully')
+          navigate('/home');
         })
         .catch((error) => {
           console.error('Error making POST request', error);

@@ -48,10 +48,10 @@ function Login() {
           <h1>Login Page</h1>
           <div className='formInput'>
             <label>Username</label><input type ="text" name ="username"/>
-            <label>Password</label><input type ="text" name ="pw"/> 
+            <label>Password</label><input type ="password" name ="pw"/> 
                 <button onClick={handleSubmit}>Submit</button>
             <h3>New User?</h3>
-            <Link to ='/register'>
+            <Link to ='/'>
               <button>Sign Up</button>
             </Link>
           </div>

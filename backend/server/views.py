@@ -17,8 +17,8 @@ from datetime import date
 #pip3 install Babel
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth.models import User 
+from django.contrib.auth import authenticate, login,logout
 import json
 
 from babel.numbers import format_currency
@@ -64,8 +64,8 @@ class LoginPage(APIView):
         user = authenticate(username=username,password =password)
         print(user)
         if user is not None:
+            login(req,user)
             return Response(status=status.HTTP_200_OK,data='successful')
-            # login(req,user)
             # return redirect('home')
         else:
             return Response(status = status.HTTP_200_OK,data = 'incorrect')

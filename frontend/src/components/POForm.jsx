@@ -5,10 +5,12 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import './formInput.css';
 import matlogo from '../images/matlogo.png';
+import { useNavigate } from 'react-router-dom';
 
 function POForm() {
     const [values, setValues] = useState({});
     const [submitted,setSubmitted] = useState(false);
+    const navigate = useNavigate();
     
       const inputs = [
         {
@@ -165,6 +167,8 @@ function POForm() {
           axios.post('http://localhost:5000/purchase-order-input/', values)
             .then((response) => {
               console.log('POST request successful', response);
+              alert('Data Saved Successfully')
+              navigate('/home')
             })
             .catch((error) => {
               console.error('Error making POST request', error.response.data);
