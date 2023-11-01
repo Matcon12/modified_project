@@ -8,7 +8,7 @@ function InvoicePrinting() {
     const backendURL = 'http://localhost:5000/invoice-printing/';
 
     const data = {
-        'gcn_no' : '083/2023-24'
+        'gcn_no' : '013/2023-24'
     }
 
   axios.get(backendURL, { params: { data: data } })

@@ -183,6 +183,8 @@ class PartMasterInput(APIView):
 class PurchaseOrderInput(APIView):
     def post(self, request):
         serializer = PurchaseOrderForm(data=request.data)
+        print(request.data)
+        print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
