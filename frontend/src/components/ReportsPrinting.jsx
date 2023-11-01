@@ -3,6 +3,7 @@ import { redirect, useNavigate } from 'react-router-dom';
 import '../app.css'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import matlogo from '../images/matlogo.png';
 
 function ReportsPrinting(){
     
@@ -20,6 +21,9 @@ function ReportsPrinting(){
 
     return (
         <div className='app'>
+            <div class="container">
+            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            </div>
           <form>
           <h1>Reports Printing</h1>
           <div className='formInput'>

@@ -3,7 +3,8 @@ import { useState } from 'react';
 import FormInput from './FormInput';
 import axios from 'axios';
 import { useEffect } from 'react';
-import './formInput.css'
+import './formInput.css';
+import matlogo from '../images/matlogo.png';
 
 function POForm() {
     const [values, setValues] = useState({});
@@ -18,7 +19,7 @@ function POForm() {
         //   errorMessage:
         //     "Username should be 3-16 characters and shouldn't include any special character!",
           label: "PO Number",
-          pattern: "^[A-Za-z0-9]{3,16}$",
+          // pattern: "^[A-Za-z0-9]{3,16}$",
           required: true,
         },
         {
@@ -46,13 +47,11 @@ function POForm() {
           //placeholder: "Confirm Password",
           //errorMessage: "Passwords don't match!",
           label: "Quote Ref Number",
-          //pattern: values.password,
-          required: true,
         },
         {
           id: 7,
           name: "receiver_id",
-          type: "number",
+          type: "text",
           //placeholder: "Confirm Password",
           //errorMessage: "Passwords don't match!",
           label: "Receiver Id",
@@ -63,7 +62,7 @@ function POForm() {
         {
           id: 8,
           name: "consignee_id",
-          type: "number",
+          type: "text",
           //placeholder: "Confirm Password",
           //errorMessage: "Passwords don't match!",
           label: "Consignee Id",
@@ -187,7 +186,12 @@ function POForm() {
 
 
       return (
-        <div className="app">
+        <div className="app"><div class="container">
+        <img src={matlogo} alt="MatconLogo"  className="logo"/>
+        </div>
+          <div class="container">
+            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            </div>
           <form onSubmit={handleSubmit}>
             <h1>Purchase Order</h1>
             {inputs.map((input) => (

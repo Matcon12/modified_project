@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <div className='homepage'>
       <div class="container">
-      <img src={matlogo} alt="MatconLogo"  className="top-left-image"/>
+      <img src={matlogo} alt="MatconLogo"  className="logo"/>
       </div>
     <form>
       <h1>Choose one of the actions below</h1>

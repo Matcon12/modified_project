@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './formInput.css';
 import axios from 'axios';
 import { useEffect } from 'react';
+import matlogo from '../images/matlogo.png';
 
 function PartMaster() {
 
@@ -53,6 +54,9 @@ function PartMaster() {
 
     return (
         <div className='app'>
+          <div class="container">
+            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            </div>
           <form>
           <h1>Part Master</h1>
           <div className='formInput'>

@@ -4,6 +4,7 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { redirect } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import matlogo from '../images/matlogo.png';
 
 
 function Register() {
@@ -47,6 +48,9 @@ const navigate = useNavigate();
   
   return (
     <div className='app'>
+      <div class="container">
+            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            </div>
     <form>
     <h1>Register Page</h1>
     <div className='formInput'>

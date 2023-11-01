@@ -20,6 +20,14 @@
   border-radius: 10px;
 }
 
+.logo {
+  width: 200px; /* Set the width of your logo */
+  height: 50px; /* Set the height of your logo */
+  position: absolute;
+  top: 20px; /* Adjust this value to control the distance from the top */
+  left: 20px; /* Adjust this value to control the distance from the right */
+}
+
 @media (max-height: 100vh) {
   .app form {
       overflow-y: scroll;

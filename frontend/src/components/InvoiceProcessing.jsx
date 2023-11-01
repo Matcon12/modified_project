@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import '../app.css';
 import './formInput.css'
 import axios from 'axios';
+import matlogo from '../images/matlogo.png';
 
 function InvoiceProcessing() {
   const [qty, setQty] = useState(0);
@@ -81,6 +82,9 @@ function InvoiceProcessing() {
 
   return (
   <div className='app'>
+    <div class="container">
+            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            </div>
     <form>
     <h1>Invoice Processing</h1>
     <div className='formInput'>

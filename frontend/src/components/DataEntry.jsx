@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import './formInput.css'
 import '../app.css'
 import './homepage.css'
+import matlogo from '../images/matlogo.png';
 
 const DataEntry = () => {
   return (
     <div className='homepage'>
+      <img src={matlogo} alt="MatconLogo"  className="logo"/>
     <form>
       <h1>Choose the form to perform the data entry</h1>
       <Link to="/cm-form">

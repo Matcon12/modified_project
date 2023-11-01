@@ -141,7 +141,7 @@ class Po(models.Model):
     class Meta:
         managed = True
         db_table = 'po'
-        unique_together = (('po_no', 'po_sl_no'),)
+        unique_together = ('po_no', 'po_sl_no')
 
 
 # class Invoice(models.Model):

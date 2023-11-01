@@ -3,6 +3,7 @@ import {useState} from 'react';
 import FormInput from './FormInput';
 import axios from 'axios';
 import { useEffect } from 'react';
+import matlogo from '../images/matlogo.png';
 
 function CustomerMasterForm() {
     const [values, setValues] = useState({});
@@ -115,6 +116,9 @@ function CustomerMasterForm() {
     
       return (
         <div className="app">
+          <div class="container">
+            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            </div>
           <form onSubmit={handleSubmit}>
             <h1>Customer Master</h1>
             {inputs.map((input) => (

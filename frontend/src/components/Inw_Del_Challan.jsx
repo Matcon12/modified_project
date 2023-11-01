@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import FormInput from './FormInput';
 import axios from 'axios';
+import matlogo from '../images/matlogo.png';
 
 function Inw_Del_Challan() {
 
@@ -153,6 +154,9 @@ function Inw_Del_Challan() {
     
       return (
         <div className="app">
+          <div class="container">
+            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            </div>
           <form onSubmit={handleSubmit}>
             <h1>Inward Delivery Challan</h1>
             {inputs.map((input) => (
