@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,11 +40,11 @@
             <ul style="list-style-type:none; border: 1px solid #000;">
                 <li><strong>DC details</strong></li>
                 <li><strong>Outward DC No &emsp; : </strong> {{odc1.gcn_no}}</li>
-                <li><strong>Outward DC Date &nbsp; : </strong> {{odc1.gcn_date}}</li>
+                <li><strong>Outward DC Date &nbsp; : </strong> {{odc1.gcn_date|date:'d-m-Y'}}</li>
                 <li><strong>PO No &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; :</strong> {{odc1.po_no}}</li>
-                <li><strong>PO Date &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; :</strong> {{odc1.po_date}}</li>
+                <li><strong>PO Date &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; :</strong> {{odc1.po_date|date:'d-m-Y'}}</li>
                 <li><strong>Inward DC No &emsp;&emsp;:</strong> {{odc1.grn_no}}</li>
-                <li><strong>Inward DC Date &emsp; :</strong> {{odc1.grn_date}}</li>
+                <li><strong>Inward DC Date &emsp; :</strong> {{odc1.grn_date|date:'d-m-Y'}}</li>
             </ul>
         </div>
               <div class="col-md-6 col-sm-6 text-center ">

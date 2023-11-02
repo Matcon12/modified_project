@@ -90,7 +90,7 @@ function InvoiceProcessing() {
             <img src={matlogo} alt="MatconLogo"  className="logo"/>
             </div>
     <form>
-    <h1>Invoice Processing</h1>
+    <h1>Invoice/DC Processing</h1>
     <div className='formInput'>
       <label>Matcon Company Code</label><input type ="text" name ="mcc"/>
       <label>Inward Delivery Challan Number</label><input type ="text" name ="inw"/>
@@ -104,10 +104,10 @@ function InvoiceProcessing() {
 
     </div>
     </form>
-    <div>
+    {/* <div>
         <h2>Form Data:</h2>
         <pre>{JSON.stringify(formData, null, 2)}</pre>
-      </div>
+      </div> */}
   </div>
   );
 

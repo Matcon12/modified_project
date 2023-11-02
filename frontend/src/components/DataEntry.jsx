@@ -14,11 +14,11 @@ const DataEntry = () => {
       <Link to="/cm-form">
         <button className='button'>Customer Master Form</button>
       </Link>
-      <Link to="/po-form">
-        <button className='button'>Purchase Order Form</button>
-      </Link>
       <Link to="/pm-form">
         <button className='button'>Part Master Form</button>
+      </Link>
+      <Link to="/po-form">
+        <button className='button'>Purchase Order Form</button>
       </Link>
       <Link to="/inw-form">
         <button className='button'>Inward Delivery Form</button>

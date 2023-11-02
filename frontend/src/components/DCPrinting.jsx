@@ -9,7 +9,7 @@ function DCPrinting() {
     const backendURL = 'http://localhost:5000/dc-printing/';
 
     const data = {
-        'gcn_no' : '083/2023-24'
+        'gcn_no' : '101/2023-24'
     }
 
   axios.get(backendURL, { params: { data: data } })
@@ -27,9 +27,7 @@ if (!invoiceData) {
   }
 
   return (
-    <div>
-
-            {invoiceData && (
+    <div>{invoiceData && (
                 <div
                     dangerouslySetInnerHTML={{ __html: invoiceData }}
                 />

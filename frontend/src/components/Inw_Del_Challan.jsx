@@ -14,14 +14,14 @@ function Inw_Del_Challan() {
             id: 1,
             name: "grn_no",
             type: "text",
-            label: "GRN Number",
+            label: "Inward DC Number",
             required: true,
           },
           {
             id: 2,
             name: "grn_date",
             type: "date",
-            label: "GRN Date",
+            label: "Inward DC Date",
           },
           {
             id: 4,
@@ -47,7 +47,7 @@ function Inw_Del_Challan() {
             id: 7,
             name: "consignee_id",
             type: "text",
-            label: "Consignee Id",
+            label: "Consignee ID",
             required: true,
           },
             {
@@ -69,14 +69,14 @@ function Inw_Del_Challan() {
               id: 10,
               name: "part_id",
               type: "text",
-              label: "Part ID",
+              label: "Part Code",
               required: true,
             },
             {
               id: 11,
               name: "part_name",
               type: "text",
-              label: "Part Name",
+              label: "Part Description",
               required: true,
             },
             {
@@ -114,20 +114,20 @@ function Inw_Del_Challan() {
                 label: "Total Price",
                 required: true,
               },
-              {
-                id: 17,
-                name: "qty_delivered",
-                type: "number",
-                label: "Quantity Delivered",
-                required: true,
-              },
-              {
-                id: 18,
-                name: "qty_balance",
-                type: "number",
-                label: "Quantity Balance",
-                required: true,
-              },
+              // {
+              //   id: 17,
+              //   name: "qty_delivered",
+              //   type: "number",
+              //   label: "Quantity Delivered",
+              //   required: true,
+              // },
+              // {
+              //   id: 18,
+              //   name: "qty_balance",
+              //   type: "number",
+              //   label: "Quantity Balance",
+              //   required: true,
+              // },
     ]
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -162,6 +162,14 @@ function Inw_Del_Challan() {
             </div>
           <form onSubmit={handleSubmit}>
             <h1>Inward Delivery Challan</h1>
+            <label>Rework DC</label>
+            <br></br>
+            <select type='boolean' defaultValue="false" name='rework_dc'>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+            <br></br>
+            <br></br>
             {inputs.map((input) => (
               <FormInput
                 key={input.id}
@@ -170,12 +178,12 @@ function Inw_Del_Challan() {
                 onChange={onChange}
               />
             ))}
-            <label>Rework DC</label>
+            {/* <label>Rework DC</label>
             <br></br>
             <select type='boolean' defaultValue="false" name='rework_dc'>
               <option value="true">Yes</option>
               <option value="false">No</option>
-            </select>
+            </select> */}
             <button>Submit</button>
           </form>
         </div>

@@ -87,7 +87,7 @@ function POForm() {
             type: "text",
            // placeholder: "Customer Name",
            // errorMessage: "It should be a valid email address!",
-            label: "Part Id",
+            label: "Part Code",
             required: true,
   
           },
@@ -129,15 +129,15 @@ function POForm() {
             label: "Total Price",
             required: true,
           },
-          {
-            id: 15,
-            name: "qty_sent",
-            type: "number",
-           // placeholder: "Customer Name",
-           // errorMessage: "It should be a valid email address!",
-            label: "Quantity Sent",
-            required: true,
-          },
+          // {
+          //   id: 15,
+          //   name: "qty_sent",
+          //   type: "number",
+          //  // placeholder: "Customer Name",
+          //  // errorMessage: "It should be a valid email address!",
+          //   label: "Quantity Sent",
+          //   required: true,
+          // },
         
       ];
     
@@ -198,6 +198,15 @@ function POForm() {
             </div>
           <form onSubmit={handleSubmit}>
             <h1>Purchase Order</h1>
+            <label>Open PO</label>
+            <select type='boolean' defaultValue="false" name='open_po' onChange={handleSelect}>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+            <br></br>
+            <br></br>
+           { val && <FormInput key='12' label='Open PO Validity' type='date' name ='open_po_validity'/>}
+           <br></br>
             {inputs.map((input) => (
               <FormInput
                 key={input.id}
@@ -206,13 +215,13 @@ function POForm() {
                 onChange={onChange}
               />
             ))}
-            <label>Open PO</label>
+            {/* <label>Open PO</label>
             <select type='boolean' defaultValue="false" name='open_po' onChange={handleSelect}>
                 <option value="true">Yes</option>
                 <option value="false">No</option>
             </select>
             <br></br>
-           { val && <FormInput key='12' label='Open PO Validity' type='date' name ='open_po_validity'/>}
+           { val && <FormInput key='12' label='Open PO Validity' type='date' name ='open_po_validity'/>} */}
             <button>Submit</button>
           </form>
         </div>

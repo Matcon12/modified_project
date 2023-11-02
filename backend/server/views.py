@@ -156,6 +156,8 @@ class InvoiceProcessing(APIView):
 
 class InwardDcInput(APIView): 
     def post(self, request):
+        request.data['qty_delivered'] = 0
+        request.data['qty_balance'] = request.data['qty_received']
         serializer = InwardDCForm(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -182,9 +184,8 @@ class PartMasterInput(APIView):
 
 class PurchaseOrderInput(APIView):
     def post(self, request):
+        request.data['qty_sent'] = 0
         serializer = PurchaseOrderForm(data=request.data)
-        print(request.data)
-        print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -197,6 +198,7 @@ def invoice_processing(request):
     mat_code = request.data['mcc']
     query = InwDc.objects.filter(grn_no=grn_no)
     query_set = query[0]
+    print(query.values())
     ritem=0   
     if query.exists():
         po_sl_numbers = []
@@ -218,7 +220,7 @@ def invoice_processing(request):
                 grn_date = query_set.grn_date
                 open_po = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no)
                 open_po_validty = get_object_or_404(Po, po_no=po_no, po_sl_no=po_sl_no)
-                grn_date = query_set.grn_date
+                # grn_date = query_set.grn_date
 
                 if qty_to_be_delivered <= balance_qty and qty_to_be_delivered<=qty_received:
                     InwDc.objects.filter(grn_no=grn_no, po_sl_no=po_sl_no).update(qty_delivered=models.F('qty_delivered') + qty_to_be_delivered)
@@ -347,14 +349,12 @@ def invoice_processing(request):
       sys.exit()
 
 def invoice_print(request):
-    # gcn_no = request.data['gcn_no']
     gcn_no = request.query_params.get('data[gcn_no]')
     print(gcn_no)
     odc = OtwDc.objects.filter(gcn_no=gcn_no)
     odc1 = get_object_or_404(OtwDc,po_sl_no='1',gcn_no=gcn_no)    
     mat = odc1.mat_code
     m = MatCompanies.objects.get(mat_code=mat)
-    # m = model_to_dict(m)
     r_id = odc1.receiver_id
     r = CustomerMaster.objects.get(cust_id=r_id)
     c_id = odc1.consignee_id
@@ -383,25 +383,27 @@ def invoice_print(request):
         'gt':gt,
         'total_qty':total_qty,  
     }
-    # response =  render(request, 'tax_invoice.html', context)
-    # print(response)
     return context
 
 
 def dc_print(request):
     gcn_no=request.query_params.get('data[gcn_no]')
     odc=OtwDc.objects.filter(gcn_no=gcn_no)
-    mat =get_object_or_404(MatCompanies,mat_code='MEE')
-    cust1=get_object_or_404(CustomerMaster,cust_id='macr')
-    odc1=get_object_or_404(OtwDc,po_sl_no='1',gcn_no=gcn_no)
+    odc1=OtwDc.objects.filter(gcn_no=gcn_no)[0]
+    c_id=odc1.consignee_id
+    c=CustomerMaster.objects.get(cust_id=c_id)
+    r_id = odc1.receiver_id
+    r = CustomerMaster.objects.get(cust_id=r_id)
+    mat= odc1.mat_code
+    m=MatCompanies.objects.get(mat_code=mat)
     context = {
-        'mat':mat,
-        'cust1':cust1,
+        'm':m,
+        'c':c,
+        'r':r,
         'odc1':odc1,
         'odc':odc,
        
-    }  
-    # return render(request,'dc.html',context)
+    }
     return context
 
 

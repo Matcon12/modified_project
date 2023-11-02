@@ -87,7 +87,7 @@ class OtwDc(models.Model):
     grn_no = models.CharField(max_length=20,blank=True, null=True)
     grn_date = models.DateField(default=timezone.now)
     po_no = models.CharField(max_length=15)
-    po_date = models.CharField(max_length=15, blank=True, null=True)
+    po_date = models.DateField(default=timezone.now)
     receiver_id = models.CharField(max_length=4, blank=True, null=True)
     consignee_id = models.CharField(max_length=4, blank=True, null=True)
     po_sl_no = models.IntegerField()

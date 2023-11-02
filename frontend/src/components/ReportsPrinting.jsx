@@ -27,7 +27,7 @@ function ReportsPrinting(){
           <form>
           <h1>Reports Printing</h1>
           <div className='formInput'>
-          <label>Enter the GCN Number</label><input type="text" name="gcn_no"/>
+          <label>Enter the Outward DC Number</label><input type="text" name="gcn_no"/>
           <Link to ="/invoice-printing">
               <button>Invoice</button>
           </Link>

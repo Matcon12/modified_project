@@ -41,10 +41,10 @@ const Home = () => {
         <button className='button'>Perform Data Entry</button>
       </Link>
       <Link to="/invoice-processing">
-        <button className='button'>Delivery of finished Goods</button>
+        <button className='button'>Delivery of Finished Goods</button>
       </Link>
       <Link to="/invoice-processing">
-        <button className='button'>Delivery of rejected Goods</button>
+        <button className='button'>Delivery of Rejected Goods</button>
       </Link>
       <Link to="/reports-printing">
         <button className='button'>Reports Printing</button>

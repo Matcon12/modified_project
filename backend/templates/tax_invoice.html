@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,12 @@
         table-layout: fixed;
         width: 100%;
       }
-     *{overflow: auto;}
+     *{overflow: auto;
+    }
+    *::-webkit-scrollbar{
+      display: none;
+    }
+
      
 
       th[colspan], td[colspan] {
@@ -38,7 +44,6 @@
       .slno{
         width: 50%;
       }
-      
       .container{
         height: 2rem;
       }
@@ -46,10 +51,13 @@
         margin: 0;
         padding:0px;
         font-size: 12px;
-        margin-top: 1rem;
+        /* margin-top: 1rem;*/
+        margin-top : 130px;
         border:1px solid black;
-        overflow-y: auto;
-        
+        overflow-y: auto;        
+    }
+    body::-webkit-scrollbar{
+      display: none;
     }
       .a{
         text-align: center;
@@ -91,7 +99,7 @@
                     <strong>Invoice Number&nbsp;:</strong> <b>{{odc1.gcn_no}}</b>
                 </li>
                 <li>
-                    <strong>Invoice Date&emsp;&emsp;:</strong> <b>{{odc1.gcn_date}}</b>
+                    <strong>Invoice Date&emsp;&emsp;:</strong> <b>{{odc1.gcn_date|date:'d-m-Y'}}</b>
                 </li>
             </ul>
         </div>
@@ -104,16 +112,16 @@
                             <strong>PO No&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;:</strong> {{odc1.po_no}}
                         </li>
                         <li>
-                            <strong>PO Date&emsp;&emsp;&emsp;&emsp;:</strong> {{odc1.po_date}}
+                            <strong>PO Date&emsp;&emsp;&emsp;&emsp;:</strong> {{odc1.po_date|date:'d-m-Y'}}
                         </li>
                         <li>
                             <strong>Inward DC No &emsp;:</strong> {{odc1.grn_no}}
                         </li>
                         <li>
-                            <strong>Inward DC Date &nbsp;:</strong> {{odc1.grn_date}}
+                            <strong>Inward DC Date &nbsp;:</strong> {{odc1.grn_date|date:'d-m-Y'}}
                         </li>
                         <li>
-                          <strong>Date of Supply&emsp;:</strong> {{odc1.gcn_date}}
+                          <strong>Date of Supply&emsp;:</strong> {{odc1.gcn_date|date:'d-m-Y'}}
                         </li>
                         <li>
                           <strong>Place of Supply&nbsp;&nbsp; :</strong> Ex-works,Banglore
