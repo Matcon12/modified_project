@@ -21,9 +21,9 @@ function InvoiceProcessing() {
     for (let i = 0; i < qty; i++) {
       formFields.push(
         <div key={i} className='formInput'>
-          <label>Po_slno of item {i}</label>
+          <label>PO Serial Number of {i+1}</label>
           <input type="text" name={`Po_slno_${i}`} />
-          <label>Quantity needed for item {i}</label>
+          <label>Quantity needed for item {i+1}</label>
           <input type="text" name={`items_${i}`} />
         </div>
       );
