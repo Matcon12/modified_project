@@ -34,6 +34,9 @@ function ReportsPrinting(){
           <Link to ="/dc-printing">
               <button>DC</button>
           </Link>
+          <Link to ='/invoice-reports'>
+          <button>Invoice Reports</button>
+          </Link>
           </div>
           </form>
         </div>

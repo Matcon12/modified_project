@@ -51,7 +51,7 @@ function Login() {
             <label>Password</label><input type ="password" name ="pw"/> 
                 <button onClick={handleSubmit}>Submit</button>
             <h3>New User?</h3>
-            <Link to ='/'>
+            <Link to ='/register'>
               <button>Sign Up</button>
             </Link>
           </div>

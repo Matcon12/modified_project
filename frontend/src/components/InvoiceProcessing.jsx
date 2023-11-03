@@ -10,6 +10,7 @@ function InvoiceProcessing() {
   const [qty, setQty] = useState(0);
   const [formData, setFormData] = useState({});
   const [submitted,setSubmitted] = useState(false);
+  const [Mcc, setMcc] = useState('MEE');
 
   const handleQtyChange = (e) => {
     setQty(parseInt(e.target.value, 10));
@@ -36,20 +37,9 @@ function InvoiceProcessing() {
     const newFormData = {};
 
     event.preventDefault();
-    // newFormData.push({
-    //     mcc : document.getElementsByName('mcc')[0].value
-    // })
+
     newFormData['mcc'] = document.getElementsByName('mcc')[0].value;
-
-    // newFormData.push({
-    //     inw : document.getElementsByName('inw')[0].value
-    // })
     newFormData['grn_no'] = document.getElementsByName('inw')[0].value;
-
-
-    // newFormData.push({
-    //     items : document.getElementsByName('no_of_items')[0].value
-    // })
     newFormData['items'] = document.getElementsByName('no_of_items')[0].value;
 
 
@@ -70,6 +60,7 @@ function InvoiceProcessing() {
     console.log(formData);
     setSubmitted(true);
 }
+
   useEffect(() => {
     if (submitted) {
       axios.post('http://localhost:5000/invoice-processing/', formData)
@@ -84,6 +75,10 @@ function InvoiceProcessing() {
     }
   }, [formData, submitted]);
 
+  const handleSelect =()=>{
+      var code = document.getElementsByName('mcc')[0]?.value; 
+      setMcc(code);
+  }
   return (
   <div className='app'>
     <div class="container">
@@ -92,14 +87,15 @@ function InvoiceProcessing() {
     <form>
     <h1>Invoice/DC Processing</h1>
     <div className='formInput'>
-      <label>Matcon Company Code</label><input type ="text" name ="mcc"/>
+      <label>Matcon Company Code</label>
+      <select type='text' defaultValue="MEE" name='mcc' onChange={handleSelect}>
+          <option value="MEE">MEE</option>
+          <option value="MAH">MAH</option>
+          <option value="MAC">MAC</option>
+      </select>
       <label>Inward Delivery Challan Number</label><input type ="text" name ="inw"/>
       <label>Enter the number of items</label><input type="number" name="no_of_items" onChange={handleQtyChange} />
-      {/* <button onClick={generateFormFields}>Generate Form</button> */}
-      
-
       <div>{generateFormFields()}</div>
-
       <button onClick={handleSubmit}>Submit</button>
 
     </div>

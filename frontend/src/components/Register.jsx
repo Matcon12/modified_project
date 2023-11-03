@@ -59,7 +59,7 @@ const navigate = useNavigate();
       <label>Confirm Password</label><input type ="text" name ="confirm_pw"/> 
       <button onClick={handleSubmit}>Submit</button>
       <h3>Existing User?</h3>
-      <Link to ='/login'>
+      <Link to ='/'>
         <button>Sign In</button>
       </Link>
     </div>

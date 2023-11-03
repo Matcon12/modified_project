@@ -14,12 +14,13 @@ import Register from "./components/Register";
 import ReportsPrinting from "./components/ReportsPrinting";
 import InvoicePrinting from "./components/InvoicePrinting";
 import DCPrinting from "./components/DCPrinting";
+import InvoiceReports from './components/InvoiceReports';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/"  element={<Register/>} />
+        <Route exact path="/"  element={<Login/>} />
         <Route exact path="/data-entry"  element={<DataEntry/>} />
         <Route exact path="/invoice-processing" element={<InvoiceProcessing/>} />
         <Route exact path="/po-form" element={<POForm/>} />
@@ -27,11 +28,11 @@ function App() {
         <Route exact path="/pm-form" element={<PartMaster/>} />
         <Route exact path="/inw-form" element={<Inw_Del_Challan/>} />
         <Route exact path ="/home" element={<Home/>}/>
-        <Route exact path ="/login" element={<Login/>} />
+        <Route exact path ="/register" element={<Register/>} />
         <Route exact path ="/reports-printing" element={<ReportsPrinting/>} />
         <Route exact path ="/invoice-printing" element={<InvoicePrinting/>} />
         <Route exact path ="/dc-printing" element={<DCPrinting/>} />
-
+        <Route exact path ="/invoice-reports" element={<InvoiceReports/>} />
       </Routes>
     </BrowserRouter>
   );
