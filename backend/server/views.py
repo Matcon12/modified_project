@@ -148,6 +148,8 @@ class InvoiceProcessing(APIView):
         print(request.data)
         try:
             response = invoice_processing(request)
+            if(response == 'Nothing to be delivered'):
+                return Response(status=status.HTTP_200_OK, data = 'zero items')
             return Response(status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
@@ -252,7 +254,7 @@ def invoice_processing(request):
                     print("Updated delivered qtuantities : \n", updated_qty_delivered)
 
                 else:
-                    print("Nothing to be delivered")
+                    return "Nothing to be delivered"
                     sys.exit()
             else:
                 print(f"The part item with '{po_sl_no}' does not exist in the database.")   

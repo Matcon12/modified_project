@@ -15,6 +15,8 @@ import ReportsPrinting from "./components/ReportsPrinting";
 import InvoicePrinting from "./components/InvoicePrinting";
 import DCPrinting from "./components/DCPrinting";
 import InvoiceReports from './components/InvoiceReports';
+import InvoiceInput from "./components/InvoiceInput";
+import DcInput from "./components/DcInput";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
         <Route exact path ="/invoice-printing" element={<InvoicePrinting/>} />
         <Route exact path ="/dc-printing" element={<DCPrinting/>} />
         <Route exact path ="/invoice-reports" element={<InvoiceReports/>} />
+        <Route exact path ="/invoice-input" element={<InvoiceInput/>} />
+        <Route exact path ="/dc-input" element={<DcInput/>} />
       </Routes>
     </BrowserRouter>
   );

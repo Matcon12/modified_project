@@ -7,31 +7,27 @@ import matlogo from '../images/matlogo.png';
 
 function ReportsPrinting(){
     
-    const [gcn_no,setGcn_no] = useState('');
     const [submitted, setSubmitted] =useState(false);
-    const handleSubmit =(e)=>{
-        e.preventDefault();
-        // var no = document.getElementsByName('gcn_no')[0]?.value;
-        // console.log(no)
-        // dc['gcn_no'] = no
-        setGcn_no(document.getElementsByName('gcn_no')[0]?.value);
-        console.log(gcn_no);
-        setSubmitted(true);
-    }
+
+    // const handleSubmit =(e)=>{
+    //     e.preventDefault();
+    //     setGcn_no(document.getElementsByName('gcn_no')[0]?.value);
+    //     console.log(gcn_no);
+    //     setSubmitted(true);
+    // }
 
     return (
         <div className='app'>
             <div class="container">
-            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            <img src={matlogo} alt="MatconLogo" className="logo"/>
             </div>
           <form>
           <h1>Reports Printing</h1>
           <div className='formInput'>
-          <label>Enter the Outward DC Number</label><input type="text" name="gcn_no"/>
-          <Link to ="/invoice-printing">
+          <Link to ="/invoice-input">
               <button>Invoice</button>
           </Link>
-          <Link to ="/dc-printing">
+          <Link to ="/dc-input">
               <button>DC</button>
           </Link>
           <Link to ='/invoice-reports'>

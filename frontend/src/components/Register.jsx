@@ -31,7 +31,7 @@ const navigate = useNavigate();
       axios.post('http://localhost:5000/signup/', values)
         .then((response) => {
           console.log('POST request successful', response);
-          navigate('/login');
+          navigate('/');
         })
         .catch((error) => {
           console.error('Error making POST request', error);
@@ -55,8 +55,8 @@ const navigate = useNavigate();
     <h1>Register Page</h1>
     <div className='formInput'>
       <label>New Username</label><input type ="text" name ="username"/>
-      <label>Password</label><input type ="text" name ="pw"/>
-      <label>Confirm Password</label><input type ="text" name ="confirm_pw"/> 
+      <label>Password</label><input type ="password" name ="pw"/>
+      <label>Confirm Password</label><input type ="password" name ="confirm_pw"/> 
       <button onClick={handleSubmit}>Submit</button>
       <h3>Existing User?</h3>
       <Link to ='/'>

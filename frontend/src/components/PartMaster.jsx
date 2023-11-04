@@ -64,7 +64,7 @@ function PartMaster() {
           <form>
           <h1>Part Master</h1>
           <div className='formInput'>
-            <label>Part Id</label><input type ="text" name ="part_id"/>
+            <label>Part Code</label><input type ="text" name ="part_id"/>
             <label>Part Name</label><input type ="text" name ="part_name"/>
             <label>Customer Id</label><input type="text" name="cust_id" />      
             <button onClick={handleSubmit}>Submit</button>

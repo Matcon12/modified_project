@@ -66,7 +66,11 @@ function InvoiceProcessing() {
       axios.post('http://localhost:5000/invoice-processing/', formData)
         .then((response) => {
           console.log('POST request successful', response);
-          alert('Data saved successfully')
+          if(response.data == 'zero items')
+          {
+            alert('Nothing to be delivered')
+          }
+          alert('Invoice processed successfully')
           navigate('/home');
         })
         .catch((error) => {
@@ -94,7 +98,7 @@ function InvoiceProcessing() {
           <option value="MAC">MAC</option>
       </select>
       <label>Inward Delivery Challan Number</label><input type ="text" name ="inw"/>
-      <label>Enter the number of items</label><input type="number" name="no_of_items" onChange={handleQtyChange} />
+      <label>Total number of items</label><input type="number" name="no_of_items" onChange={handleQtyChange} />
       <div>{generateFormFields()}</div>
       <button onClick={handleSubmit}>Submit</button>
 
