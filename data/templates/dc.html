@@ -74,7 +74,7 @@
                     </tr>
                     {% for record in odc %}
                     <tr>
-                        <td>{{record.po_sl_no}}</td>
+                        <td>{{forloop.counter}}</td>
                         <td class="dos">{{record.part_name}} - ({{record.part_id}})</td>
                         <td>{{record.qty_delivered}}</td>
                         <td>{{record.uom}}</td>

@@ -138,10 +138,15 @@ if inw(mydb, mycursor, grn):
     update_query = "UPDATE mat_companies SET last_gcn_no = %s WHERE mat_code = 'MEE'"
     mycursor.execute(update_query, (destination_value,))
     mydb.commit() 
-    gcn_num=(str(destination_value) + "/" + str(fin_year)+"-"+str(fyear)).zfill(11) 
+    if rework_dc==True:
+      flag='R'
+    else:
+      flag=''    
+    gcn_num=(str(destination_value).zfill(3)  + flag+ "/" + str(fin_year)+"-"+str(fyear))
+    # gcn_num=(str(destination_value) + "/" + str(fin_year)+"-"+str(fyear)).zfill(11) 
    
     current_date =current
-    date = str(current_date.strftime('%Y-%m-%d'))    
+    date = str(current_date.strftime('%d-%m-%Y'))    
     mycursor.execute("SELECT grn_no, grn_date, po_no, po_date, receiver_id, consignee_id, po_sl_no, part_id, qty_delivered, uom, unit_price, part_name FROM inw_dc WHERE grn_no=%s AND po_sl_no IN ({})".format(','.join(map(str, po_sl_numbers))), (grn,))
     data_inw = mycursor.fetchall()
   
