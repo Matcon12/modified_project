@@ -18,6 +18,8 @@ function InvoicePrinting() {
 
     axios.get(backendURL, { params: { data: data } })
     .then(response => {
+      if (response.data == 'Invalid otw_dc')
+        alert('Invalid Outward DC Number')
       setInvoiceData(response.data);
     })
     .catch(error => {

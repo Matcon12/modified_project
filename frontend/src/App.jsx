@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./app.css";
 import FormInput from "./components/FormInput";
 import CustomerMasterForm from "./components/CustomerMasterForm";
@@ -8,7 +7,7 @@ import Inw_Del_Challan from "./components/Inw_Del_Challan";
 import PartMaster from "./components/PartMaster";
 import DataEntry from "./components/DataEntry";
 import Home from "./components/Home";
-import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ReportsPrinting from "./components/ReportsPrinting";
@@ -17,6 +16,7 @@ import DCPrinting from "./components/DCPrinting";
 import InvoiceReports from './components/InvoiceReports';
 import InvoiceInput from "./components/InvoiceInput";
 import DcInput from "./components/DcInput";
+import RejectedProcessing from "./components/RejectedProcessing";
 
 function App() {
   return (
@@ -37,6 +37,7 @@ function App() {
         <Route exact path ="/invoice-reports" element={<InvoiceReports/>} />
         <Route exact path ="/invoice-input" element={<InvoiceInput/>} />
         <Route exact path ="/dc-input" element={<DcInput/>} />
+        <Route exact path ='/rejected-processing' element={<RejectedProcessing/>}/>
       </Routes>
     </BrowserRouter>
   );

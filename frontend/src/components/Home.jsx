@@ -32,7 +32,7 @@ const Home = () => {
   })
   return (
     <div className='homepage'>
-      <div class="container">
+      <div className="container">
       <img src={matlogo} alt="MatconLogo"  className="logo"/>
       </div>
     <form>
@@ -43,7 +43,7 @@ const Home = () => {
       <Link to="/invoice-processing">
         <button className='button'>Delivery of Finished Goods</button>
       </Link>
-      <Link to="/invoice-processing">
+      <Link to="/rejected-processing">
         <button className='button'>Delivery of Rejected Goods</button>
       </Link>
       <Link to="/reports-printing">

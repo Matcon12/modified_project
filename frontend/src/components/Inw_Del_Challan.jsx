@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormInput from './FormInput';
 import axios from 'axios';
 import matlogo from '../images/matlogo.png';
@@ -8,6 +8,7 @@ function Inw_Del_Challan() {
 
     const [values,setValues] = useState({});
     const navigate = useNavigate();
+    const [submitted,setSubmitted] = useState(false);
 
     const inputs = [
         {
@@ -114,39 +115,48 @@ function Inw_Del_Challan() {
                 label: "Total Price",
                 required: true,
               },
-              // {
-              //   id: 17,
-              //   name: "qty_delivered",
-              //   type: "number",
-              //   label: "Quantity Delivered",
-              //   required: true,
-              // },
-              // {
-              //   id: 18,
-              //   name: "qty_balance",
-              //   type: "number",
-              //   label: "Quantity Balance",
-              //   required: true,
-              // },
     ]
+
+    const convertDate =(date)=>{
+      
+      var parts = date.split("-");
+      var year = parts[0];
+      var month = parts[1];
+      var day = parts[2];
+      return(day + "-" + month + "-" + year);
+
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        values['rework_dc'] = document.getElementsByName[0]?.value;
+          values['rework_dc'] = document.getElementsByName('rework_dc')[0]?.value;
 
-        console.log(typeof values.qty_balance)
-        axios.post('http://localhost:5000/inward-dc-input/', values).then((response) => {
-                console.log('Data saved:', response.data);
-                alert('Data Saved Successfully')
-                navigate('/home')
-                if(response.status == 200)
-                console.log('server responded');
-            })
-            .catch((error) => {
-                console.error('Error:', error);        
-                // console.log(typeof values.unit_price)
-            });
+          // var inputDate = document.getElementsByName('grn_date')[0]?.value;
+          // var formattedDate = convertDate(inputDate);
+          // values.grn_date = formattedDate;
+
+          // inputDate = document.getElementsByName('po_date')[0]?.value;
+          // formattedDate = convertDate(inputDate)
+          // values.po_date = formattedDate;
+
+          console.log(values);
+          setSubmitted(true);
       }
+
+      useEffect (()=> {
+            axios.post('http://localhost:5000/inward-dc-input/', values).then((response) => {
+              console.log('Data saved:', response.data);
+              alert('Data Saved Successfully')
+              navigate('/home')
+              if(response.status == 200)
+              console.log('server responded');
+          })
+          .catch((error) => {
+              console.error('Error:', error);        
+              // console.log(typeof values.unit_price)
+          });
+          setSubmitted(false);
+      },[submitted]);
     
       const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });

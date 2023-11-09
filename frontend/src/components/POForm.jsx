@@ -11,7 +11,8 @@ function POForm() {
     const [values, setValues] = useState({});
     const [submitted,setSubmitted] = useState(false);
     const navigate = useNavigate();
-    
+    const [total,setTotal] = useState(0);
+
       const inputs = [
         {
           id: 1,
@@ -120,29 +121,13 @@ function POForm() {
             label: "Unit Price",
             required: true,
           },
-          {
-            id: 14,
-            name: "total_price",
-            type: "number",
-           // placeholder: "Customer Name",
-           // errorMessage: "It should be a valid email address!",
-            label: "Total Price",
-            required: true,
-          },
-          // {
-          //   id: 15,
-          //   name: "qty_sent",
-          //   type: "number",
-          //  // placeholder: "Customer Name",
-          //  // errorMessage: "It should be a valid email address!",
-          //   label: "Quantity Sent",
-          //   required: true,
-          // },
         
       ];
     
       const handleSubmit = (event) => {
         event.preventDefault();
+
+        setTotal(values['qty']*values['unit_price']);
 
         if(values.cust_id.length != 4)
         {
@@ -215,13 +200,7 @@ function POForm() {
                 onChange={onChange}
               />
             ))}
-            {/* <label>Open PO</label>
-            <select type='boolean' defaultValue="false" name='open_po' onChange={handleSelect}>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-            </select>
-            <br></br>
-           { val && <FormInput key='12' label='Open PO Validity' type='date' name ='open_po_validity'/>} */}
+            <label>Total_price</label><h4>{total}</h4>
             <button>Submit</button>
           </form>
         </div>

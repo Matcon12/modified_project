@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import matlogo from '../images/matlogo.png';
 import { useNavigate } from 'react-router-dom';
+import home from '../images/home_5973800.png';
 
 function CustomerMasterForm() {
     const [values, setValues] = useState({});
@@ -113,7 +114,7 @@ function CustomerMasterForm() {
       return (
         <div className="app">
           <div class="container">
-            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+           <img src={matlogo} alt="MatconLogo"  className="logo"/>
             </div>
           <form onSubmit={handleSubmit}>
             <h1>Customer Master</h1>

@@ -41,7 +41,7 @@ function Login() {
 
     return (
         <div className='app'>
-          <div class="container">
+          <div className="container">
             <img src={matlogo} alt="MatconLogo"  className="logo"/>
             </div>
           <form>

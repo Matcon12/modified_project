@@ -38,6 +38,7 @@ function InvoiceProcessing() {
 
     event.preventDefault();
 
+    newFormData['rejected'] = 0;
     newFormData['mcc'] = document.getElementsByName('mcc')[0].value;
     newFormData['grn_no'] = document.getElementsByName('inw')[0].value;
     newFormData['items'] = document.getElementsByName('no_of_items')[0].value;
@@ -69,9 +70,19 @@ function InvoiceProcessing() {
           if(response.data == 'zero items')
           {
             alert('Nothing to be delivered')
+          } else if(response.data == 'grn_no') {
+            alert('The inw_dc challan no does not exist')
+          }else if(response.data.slice(0,8) == 'po_sl_no'){
+            console.log(response.data.slice(0,8))
+            alert('The item does not have a po_sl_no ' + response.data.slice(8))
+          }else if(response.data == 'open_po')
+          {
+            alert('The open po has expired, check the validity')
           }
+          else {
           alert('Invoice processed successfully')
           navigate('/home');
+          }
         })
         .catch((error) => {
           console.error('Error making POST request', error);
