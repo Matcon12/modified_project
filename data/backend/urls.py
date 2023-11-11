@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.report, name="report"),
     path('invoice/', views.invoice, name='invoice'),  # Updated URL pattern
     path('dc/', views.dc, name='dc'), 
+    path('invoice_report/', views.invoice_report, name='invoice_report'),
     
 ]
