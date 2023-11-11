@@ -1,0 +1,16 @@
+"grn_no";"grn_date";"rework_dc";"po_no";"po_date";"receiver_id";"consignee_id";"po_sl_no";"cust_id";"part_id";"part_name";"qty_received";"purpose";"uom";"unit_price";"total_price";"qty_delivered";"qty_balance"
+"1033/23-24";"06-11-2023";0;"63/2020-2021";"18-06-2020";"amst";"amst";1;"amst";"AT00000461232,D";"END SHIELD-DRIVING SIDE PART";47;"painting";"Nos";18000.0;0.0;47;0
+"10616";"22-09-2023";0;"041/2023-2024";"03-05-2023";"samu";"samu";1;"samu";"AR00000247343";"RELESE LEVER";50;"painting";"Nos";1224.0;0.0;26;24
+"2023-24/08784";"21-08-2023";0;"2022-23/00073";"06-04-2022";"hite";"alst";1;"hite";"4316";"AIR ADAPTOR-NH00001570684";3;"painting";"Nos";1415.0;0.0;0;50
+"2023-24/08785";"21-08-2023";0;"2022-23/00073";"06-04-2022";"hite";"alst";1;"hite";"4316";"AIR ADAPTOR-NH00001570684";4;"painting";"Nos";1415.0;0.0;0;50
+"2023-24/10653";"25-09-2023";0;"2023-24/01295";"25-09-2023";"hite";"alst";1;"hite";"4316";"AIR ADAPTOR-NH00001570684";90;"painting";"Nos";1301.8;0.0;0;50
+"2023-24/10654";"25-09-2023";0;"2023-24/01295";"25-09-2023";"hite";"alst";1;"hite";"4316";"AIR ADAPTOR-NH00001570684";7;"painting";"Nos";1301.8;0.0;0;50
+"2023-24/10655";"25-09-2023";0;"2023-24/01295";"25-09-2023";"hite";"alst";1;"hite";"4316";"AIR ADAPTOR-NH00001570684";70;"painting";"Nos";1301.8;0.0;0;50
+"2023-24/10945";"30-09-2023";0;"2023-24/01296";"25-09-2023";"hite";"alst";1;"hite";"4650";"BRACKET-NH00002647283";85;"painting";"Nos";1306.4;0.0;85;0
+"2023-24/11421";"09-10-2023";0;"2023-24/01297";"25-09-2023";"hite";"alst";2;"hite";"4348";"SUPPORT CASTING BRACKET TRANSFORMER-NH00001762423";41;"painting";"Nos";3569.6;0.0;41;0
+"2023-24/11422";"09-10-2023";0;"2023-24/01297";"25-09-2023";"hite";"alst";2;"hite";"4348";"SUPPORT CASTING BRACKET TRANSFORMER-NH00001762423";55;"painting";"Nos";3569.6;0.0;55;0
+"5000000546";"21-10-2023";0;"4100008086";"23-02-2022";"oeni";"oeni";1;"oeni";"FWA-ALCR-001";"FREE WHEEL ACTUATOR (ALOCHROM#1200 REV 0)";16;"painting";"Nos";500.0;0.0;16;0
+"914/23-24";"07-10-2023";0;"63/2020-2021";"18-06-2020";"amst";"amst";1;"amst";"AT00000461232,D";"END SHIELD-DRIVING SIDE PART";35;"painting";"Nos";18000.0;0.0;35;0
+"998/23-24";"30-10-2023";0;"63/2020-2021";"18-06-2020";"amst";"amst";2;"amst";"AT0000055373,B";"END SHIELD- NON DRIVING SIDE PART";36;"painting";"Nos";18000.0;0.0;36;0
+"SC232400374";"09-10-2023 ";0;"PUR/JW/2021000011";"03-12-2020";"side";"side";20;"side";"F5-67M";"COVER ROUGH MACHINED DISCHARGE SIZE A/B/C WELL SERVICE PUMP ASSEMBLED";86;"painting";"Nos";250.0;0.0;86;0
+"SC232400394";"18-10-2023";0;"PUR/JW/2021000011";"03-12-2020";"side";"side";19;"side";"F5-61";"COVER RETAINER SUCTION SIZE A/B/C WELL SERVICE PUMP SERIES 200 COMMON FORGING";96;"painting";"Nos";697.0;0.0;96;0
