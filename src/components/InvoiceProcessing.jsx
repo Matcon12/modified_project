@@ -64,7 +64,7 @@ function InvoiceProcessing() {
 
   useEffect(() => {
     if (submitted) {
-      axios.post('https://backend-matcon-production.up.railway.appinvoice-processing/', formData)
+      axios.post('https://backend-matcon-production.up.railway.app/invoice-processing/', formData)
         .then((response) => {
           console.log('POST request successful', response);
           if(response.data == 'zero items')
