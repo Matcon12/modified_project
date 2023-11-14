@@ -95,7 +95,7 @@ function CustomerMasterForm() {
 
       useEffect(() => {
         if (submitted) {
-          axios.post(https://backend-matcon-production.up.railway.app/customer-master-input/', values)
+          axios.post('https://backend-matcon-production.up.railway.appcustomer-master-input/', values)
             .then((response) => {
               console.log('POST request successful', response);
               alert('Data Saved Successfully')

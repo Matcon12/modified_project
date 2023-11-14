@@ -38,7 +38,7 @@ function PartMaster() {
     }
     useEffect(() => {
         if (submitted) {
-          axios.post(https://backend-matcon-production.up.railway.app/part-master-input/', formData)
+          axios.post('https://backend-matcon-production.up.railway.apppart-master-input/', formData)
             .then((response) => {
               console.log('POST request successful', response);
               alert('Data Saved Successfully')

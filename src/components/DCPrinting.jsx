@@ -9,7 +9,7 @@ function DCPrinting() {
   const gcn_no = new URLSearchParams(location.search).get("dc_no");
 
   useEffect(() => {
-    const backendURL = https://backend-matcon-production.up.railway.app/dc-printing/';
+    const backendURL = 'https://backend-matcon-production.up.railway.appdc-printing/';
 
     const data = {
         'gcn_no' : gcn_no
