@@ -144,7 +144,7 @@ function Inw_Del_Challan() {
       }
 
       useEffect (()=> {
-            axios.post('http://localhost:5000/inward-dc-input/', values).then((response) => {
+            axios.post(https://backend-matcon-production.up.railway.app/inward-dc-input/', values).then((response) => {
               console.log('Data saved:', response.data);
               alert('Data Saved Successfully')
               navigate('/home')

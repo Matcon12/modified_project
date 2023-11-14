@@ -20,7 +20,7 @@ function Login() {
 
   useEffect(() => {
     if (submitted) {
-      axios.post('http://localhost:5000/login/', values)
+      axios.post(https://backend-matcon-production.up.railway.app/login/', values)
         .then((response) => {
           console.log('POST request successful', response);
           if(response.data == 'successful')

@@ -149,7 +149,7 @@ function POForm() {
 
       useEffect(() => {
         if (submitted) {
-          axios.post('http://localhost:5000/purchase-order-input/', values)
+          axios.post(https://backend-matcon-production.up.railway.app/purchase-order-input/', values)
             .then((response) => {
               console.log('POST request successful', response);
               alert('Data Saved Successfully')

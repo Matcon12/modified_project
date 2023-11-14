@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(()=>{
     if (out) {
-      axios.post('http://localhost:5000/logout/')
+      axios.post(https://backend-matcon-production.up.railway.app/logout/')
         .then((response) => {
           console.log('POST request successful', response);
           navigate('/')

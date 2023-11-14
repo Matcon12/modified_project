@@ -28,7 +28,7 @@ const navigate = useNavigate();
 
   useEffect(() => {
     if (submitted) {
-      axios.post('http://localhost:5000/signup/', values)
+      axios.post(https://backend-matcon-production.up.railway.app/signup/', values)
         .then((response) => {
           console.log('POST request successful', response);
           navigate('/');

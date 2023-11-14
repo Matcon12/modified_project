@@ -10,7 +10,7 @@ function InvoicePrinting() {
 
 
     useEffect(() => {
-      const backendURL = 'http://localhost:5000/invoice-printing/';
+      const backendURL = https://backend-matcon-production.up.railway.app/invoice-printing/';
 
       const data = {
           'gcn_no' : gcn
