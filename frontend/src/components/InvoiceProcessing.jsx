@@ -3,7 +3,10 @@ import '../app.css';
 import './formInput.css'
 import axios from 'axios';
 import matlogo from '../images/matlogo.png';
+import home from '../images/home-button.png'
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import back from '../images/undo.png';
 
 function InvoiceProcessing() {
   const navigate = useNavigate();
@@ -90,6 +93,29 @@ function InvoiceProcessing() {
     }
   }, [formData, submitted]);
 
+
+  const [out,setOut] = useState(false);
+  useEffect(()=>{
+    if(out)
+    {
+      axios.post('http://localhost:5000/logout/')
+        .then((response) => {
+          console.log('POST request successful', response);
+          alert(response.data.message)
+          navigate('/')
+          setOut(false)
+
+        })
+        .catch((error) => {
+          console.error('Error making POST request', error);
+        });
+      }
+    },[out])
+
+    const handleLogout = (e) =>{
+      e.preventDefault();
+      setOut(true)
+  } 
   const handleSelect =()=>{
       var code = document.getElementsByName('mcc')[0]?.value; 
       setMcc(code);
@@ -97,7 +123,12 @@ function InvoiceProcessing() {
   return (
   <div className='app'>
     <div class="container">
+    <img src={back} onClick={()=>navigate(-1)} alt = "back button" className='back' />
+    <button className='logout' onClick={handleLogout}>Logout</button>
             <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            <Link to ='/home'>
+            <img src ={home} alt = 'home' className='logo2'/>
+            </Link>
             </div>
     <form>
     <h1>Invoice/DC Processing</h1>

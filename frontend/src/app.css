@@ -25,8 +25,33 @@
   width: 200px; /* Set the width of your logo */
   height: 50px; /* Set the height of your logo */
   position: absolute;
+  top: 15px; /* Adjust this value to control the distance from the top */
+  left: 80px; /* Adjust this value to control the distance from the right */
+}
+
+.logo2{
+  width: 50px; /* Set the width of your logo */
+  height: 40px; /* Set the height of your logo */
+  position: absolute;
   top: 20px; /* Adjust this value to control the distance from the top */
-  left: 20px; /* Adjust this value to control the distance from the right */
+  left: 20px; 
+}
+
+.back{
+  width: 50px; /* Set the width of your logo */
+  height: 40px; /* Set the height of your logo */
+  position: absolute;
+  top: 20px; /* Adjust this value to control the distance from the top */
+  right: 130px; 
+
+}
+
+.logout{
+  width: 100px; /* Set the width of your logo */
+  height: 40px; /* Set the height of your logo */
+  position: absolute;
+  top: 6px; /* Adjust this value to control the distance from the top */
+  right: 20px; 
 }
 
 @media (max-height: 100vh) {

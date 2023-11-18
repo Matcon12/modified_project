@@ -5,13 +5,17 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import './formInput.css';
 import matlogo from '../images/matlogo.png';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
+import home from '../images/home-button.png';
+import { Link } from 'react-router-dom';
+import back from '../images/undo.png';
 
 function POForm() {
     const [values, setValues] = useState({});
     const [submitted,setSubmitted] = useState(false);
     const navigate = useNavigate();
-    const [total,setTotal] = useState(0);
+    const [qty,setQty] = useState(0);
+
 
       const inputs = [
         {
@@ -71,101 +75,40 @@ function POForm() {
           label: "Consignee Id",
           //pattern: values.password,
           required: true,
-        },
-          {
-            id: 9,
-            name: "po_sl_no",
-            type: "number",
-            //placeholder: "Confirm Password",
-            //errorMessage: "Passwords don't match!",
-            label: "PO Serial Number",
-            //pattern: values.password,
-            required: true,
-          },
-          {
-            id: 10,
-            name: "part_id",
-            type: "text",
-           // placeholder: "Customer Name",
-           // errorMessage: "It should be a valid email address!",
-            label: "Part Code",
-            required: true,
-  
-          },
-          {
-            id: 11,
-            name: "qty",
-            type: "number",
-           // placeholder: "Customer Name",
-           // errorMessage: "It should be a valid email address!",
-            label: "Quantity",
-            required: true,
-  
-          },
-          {
-            id: 12,
-            name: "uom",
-            type: "text",
-           // placeholder: "Customer Name",
-           // errorMessage: "It should be a valid email address!",
-            label: "Unit of Measurement",
-            required: true,
-  
-          },
-          {
-            id: 13,
-            name: "unit_price",
-            type: "number",
-           // placeholder: "Customer Name",
-           // errorMessage: "It should be a valid email address!",
-            label: "Unit Price",
-            required: true,
-          },
-        
+        },{
+          id : 9,
+          name: "total_items",
+          type: "number",
+          label:"Total Items",
+          required : true,
+        }
       ];
     
       const handleSubmit = (event) => {
         event.preventDefault();
-
-        setTotal(values['qty']*values['unit_price']);
+        var nos = document.getElementsByName("total_items")[0]?.value;
+        setQty(nos)
 
         if(values.cust_id.length != 4)
         {
-            //console.log(event.target.cust_pin)
           alert('Enter customer id length equal to 4 digits')
         }
+        else{
 
         values['open_po'] = document.getElementsByName('open_po')[0]?.value;
         values['open_po_validity'] = document.getElementsByName('open_po_validity')[0]?.value;
-
+     
         console.log(values)
+        console.log(nos)
+        navigate(`/po-form-items?qty=${nos}`,{state:{...values}});
+
         setSubmitted(true);
+        }
       }
     
       const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
       };
-
-
-      useEffect(() => {
-        if (submitted) {
-          axios.post('http://localhost:5000/purchase-order-input/', values)
-            .then((response) => {
-              console.log('POST request successful', response);
-              alert('Data Saved Successfully')
-              navigate('/home')
-            })
-            .catch((error) => {
-              console.error('Error making POST request', error.response.data);
-
-              if(error.response.data['non_field_errors'])
-              {
-                  alert('An item with the same po no and po sl no exists')
-              }
-            });
-        }
-        setSubmitted(false)
-      }, [values, submitted]);
 
       var [val,setVal] = useState(false);
 
@@ -174,11 +117,40 @@ function POForm() {
       }
 
 
+      const [out,setOut] = useState(false);
+      useEffect(()=>{
+        if(out)
+        {
+          axios.post('http://localhost:5000/logout/')
+            .then((response) => {
+              console.log('POST request successful', response);
+              alert(response.data.message)
+              navigate('/')
+              setOut(false)
+    
+            })
+            .catch((error) => {
+              console.error('Error making POST request', error);
+            });
+          }
+        },[out])
+
+        const handleLogout = (e) =>{
+          e.preventDefault();
+          setOut(true)
+      } 
+
+
       return (
-        <div className="app"><div class="container">
+        <div className="app"><div className="container">
+        <img src={back} onClick={()=>navigate(-1)} alt = "back button" className='back' />
+        <button className='logout' onClick={handleLogout}>Logout</button>
         <img src={matlogo} alt="MatconLogo"  className="logo"/>
+        <Link to ='/home'>
+        <img src = {home} alt ="home" className='logo2'/>
+        </Link>
         </div>
-          <div class="container">
+          <div className="container">
             <img src={matlogo} alt="MatconLogo"  className="logo"/>
             </div>
           <form onSubmit={handleSubmit}>
@@ -200,7 +172,6 @@ function POForm() {
                 onChange={onChange}
               />
             ))}
-            <label>Total_price</label><h4>{total}</h4>
             <button>Submit</button>
           </form>
         </div>

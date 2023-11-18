@@ -3,6 +3,9 @@ import axios from 'axios'
 import { useState,useEffect } from 'react';
 import matlogo from '../images/matlogo.png';
 import { useNavigate } from 'react-router-dom';
+import home from '../images/home-button.png';
+import { Link } from 'react-router-dom';
+import back from '../images/undo.png';
 
 function RejectedProcessing() {
       const navigate = useNavigate();
@@ -93,10 +96,39 @@ function RejectedProcessing() {
           var code = document.getElementsByName('mcc')[0]?.value; 
           setMcc(code);
       }
+
+      const [out,setOut] = useState(false);
+      useEffect(()=>{
+        if(out)
+        {
+          axios.post('http://localhost:5000/logout/')
+            .then((response) => {
+              console.log('POST request successful', response);
+              alert(response.data.message)
+              navigate('/')
+              setOut(false)
+    
+            })
+            .catch((error) => {
+              console.error('Error making POST request', error);
+            });
+          }
+        },[out])
+
+        const handleLogout = (e) =>{
+          e.preventDefault();
+          setOut(true)
+      } 
+
       return (
       <div className='app'>
         <div class="container">
                 <img src={matlogo} alt="MatconLogo"  className="logo"/>
+                <button className='logout' onClick={handleLogout}>Logout</button>
+                <img src={back} onClick={()=>navigate(-1)} alt = "back button" className='back' />
+                <Link to ='/home'>
+                <img src = {home} alt ="home" className='logo2'/>
+                </Link>
                 </div>
         <form>
         <h1>Invoice/DC Processing</h1>

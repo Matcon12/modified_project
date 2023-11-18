@@ -1,6 +1,11 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../app.css'
+import matlogo from '../images/matlogo.png';
+import home from '../images/home-button.png'
+import back from '../images/undo.png';
+import axios from 'axios';
+import { useState,useEffect } from 'react';
 
 function DcInput() {
 
@@ -12,8 +17,37 @@ function DcInput() {
 
     }
 
+    const [out,setOut] = useState(false);
+    useEffect(()=>{
+      if(out)
+      {
+        axios.post('http://localhost:5000/logout/')
+          .then((response) => {
+            console.log('POST request successful', response);
+            alert(response.data.message)
+            navigate('/')
+            setOut(false)
+  
+          })
+          .catch((error) => {
+            console.error('Error making POST request', error);
+          });
+        }
+      },[out])
+
+      const handleLogout = (e) =>{
+        e.preventDefault();
+        setOut(true)
+    } 
+
     return (
         <div className='app'>
+        <img src={back} onClick={()=>navigate(-1)} alt = "back button" className='back' />
+        <button className='logout' onClick={handleLogout}>Logout</button>
+            <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            <Link to ='/home'>
+            <img src = {home} alt ="home" className='logo2'/>
+            </Link>
             <form>
             <h1>DC Printing</h1>
                 <label>Outward DC No</label><input type='text' name = 'gcn_no'/>

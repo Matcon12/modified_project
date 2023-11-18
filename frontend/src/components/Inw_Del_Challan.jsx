@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react'
 import FormInput from './FormInput';
 import axios from 'axios';
 import matlogo from '../images/matlogo.png';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import home from '../images/home-button.png';
+import back from '../images/undo.png';
+
 
 function Inw_Del_Challan() {
 
     const [values,setValues] = useState({});
     const navigate = useNavigate();
     const [submitted,setSubmitted] = useState(false);
+    const [qty,setQty] = useState(0);
 
     const inputs = [
         {
@@ -52,13 +56,6 @@ function Inw_Del_Challan() {
             required: true,
           },
             {
-              id: 8,
-              name: "po_sl_no",
-              type: "number",
-              label: "PO Serial Number",
-              required: true,
-            },
-            {
               id: 9,
               name: "cust_id",
               type: "text",
@@ -67,108 +64,67 @@ function Inw_Del_Challan() {
     
             },
             {
-              id: 10,
-              name: "part_id",
-              type: "text",
-              label: "Part Code",
-              required: true,
-            },
-            {
-              id: 11,
-              name: "part_name",
-              type: "text",
-              label: "Part Description",
-              required: true,
-            },
-            {
-              id: 12,
-              name: "qty_received",
+              id : 10,
+              name: "total_items",
               type: "number",
-              label: "Quantity Received",
-              required: true,
-            },
-            {
-              id: 13,
-              name: "purpose",
-              type: "text",
-              label: "Purpose",
-              required: true,
-            },
-            {
-              id: 14,
-              name: "uom",
-              type: "text",
-              label: "Unit of Measurement",
-              required: true,
-            },
-            {
-                id: 15,
-                name: "unit_price",
-                type: "number",
-                label: "Unit Price",
-                required: true,
-              },
-              {
-                id: 16,
-                name: "total_price",
-                type: "number",
-                label: "Total Price",
-                required: true,
-              },
+              label:"Total Items",
+              required : true,
+            }
+           
     ]
-
-    const convertDate =(date)=>{
-      
-      var parts = date.split("-");
-      var year = parts[0];
-      var month = parts[1];
-      var day = parts[2];
-      return(day + "-" + month + "-" + year);
-
-    }
+    
     const handleSubmit = (event) => {
-        event.preventDefault();
+      event.preventDefault();
+      var nos = document.getElementsByName("total_items")[0]?.value;
+      setQty(nos)
+      console.log(values)
+      console.log(nos)
+      navigate(`/inw-items?qty=${nos}`,{state:{...values}});
 
-          values['rework_dc'] = document.getElementsByName('rework_dc')[0]?.value;
+      setSubmitted(true);
+    }
 
-          // var inputDate = document.getElementsByName('grn_date')[0]?.value;
-          // var formattedDate = convertDate(inputDate);
-          // values.grn_date = formattedDate;
-
-          // inputDate = document.getElementsByName('po_date')[0]?.value;
-          // formattedDate = convertDate(inputDate)
-          // values.po_date = formattedDate;
-
-          console.log(values);
-          setSubmitted(true);
-      }
-
-      useEffect (()=> {
-            axios.post('http://localhost:5000/inward-dc-input/', values).then((response) => {
-              console.log('Data saved:', response.data);
-              alert('Data Saved Successfully')
-              navigate('/home')
-              if(response.status == 200)
-              console.log('server responded');
-          })
-          .catch((error) => {
-              console.error('Error:', error);        
-              // console.log(typeof values.unit_price)
-          });
-          setSubmitted(false);
-      },[submitted]);
+      
     
       const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
       };
 
 
+      const [out,setOut] = useState(false);
+      useEffect(()=>{
+        if(out)
+        {
+          axios.post('http://localhost:5000/logout/')
+            .then((response) => {
+              console.log('POST request successful', response);
+              alert(response.data.message)
+              navigate('/')
+              setOut(false)
+    
+            })
+            .catch((error) => {
+              console.error('Error making POST request', error);
+            });
+          }
+        },[out])
+
+        const handleLogout = (e) =>{
+          e.preventDefault();
+          setOut(true)
+      } 
+
 
     
       return (
         <div className="app">
           <div class="container">
+          <img src={back} onClick={()=>navigate(-1)} alt = "back button" className='back' />
+          <button className='logout' onClick={handleLogout}>Logout</button>
             <img src={matlogo} alt="MatconLogo"  className="logo"/>
+            <Link to ='/home'>
+            <img src ={home} alt='home' className='logo2'/>
+            </Link>
             </div>
           <form onSubmit={handleSubmit}>
             <h1>Inward Delivery Challan</h1>
@@ -188,12 +144,6 @@ function Inw_Del_Challan() {
                 onChange={onChange}
               />
             ))}
-            {/* <label>Rework DC</label>
-            <br></br>
-            <select type='boolean' defaultValue="false" name='rework_dc'>
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select> */}
             <button>Submit</button>
           </form>
         </div>
@@ -201,3 +151,21 @@ function Inw_Del_Challan() {
 }
 
 export default Inw_Del_Challan
+
+
+
+
+
+
+
+
+
+// const convertDate =(date)=>{
+      
+//   var parts = date.split("-");
+//   var year = parts[0];
+//   var month = parts[1];
+//   var day = parts[2];
+//   return(day + "-" + month + "-" + year);
+
+// }

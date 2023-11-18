@@ -17,6 +17,8 @@ import InvoiceReports from './components/InvoiceReports';
 import InvoiceInput from "./components/InvoiceInput";
 import DcInput from "./components/DcInput";
 import RejectedProcessing from "./components/RejectedProcessing";
+import POFormItems from "./components/POFormItems";
+import Inw_Del_Items from "./components/Inw_Del_Items";
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
         <Route exact path ="/invoice-input" element={<InvoiceInput/>} />
         <Route exact path ="/dc-input" element={<DcInput/>} />
         <Route exact path ='/rejected-processing' element={<RejectedProcessing/>}/>
+        <Route exact path ="/po-form-items" element={<POFormItems/>}/>
+        <Route exact path ="/inw-items" element={<Inw_Del_Items/>}/>
       </Routes>
     </BrowserRouter>
   );

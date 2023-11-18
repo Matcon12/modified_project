@@ -72,10 +72,9 @@ class LoginPage(APIView):
        
 
 class LogoutPage(APIView):
-    def post(self,req):
-        logout(req)
-        return Response(status = status.HTTP_200_OK,data = 'out')
-
+    def post(self, request):
+        logout(request)
+        return Response(status=status.HTTP_200_OK, data={'message': 'Logged out'})
 
 class InvoicePrint(APIView):
     def get(self, request):
