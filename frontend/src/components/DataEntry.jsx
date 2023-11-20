@@ -13,12 +13,11 @@ import { useEffect } from 'react';
 const DataEntry = () => {
 
   const navigate = useNavigate();
-  const [out,setOut] = useState(false);
+  const [out, setOut] = useState(false);
 
-  useEffect(()=>{
-    if(out)
-    {
-      axios.post('http://localhost:5000/logout/')
+  useEffect(() => {
+    if (out) {
+      axios.post('http://54.162.29.48:5000/logout/')
         .then((response) => {
           console.log('POST request successful', response);
           alert(response.data.message)
@@ -29,38 +28,38 @@ const DataEntry = () => {
         .catch((error) => {
           console.error('Error making POST request', error);
         });
-      }
-    },[out])
+    }
+  }, [out])
 
-  const handleLogout = (e) =>{
-      e.preventDefault();
-      setOut(true)
-  } 
+  const handleLogout = (e) => {
+    e.preventDefault();
+    setOut(true)
+  }
   return (
     <div className='homepage'>
-      <img src={back} onClick={()=>navigate(-1)} alt = "back button" className='back' />
+      <img src={back} onClick={() => navigate(-1)} alt="back button" className='back' />
       <button className='logout' onClick={handleLogout}>Logout</button>
-      <img src={matlogo} alt="MatconLogo"  className="logo"/>
-      <Link to ='/home'>
-      <img src = {home} alt ="home" className='logo2'/>
+      <img src={matlogo} alt="MatconLogo" className="logo" />
+      <Link to='/home'>
+        <img src={home} alt="home" className='logo2' />
       </Link>
-      
-    <form>
-      <h1>Data Entry</h1>
-      <Link to="/cm-form">
-        <button className='button'>Customer Master Form</button>
-      </Link>
-      <Link to="/pm-form">
-        <button className='button'>Part Master Form</button>
-      </Link>
-      <Link to="/po-form">
-        <button className='button'>Purchase Order Form</button>
-      </Link>
-      <Link to="/inw-form">
-        <button className='button'>Inward Delivery Form</button>
-      </Link>
+
+      <form>
+        <h1>Data Entry</h1>
+        <Link to="/cm-form">
+          <button className='button'>Customer Master Form</button>
+        </Link>
+        <Link to="/pm-form">
+          <button className='button'>Part Master Form</button>
+        </Link>
+        <Link to="/po-form">
+          <button className='button'>Purchase Order Form</button>
+        </Link>
+        <Link to="/inw-form">
+          <button className='button'>Inward Delivery Form</button>
+        </Link>
       </form>
-      
+
     </div>
   );
 };

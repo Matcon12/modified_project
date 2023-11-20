@@ -95,7 +95,7 @@ function Inw_Del_Challan() {
       useEffect(()=>{
         if(out)
         {
-          axios.post('http://localhost:5000/logout/')
+          axios.post('http://54.162.29.48:5000/logout/')
             .then((response) => {
               console.log('POST request successful', response);
               alert(response.data.message)

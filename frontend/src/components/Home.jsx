@@ -11,17 +11,17 @@ import back from '../images/undo.png';
 
 const Home = () => {
 
-  const [out,setOut] = useState(false);
+  const [out, setOut] = useState(false);
   const navigate = useNavigate();
 
-  const handleClick =(e)=> {
-      e.preventDefault();
-      setOut(true);
+  const handleClick = (e) => {
+    e.preventDefault();
+    setOut(true);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (out) {
-      axios.post('http://localhost:5000/logout/')
+      axios.post('http://54.162.29.48:5000/logout/')
         .then((response) => {
           console.log('POST request successful', response);
           alert(response.data.message)
@@ -35,35 +35,35 @@ const Home = () => {
     }
   })
 
-  const handleLogout = (e) =>{
+  const handleLogout = (e) => {
     e.preventDefault();
     setOut(true)
-} 
+  }
 
   return (
     <div className='homepage'>
       <div className="container">
-      <img src={back} onClick={()=>navigate(-1)} alt = "back button" className='back' />
-      <button className='logout' onClick={handleLogout}>Logout</button>
-      <img src={matlogo} alt="MatconLogo"  className="logo"/>
-      <Link to ='/home'>
-      <img src = {home} alt ="home" className='logo2'/>
-      </Link>
+        <img src={back} onClick={() => navigate(-1)} alt="back button" className='back' />
+        <button className='logout' onClick={handleLogout}>Logout</button>
+        <img src={matlogo} alt="MatconLogo" className="logo" />
+        <Link to='/home'>
+          <img src={home} alt="home" className='logo2' />
+        </Link>
       </div>
-    <form>
-      <h1>Main Menu</h1>
-      <Link to="/data-entry">
-        <button className='button'>Perform Data Entry</button>
-      </Link>
-      <Link to="/invoice-processing">
-        <button className='button'>Delivery of Finished Goods</button>
-      </Link>
-      <Link to="/rejected-processing">
-        <button className='button'>Delivery of Rejected Goods</button>
-      </Link>
-      <Link to="/reports-printing">
-        <button className='button'>Reports Printing</button>
-      </Link>
+      <form>
+        <h1>Main Menu</h1>
+        <Link to="/data-entry">
+          <button className='button'>Perform Data Entry</button>
+        </Link>
+        <Link to="/invoice-processing">
+          <button className='button'>Delivery of Finished Goods</button>
+        </Link>
+        <Link to="/rejected-processing">
+          <button className='button'>Delivery of Rejected Goods</button>
+        </Link>
+        <Link to="/reports-printing">
+          <button className='button'>Reports Printing</button>
+        </Link>
       </form>
     </div>
   );

@@ -9,34 +9,34 @@ function DCPrinting() {
   const gcn_no = new URLSearchParams(location.search).get("dc_no");
 
   useEffect(() => {
-    const backendURL = 'http://localhost:5000/dc-printing/';
+    const backendURL = 'http://54.162.29.48:5000/dc-printing/';
 
     const data = {
-        'gcn_no' : gcn_no
+      'gcn_no': gcn_no
     }
 
-  axios.get(backendURL, { params: { data: data } })
-  .then(response => {
-    if (response.data == 'Invalid otw_dc')
-        alert('Invalid Outward DC Number')
-    setInvoiceData(response.data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-}, []);
+    axios.get(backendURL, { params: { data: data } })
+      .then(response => {
+        if (response.data == 'Invalid otw_dc')
+          alert('Invalid Outward DC Number')
+        setInvoiceData(response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
 
-if (!invoiceData) {
-  return <div>Loading...</div>;
+  if (!invoiceData) {
+    return <div>Loading...</div>;
   }
 
   return (
     <div>{invoiceData && (
-                <div
-                    dangerouslySetInnerHTML={{ __html: invoiceData }}
-                />
-            )}
-        </div>
+      <div
+        dangerouslySetInnerHTML={{ __html: invoiceData }}
+      />
+    )}
+    </div>
 
   );
 }

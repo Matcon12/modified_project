@@ -9,34 +9,34 @@ function InvoicePrinting() {
   const gcn = queryParams.get('gcn_no');
 
 
-    useEffect(() => {
-      const backendURL = 'http://localhost:5000/invoice-printing/';
+  useEffect(() => {
+    const backendURL = 'http://54.162.29.48:5000/invoice-printing/';
 
-      const data = {
-          'gcn_no' : gcn
-      }
+    const data = {
+      'gcn_no': gcn
+    }
 
     axios.get(backendURL, { params: { data: data } })
-    .then(response => {
-      if (response.data == 'Invalid otw_dc')
-        alert('Invalid Outward DC Number')
-      setInvoiceData(response.data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+      .then(response => {
+        if (response.data == 'Invalid otw_dc')
+          alert('Invalid Outward DC Number')
+        setInvoiceData(response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }, [gcn]);
 
   if (!invoiceData) {
-  return <div>Loading..... </div>;
+    return <div>Loading..... </div>;
   }
   return (
     <div>{invoiceData && (
-                <div
-                    dangerouslySetInnerHTML={{ __html: invoiceData }}
-                />
-            )}
-        </div>
+      <div
+        dangerouslySetInnerHTML={{ __html: invoiceData }}
+      />
+    )}
+    </div>
 
   );
 }
