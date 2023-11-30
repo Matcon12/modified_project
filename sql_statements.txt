@@ -1,0 +1,364 @@
+use mydatabase;
+create database mydatabase;
+show tables;
+select * from customer_master;
+select * from part_master;
+select * from po;
+
+alter table customer_master add column cust_addr2 varchar(30);
+alter table customer_master rename column cust_address to cust_addr1 ;
+alter table customer_master modify column cust_addr1 varchar(50);
+update  customer_master set cust_addr2 = 'Peenya Indl.Area' where cust_id='macr';
+alter table part_master modify column part_name varchar(100);
+
+alter table po modify column quote_ref_no varchar(20);
+select * from po;
+delete from po where cust_id='macr';
+update po set fin_year ='2023-24' where cust_id='macr';
+select * from part_master;
+
+CREATE TABLE `customer_master` (
+  `cust_id` varchar(4) NOT NULL,
+  `cust_name` varchar(50) DEFAULT NULL,
+  `cust_addr1` varchar(30) DEFAULT NULL,
+  `cust_addr2` varchar(30) DEFAULT NULL,
+  `cust_city` varchar(15) DEFAULT NULL,
+  `cust_st_code` int DEFAULT NULL,
+  `cust_st_name` varchar(20) DEFAULT NULL,
+  `cust_pin` varchar(6) DEFAULT NULL,
+  `cust_gst_id` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`cust_id`)
+) ;
+
+
+
+CREATE TABLE `part_master` (
+  `part_id` varchar(20) NOT NULL,
+  `part_name` varchar(100) DEFAULT NULL,
+  `cust_id` varchar(4) ,
+  PRIMARY KEY (`part_id`,`cust_id`)
+) ;
+
+CREATE TABLE `po` (
+  `po_no` varchar(20) NOT NULL,
+  `po_date` varchar(15) DEFAULT NULL,
+  `open_po` boolean,
+  `open_po_validity` varchar(10),
+  `cust_id` varchar(4) DEFAULT NULL,
+  `quote_ref_no` varchar(20) DEFAULT NULL,
+  `receiver_id` varchar(4) DEFAULT NULL,
+  `consignee_id` varchar(4) DEFAULT NULL,
+  `po_sl_no` int NOT NULL,
+  `part_id` varchar(20) DEFAULT NULL,
+  `qty` int DEFAULT NULL,
+  `qty_sent` int,
+  `uom` varchar(5) DEFAULT NULL,
+  `unit_price` double DEFAULT NULL,
+  `total_price` double DEFAULT NULL,
+  PRIMARY KEY (`po_no`,`po_sl_no`)
+);
+
+
+create table inw_dc(
+grn_no varchar(20) ,
+grn_date varchar(15),
+rework_dc boolean,
+po_no varchar(20) ,
+po_date varchar(15),
+receiver_id varchar(4) ,
+consignee_id varchar(4),
+po_sl_no int ,
+cust_id varchar(4),
+part_id varchar(20),
+part_name varchar(100),
+qty_received int ,
+purpose varchar(50),
+uom varchar(5),
+unit_price float ,
+total_price float ,
+qty_delivered int,
+qty_balance int,
+primary key(grn_no,po_no,po_sl_no)
+); 
+
+create table otw_dc (
+mat_code varchar(3),
+gcn_no int ,
+gcn_date varchar(15),
+grn_no varchar(20),
+grn_date varchar(15),
+po_no varchar(20) ,
+po_date varchar(15),
+receiver_id varchar(4), 
+consignee_id varchar(4),
+po_sl_no int  ,
+part_id varchar(20) ,
+part_name varchar(50),
+qty_delivered int,
+uom varchar(5) ,
+unit_price float,
+taxable_amt float ,
+cgst_price float ,
+sgst_price float ,
+igst_price float,
+primary key(mat_code,gcn_no,po_no,po_sl_no)
+);
+
+create table mat_companies(
+mat_code varchar(3),
+mat_name varchar(50),
+mat_address varchar(50),
+mat_gst_code varchar(20),
+bank_acc_no varchar(15) ,
+bank_name varchar(30), 
+bank_address varchar(50),
+ifsc_code varchar(20) ,
+fin_yr varchar(10) ,
+last_gcn_no int
+);
+
+create table gst_rates (
+cgst_rate int ,
+sgst_rate int ,
+igst_rate int ,
+id int
+);
+
+create table gst_state_code (
+state_code int ,
+state_name varchar(50)
+);
+
+INSERT INTO `customer_master`
+(`cust_id`,
+`cust_name`,
+`cust_addr1`,
+`cust_addr2`,
+`cust_city`,
+`cust_st_code`,
+`cust_st_name`,
+`cust_pin`,
+`cust_gst_id`)
+VALUES
+('amst',
+'AMSTEEL Castings Private Limited',
+'#35A,Sipcot Industrial complex,',
+'Hosur 635126,Tamil Nadu,India',
+'Hosur',
+33,
+'Tamil Nadu',
+'635126',
+'33AAACA5352Q1ZJ');
+
+
+select * from customer_master;
+
+
+
+INSERT INTO `part_master`
+(`part_id`,
+`part_name`,
+`cust_id`)
+VALUES
+('F5-67M',
+'COVER ROUGH MACHINED DISCHARGE SIZE A/B/C WELL SERVICE PUMPASSEMBLED F5-67M',
+'side');
+
+INSERT INTO `po`
+(`po_no`,
+`po_date`,
+`open_po`,
+`open_po_validity`,
+`cust_id`,
+`quote_ref_no`,
+`receiver_id`,
+`consignee_id`,
+`po_sl_no`,
+`part_id`,
+`qty`,
+`qty_sent`,
+`uom`,
+`unit_price`,
+`total_price`)
+VALUES
+('PUR/JW/2021000011',
+'03-12-2020',
+False,
+'',
+'side',
+'',
+'side',
+'side',
+20,
+'F5-67M',
+86,
+0,
+'Nos',
+250.00,
+0);
+
+INSERT INTO `inw_dc`
+(`grn_no`,
+`grn_date`,
+`rework_dc`,
+`po_no`,
+`po_date`,
+`receiver_id`,
+`consignee_id`,
+`po_sl_no`,
+`cust_id`,
+`part_id`,
+`part_name`,
+`qty_received`,
+`purpose`,
+`uom`,
+`unit_price`,
+`total_price`,
+`qty_delivered`,
+`qty_balance`)
+VALUES
+('SC232400374',
+'10-09-2023',
+false,
+'PUR/JW/2021000011',
+'03-12-2020',
+'side',
+'side',
+20,
+'side',
+'F5-67M',
+'COVER ROUGH MACHINED DISCHARGE SIZE A/B/C WELL SERVICE PUMP ASSEMBLED F5-67M',
+86,
+'painting',
+'Nos',
+250.00,
+0,
+0,
+86);
+
+alter table otw_dc modify column part_name varchar(100);
+
+select * from inw_dc;
+update inw_dc set qty_balance= 50 where grn_no='330';
+
+update po set qty_sent = 0 where po_no = '041/2023-2024';
+
+INSERT INTO `gst_rates`
+(`cgst_rate`,
+`sgst_rate`,
+`igst_rate`,
+`id`)
+VALUES
+(9,
+9,
+18,
+1);
+select * from gst_rates;
+
+INSERT INTO `gst_state_code` (`state_code`, `state_name`)
+VALUES
+(35, 'Andaman and Nicobar Islands'),
+(28, 'Andhra Pradesh'),
+(12, 'Arunachal Pradesh'),
+(18, 'Assam'),
+(10, 'Bihar'),
+(04, 'Chandigarh'),
+(22, 'Chhattisgarh'),
+(26, 'Dadra and Nagar Haveli and Daman and Diu'),
+(07, 'Delhi'),
+(30, 'Goa'),
+(24, 'Gujarat'),
+(06, 'Haryana'),
+(02, 'Himachal Pradesh'),
+(01, 'Jammu and Kashmir'),
+(20, 'Jharkhand'),
+(29, 'Karnataka'),
+(32, 'Kerala'),
+(37, 'Ladakh'),
+(31, 'Lakshadweep'),
+(23, 'Madhya Pradesh'),
+(27, 'Maharashtra'),
+(14, 'Manipur'),
+(17, 'Meghalaya'),
+(15, 'Mizoram'),
+(13, 'Nagaland'),
+(21, 'Odisha'),
+(34, 'Puducherry'),
+(03, 'Punjab'),
+(08, 'Rajasthan'),
+(11, 'Sikkim'),
+(33, 'Tamil Nadu'),
+(36, 'Telangana'),
+(16, 'Tripura'),
+(09, 'Uttar Pradesh'),
+(05, 'Uttarakhand'),
+(19, 'West Bengal');
+
+select * from gst_state_code;
+
+INSERT INTO `mat_companies`
+(`mat_code`,
+`mat_name`,
+`mat_address`,
+`mat_gst_code`,
+`bank_acc_no`,
+`bank_name`,
+`bank_address`,
+`ifsc_code`,
+`fin_yr`,
+`last_gcn_no`)
+VALUES
+('MEE',
+'Matcon Engineering Enterprises',
+'B-03,BEL,Industrial Estate,Jalahalli',
+'29AAPFM1882M1ZG',
+'41482639882',
+'SBI',
+'NRI Hebbal Branch',
+'SBIN0016858',
+'2023-24',
+74);
+select * from mat_companies;
+
+
+select * from customer_master;
+select * from part_master;
+select * from po;
+select * from inw_dc;
+select * from otw_dc;
+select * from mat_companies;
+select * from gst_rates;
+select * from gst_state_code;
+truncate table otw_dc;
+alter table otw_dc modify column gcn_no varchar(12);
+update mat_companies set last_gcn_no= 76 where mat_code='MEE';
+delete from otw_dc where gcn_no='077/2023-24';
+drop table mat_companies;
+update po set qty_sent=0 where po_no='63/2020-2021';
+alter table po modify column unit_price double;
+alter table otw_dc modify column grn_no varchar(20);
+update inw_dc set qty_delivered =0 where grn_no='SC232400374';
+update inw_dc set qty_balance =86 where grn_no='SC232400374';
+update po set qty_sent=0 where po_no='PUR/JW/2021000011';
+select * from po;
+select * from inw_dc;
+alter table mat_companies modify column fin_yr int;
+update inw_dc set grn_date='09-10-2023 ' where grn_no='SC232400374';
+update otw_dc set gcn_date='18-10-2023 ' where gcn_no='077/2023-24';
+update otw_dc set grn_date='09-10-2023 ' where gcn_no='077/2023-24';
+truncate table otw_dc;
+select * from otw_dc;
+delete from otw_dc where gcn_no=88;
+select * from customer_master;
+select * from part_master;
+
+alter table inw_dc modify column unit_price DECIMAL(12, 2);
+alter table inw_dc modify column total_price DECIMAL(12, 2);
+alter table otw_dc modify column unit_price DECIMAL(12, 2);
+alter table otw_dc modify column taxable_amt DECIMAL(12, 2);
+alter table otw_dc modify column cgst_price DECIMAL(12, 2);
+alter table otw_dc modify column sgst_price DECIMAL(12, 2);
+alter table otw_dc modify column igst_price DECIMAL(12, 2);
+alter table otw_dc modify column part_name varchar(100);
+
+SELECT * FROM inw_dc WHERE po_sl_no=2;
