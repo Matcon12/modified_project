@@ -11,7 +11,7 @@ mycursor.execute("""
     SELECT otw.gcn_no, otw.gcn_date,otw.qty_delivered ,otw.taxable_amt, otw.cgst_price, otw.sgst_price, otw.igst_price, cm.cust_name, cm.cust_gst_id
     FROM otw_dc otw
     JOIN customer_master cm ON otw.receiver_id = cm.cust_id
-    WHERE STR_TO_DATE(otw.gcn_date, '%d-%m-%Y') >= '2023-04-01' AND STR_TO_DATE(otw.gcn_date, '%d-%m-%Y') <= '2023-10-13'
+    WHERE STR_TO_DATE(otw.gcn_date, '%d-%m-%Y') >= '2023-11-01' AND STR_TO_DATE(otw.gcn_date, '%d-%m-%Y') <= '2023-11-30'
     ORDER BY STR_TO_DATE(otw.gcn_date, '%d-%m-%Y');
 """)
 result = mycursor.fetchall()
@@ -81,7 +81,7 @@ combined_df[['Ass.Value', 'IGST Price (18%)', 'CGST Price (9%)', 'SGST Price (9%
 
 print(combined_df[['Ass.Value', 'IGST Price (18%)', 'CGST Price (9%)', 'SGST Price (9%)', 'Invoice Value']])
 
-writer = pd.ExcelWriter('report.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('InvoiceReport.xlsx', engine='xlsxwriter')
 combined_df.to_excel(writer, sheet_name='Sheet1', index=False, float_format='%.2f')
 
 workbook = writer.book
